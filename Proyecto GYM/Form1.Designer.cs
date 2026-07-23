@@ -18,7 +18,6 @@ namespace Proyecto_GYM
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            btningresa = new Button();
             btnsalir = new Button();
             txtusuario = new TextBox();
             txtclave = new TextBox();
@@ -28,18 +27,6 @@ namespace Proyecto_GYM
             label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-            // 
-            // btningresa
-            // 
-            btningresa.BackColor = SystemColors.ActiveBorder;
-            btningresa.Font = new Font("Script MT Bold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btningresa.Location = new Point(297, 228);
-            btningresa.Name = "btningresa";
-            btningresa.Size = new Size(110, 40);
-            btningresa.TabIndex = 0;
-            btningresa.Text = "Ingresar";
-            btningresa.UseVisualStyleBackColor = false;
-            btningresa.Click += btnIngresar_Click;
             // 
             // btnsalir
             // 
@@ -121,7 +108,6 @@ namespace Proyecto_GYM
             Controls.Add(pictureBox1);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(btningresa);
             Controls.Add(btnsalir);
             Controls.Add(txtusuario);
             Controls.Add(txtclave);

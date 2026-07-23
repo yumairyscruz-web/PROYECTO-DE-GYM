@@ -63,6 +63,16 @@ namespace Proyecto_GYM.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap corre {
+            get {
+                object obj = ResourceManager.GetObject("corre", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Gym1 {
             get {
                 object obj = ResourceManager.GetObject("Gym1", resourceCulture);

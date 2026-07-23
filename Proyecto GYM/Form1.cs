@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 
@@ -28,41 +29,46 @@ namespace Proyecto_GYM
 
             if (string.IsNullOrEmpty(usuarioInput) || string.IsNullOrEmpty(claveInput))
             {
-                MessageBox.Show("Por favor, ingrese su usuario y contraseña.");
+                MessageBox.Show("Por favor, ingrese su usuario y contraseña.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            string query = @"SELECT id_usuario,nombre,apellido,id_rol
-                             FROM usuarios
-                             WHERE usuario=@usuario
-                             AND clave_hash=@clave
-                             AND estado=1";
 
             try
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlCommand cmd = new SqlCommand(query, con);
+                    // Usamos el Stored Procedure guardado en SQL Server
+                    SqlCommand cmd = new SqlCommand("sp_ValidarUsuario", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@usuario", usuarioInput);
                     cmd.Parameters.AddWithValue("@clave", claveInput);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
+                    // codigo para entra a menu
                     if (reader.Read())
                     {
-                        MessageBox.Show("Bienvenido " +
-                            reader["nombre"] + " " + reader["apellido"]);
+                        string nombreCompleto = reader["nombre"].ToString() + " " + reader["apellido"].ToString();
+
+                        MessageBox.Show($"Bienvenido {nombreCompleto}", "Acceso Concedido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Abrir el Menú Principal (Form2) y ocultar el Login (Form1)
+                        Form2 menuPrincipal = new Form2();
+                        menuPrincipal.Show();
+                        this.Hide();
                     }
                     else
                     {
-                        MessageBox.Show("Usuario o contraseña incorrectos.");
+                        MessageBox.Show("Usuario o contraseña incorrectos.", "Error de Autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        txtclave.Clear();
+                        txtusuario.Focus();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Error de conexión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
