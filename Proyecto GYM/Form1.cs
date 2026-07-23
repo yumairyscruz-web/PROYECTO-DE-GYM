@@ -1,10 +1,19 @@
+using System.Data;
+using Microsoft.Data.SqlClient;
+
 namespace Proyecto_GYM
 {
-    public partial class Form1 : Form
+    public class Conexion
     {
-        public Form1()
+        // Cadena de conexión hacia tu servidor local y base de datos GimnasioDB
+        private static readonly string connectionString = "Server=DESKTOP-AR0O5IR\\SQLEXPRESS; Database=GimnasioDB; Integrated Security=True; TrustServerCertificate=True;";
+
+        // Método para obtener una conexión abierta a SQL Server
+        public static SqlConnection ObtenerConexion()
         {
-            InitializeComponent();
+            SqlConnection conexion = new SqlConnection(connectionString);
+            conexion.Open();
+            return conexion;
         }
     }
 }
