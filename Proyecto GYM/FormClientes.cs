@@ -32,7 +32,40 @@ namespace Proyecto_GYM
         private void button1_Click(object sender, EventArgs e)
         {
 
+
+         
+            string busqueda = txtBuscar.Text.Trim();
+
+            if (dgvClientes.DataSource is DataTable dt)
+            {
+                dt.DefaultView.RowFilter = string.Format(
+                    "cedula LIKE '%{0}%' OR nombre LIKE '%{0}%' OR apellido LIKE '%{0}%'",
+                    busqueda
+                );
+            }
+            else
+            {
+                MessageBox.Show("No hay datos cargados en la tabla para realizar la búsqueda.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        
+
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            string busqueda = txtBuscar.Text.Trim();
+
+            // Si dgvClientes tiene un DataTable como origen de datos
+            if (dgvClientes.DataSource is DataTable dt)
+            {
+                dt.DefaultView.RowFilter = string.Format(
+                    "cedula LIKE '%{0}%' OR nombre LIKE '%{0}%' OR apellido LIKE '%{0}%'",
+                    busqueda
+                );
+            }
         }
     }
-}
+    }
+
+
 

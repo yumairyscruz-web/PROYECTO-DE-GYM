@@ -46,15 +46,16 @@ namespace Proyecto_GYM
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    // codigo para entra a menu
+                    // Código para entrar al menú principal
                     if (reader.Read())
                     {
+                        // Extraemos el nombre completo retornado por el Stored Procedure
                         string nombreCompleto = reader["nombre"].ToString() + " " + reader["apellido"].ToString();
 
                         MessageBox.Show($"Bienvenido {nombreCompleto}", "Acceso Concedido", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Abrir el Menú Principal (Form2) y ocultar el Login (Form1)
-                        Form2 menuPrincipal = new Form2();
+                        // Abrir el Menú Principal (Form2) pasándole el nombre capturado de la BD
+                        Form2 menuPrincipal = new Form2(nombreCompleto);
                         menuPrincipal.Show();
                         this.Hide();
                     }
@@ -76,7 +77,5 @@ namespace Proyecto_GYM
         {
             Application.Exit();
         }
-
-       
     }
 }

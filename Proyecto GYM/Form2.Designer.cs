@@ -50,12 +50,14 @@
             btnClientes = new Button();
             panel3 = new Panel();
             panel4 = new Panel();
+            lblTituloHeader = new Label();
             pageSetupDialog1 = new PageSetupDialog();
             notifyIcon1 = new NotifyIcon(components);
             panel7 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -135,7 +137,7 @@
             panel2.Controls.Add(pictureBox1);
             panel2.Location = new Point(2, 1);
             panel2.Name = "panel2";
-            panel2.Size = new Size(226, 639);
+            panel2.Size = new Size(226, 732);
             panel2.TabIndex = 1;
             // 
             // button9
@@ -178,7 +180,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 90);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1858, 2);
+            panel5.Size = new Size(4042, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -294,10 +296,22 @@
             // panel4
             // 
             panel4.BackColor = Color.MidnightBlue;
-            panel4.Location = new Point(225, 86);
+            panel4.Controls.Add(lblTituloHeader);
+            panel4.Location = new Point(226, 94);
             panel4.Name = "panel4";
-            panel4.Size = new Size(794, 35);
+            panel4.Size = new Size(710, 35);
             panel4.TabIndex = 2;
+            // 
+            // lblTituloHeader
+            // 
+            lblTituloHeader.AutoSize = true;
+            lblTituloHeader.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTituloHeader.ForeColor = Color.MidnightBlue;
+            lblTituloHeader.Location = new Point(56, 8);
+            lblTituloHeader.Name = "lblTituloHeader";
+            lblTituloHeader.Size = new Size(65, 25);
+            lblTituloHeader.TabIndex = 0;
+            lblTituloHeader.Text = "label2";
             // 
             // notifyIcon1
             // 
@@ -307,9 +321,10 @@
             // panel7
             // 
             panel7.AutoScroll = true;
-            panel7.Location = new Point(249, 132);
+            panel7.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            panel7.Location = new Point(234, 132);
             panel7.Name = "panel7";
-            panel7.Size = new Size(686, 463);
+            panel7.Size = new Size(719, 573);
             panel7.TabIndex = 3;
             // 
             // Form2
@@ -317,7 +332,7 @@
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(947, 623);
+            ClientSize = new Size(954, 715);
             Controls.Add(panel7);
             Controls.Add(panel4);
             Controls.Add(panel2);
@@ -330,6 +345,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -358,5 +375,6 @@
         private Button button4;
         private NotifyIcon notifyIcon1;
         private Panel panel7;
+        private Label lblTituloHeader;
     }
 }

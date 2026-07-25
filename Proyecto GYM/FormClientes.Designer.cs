@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
@@ -62,20 +61,10 @@
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(282, 9);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(248, 21);
-            label1.TabIndex = 0;
-            label1.Text = "MANTENIMIENTO DE CLIENTES";
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(65, 99);
+            label2.Location = new Point(25, 59);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(67, 21);
@@ -85,7 +74,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(65, 150);
+            label3.Location = new Point(25, 104);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(77, 21);
@@ -95,7 +84,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(63, 189);
+            label4.Location = new Point(25, 146);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(79, 21);
@@ -105,7 +94,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(61, 235);
+            label5.Location = new Point(25, 196);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(81, 21);
@@ -115,7 +104,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(65, 283);
+            label6.Location = new Point(27, 240);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(65, 21);
@@ -125,7 +114,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(63, 319);
+            label7.Location = new Point(29, 278);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(87, 21);
@@ -135,7 +124,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(61, 352);
+            label8.Location = new Point(29, 313);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(119, 21);
@@ -145,7 +134,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(65, 404);
+            label9.Location = new Point(41, 356);
             label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
             label9.Size = new Size(51, 21);
@@ -154,7 +143,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(159, 148);
+            txtNombre.Location = new Point(116, 102);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(225, 23);
@@ -162,7 +151,7 @@
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(160, 189);
+            txtApellido.Location = new Point(116, 146);
             txtApellido.Multiline = true;
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(225, 23);
@@ -170,7 +159,7 @@
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(150, 280);
+            txtCorreo.Location = new Point(116, 238);
             txtCorreo.Multiline = true;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(225, 23);
@@ -178,7 +167,7 @@
             // 
             // txtDireccion
             // 
-            txtDireccion.Location = new Point(157, 319);
+            txtDireccion.Location = new Point(123, 275);
             txtDireccion.Multiline = true;
             txtDireccion.Name = "txtDireccion";
             txtDireccion.Size = new Size(225, 23);
@@ -186,7 +175,7 @@
             // 
             // txtCedula
             // 
-            txtCedula.Location = new Point(160, 99);
+            txtCedula.Location = new Point(116, 56);
             txtCedula.Mask = "000-000-0000-0";
             txtCedula.Name = "txtCedula";
             txtCedula.Size = new Size(143, 29);
@@ -194,7 +183,7 @@
             // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(160, 235);
+            txtTelefono.Location = new Point(116, 193);
             txtTelefono.Mask = "(999)000-0000";
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(100, 29);
@@ -202,7 +191,7 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(187, 352);
+            dateTimePicker1.Location = new Point(155, 313);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(200, 29);
             dateTimePicker1.TabIndex = 15;
@@ -211,14 +200,16 @@
             // 
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "F", "M" });
-            comboBox1.Location = new Point(157, 404);
+            comboBox1.Location = new Point(123, 353);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 29);
             comboBox1.TabIndex = 16;
             // 
             // pbFoto
             // 
-            pbFoto.Location = new Point(492, 62);
+            pbFoto.BackColor = SystemColors.InactiveCaption;
+            pbFoto.BorderStyle = BorderStyle.Fixed3D;
+            pbFoto.Location = new Point(405, 33);
             pbFoto.Name = "pbFoto";
             pbFoto.Size = new Size(227, 214);
             pbFoto.TabIndex = 17;
@@ -226,18 +217,20 @@
             // 
             // btnCargarFoto
             // 
-            btnCargarFoto.Location = new Point(492, 302);
+            btnCargarFoto.BackColor = SystemColors.ActiveCaption;
+            btnCargarFoto.ForeColor = SystemColors.ButtonHighlight;
+            btnCargarFoto.Location = new Point(419, 268);
             btnCargarFoto.Name = "btnCargarFoto";
             btnCargarFoto.Size = new Size(111, 40);
             btnCargarFoto.TabIndex = 18;
             btnCargarFoto.Text = "Cargar Foto";
-            btnCargarFoto.UseVisualStyleBackColor = true;
+            btnCargarFoto.UseVisualStyleBackColor = false;
             btnCargarFoto.Click += button1_Click;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(450, 360);
+            label10.Location = new Point(393, 321);
             label10.Margin = new Padding(4, 0, 4, 0);
             label10.Name = "label10";
             label10.Size = new Size(65, 21);
@@ -247,7 +240,7 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(526, 360);
+            radioButton1.Location = new Point(476, 317);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(77, 25);
             radioButton1.TabIndex = 20;
@@ -258,7 +251,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(619, 360);
+            radioButton2.Location = new Point(559, 317);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(100, 25);
             radioButton2.TabIndex = 21;
@@ -268,7 +261,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(122, 449);
+            button2.Location = new Point(57, 403);
             button2.Name = "button2";
             button2.Size = new Size(75, 29);
             button2.TabIndex = 22;
@@ -277,7 +270,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(242, 449);
+            button3.Location = new Point(184, 403);
             button3.Name = "button3";
             button3.Size = new Size(75, 29);
             button3.TabIndex = 23;
@@ -286,7 +279,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(363, 449);
+            button4.Location = new Point(320, 403);
             button4.Name = "button4";
             button4.Size = new Size(82, 29);
             button4.TabIndex = 24;
@@ -295,7 +288,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(504, 449);
+            button5.Location = new Point(440, 403);
             button5.Name = "button5";
             button5.Size = new Size(75, 29);
             button5.TabIndex = 25;
@@ -305,7 +298,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(51, 504);
+            label11.Location = new Point(57, 457);
             label11.Name = "label11";
             label11.Size = new Size(65, 21);
             label11.TabIndex = 26;
@@ -313,14 +306,15 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(150, 501);
+            txtBuscar.Location = new Point(136, 454);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(100, 29);
             txtBuscar.TabIndex = 27;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(342, 501);
+            btnBuscar.Location = new Point(302, 454);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(80, 32);
             btnBuscar.TabIndex = 28;
@@ -330,8 +324,9 @@
             // 
             // dgvClientes
             // 
+            dgvClientes.BackgroundColor = SystemColors.ActiveCaption;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(51, 536);
+            dgvClientes.Location = new Point(51, 497);
             dgvClientes.Name = "dgvClientes";
             dgvClientes.Size = new Size(528, 125);
             dgvClientes.TabIndex = 29;
@@ -340,7 +335,8 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(808, 685);
+            ClientSize = new Size(707, 685);
+            Controls.Add(pbFoto);
             Controls.Add(dgvClientes);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
@@ -353,7 +349,6 @@
             Controls.Add(radioButton1);
             Controls.Add(label10);
             Controls.Add(btnCargarFoto);
-            Controls.Add(pbFoto);
             Controls.Add(comboBox1);
             Controls.Add(dateTimePicker1);
             Controls.Add(txtTelefono);
@@ -370,7 +365,6 @@
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
             Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4);
@@ -383,8 +377,6 @@
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
