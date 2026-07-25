@@ -25,6 +25,7 @@ namespace Proyecto_GYM
             label2 = new Label();
             pictureBox1 = new PictureBox();
             label3 = new Label();
+            btnIngresar = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -98,12 +99,25 @@ namespace Proyecto_GYM
             label3.TabIndex = 7;
             label3.Text = "LOGIN";
             // 
+            // btnIngresar
+            // 
+            btnIngresar.BackColor = SystemColors.ActiveBorder;
+            btnIngresar.Font = new Font("Script MT Bold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnIngresar.Location = new Point(284, 228);
+            btnIngresar.Name = "btnIngresar";
+            btnIngresar.Size = new Size(111, 45);
+            btnIngresar.TabIndex = 8;
+            btnIngresar.Text = "Ingresa";
+            btnIngresar.UseVisualStyleBackColor = false;
+            btnIngresar.Click += btnIngresar_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(644, 306);
+            ClientSize = new Size(642, 311);
+            Controls.Add(btnIngresar);
             Controls.Add(label3);
             Controls.Add(pictureBox1);
             Controls.Add(label2);
@@ -127,5 +141,6 @@ namespace Proyecto_GYM
         private Label label2;
         private PictureBox pictureBox1;
         private Label label3;
+        private Button btnIngresar;
     }
 }

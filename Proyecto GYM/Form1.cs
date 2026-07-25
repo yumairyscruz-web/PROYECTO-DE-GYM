@@ -76,5 +76,7 @@ namespace Proyecto_GYM
         {
             Application.Exit();
         }
+
+       
     }
 }
