@@ -306,12 +306,11 @@
             // 
             lblTituloHeader.AutoSize = true;
             lblTituloHeader.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTituloHeader.ForeColor = Color.MidnightBlue;
+            lblTituloHeader.ForeColor = Color.Transparent;
             lblTituloHeader.Location = new Point(56, 8);
             lblTituloHeader.Name = "lblTituloHeader";
-            lblTituloHeader.Size = new Size(65, 25);
+            lblTituloHeader.Size = new Size(0, 25);
             lblTituloHeader.TabIndex = 0;
-            lblTituloHeader.Text = "label2";
             // 
             // notifyIcon1
             // 
