@@ -89,8 +89,6 @@ namespace Proyecto_GYM
             }
         }
 
-
-
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             using (SqlConnection conexion = new SqlConnection(@"Server=DESKTOP-AR0O5IR\SQLEXPRESS;Database=GimnasioDB;Integrated Security=True;TrustServerCertificate=True;"))
@@ -170,13 +168,19 @@ namespace Proyecto_GYM
                     cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecha_nacimiento", dtpFechaNacimiento.Value);
                     cmd.Parameters.AddWithValue("@sexo", cmbSexo.Text);
-                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? "Activo" : "Inactivo");
+
+                    // Se envía 1 si está marcado Activo, 0 si está Inactivo para ser compatible con BIT
+                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
 
                     byte[] fotoBytes = ObtenerBytesDeImagen(pbFoto.Image);
-                    if (fotoBytes != null)
-                        cmd.Parameters.AddWithValue("@foto", fotoBytes);
+                    if (fotoBytes != null && fotoBytes.Length > 0)
+                    {
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary, -1).Value = fotoBytes;
+                    }
                     else
-                        cmd.Parameters.AddWithValue("@foto", DBNull.Value);
+                    {
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary, -1).Value = DBNull.Value;
+                    }
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Cliente guardado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -215,19 +219,27 @@ namespace Proyecto_GYM
                     cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecha_nacimiento", dtpFechaNacimiento.Value);
                     cmd.Parameters.AddWithValue("@sexo", cmbSexo.Text);
-                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? "Activo" : "Inactivo");
 
+                    // Enviamos 1 o 0 en lugar del texto "Activo"/"Inactivo"
+                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
+
+                    // Pasamos la foto asignando el tipo de dato SQL explícito
                     byte[] fotoBytes = ObtenerBytesDeImagen(pbFoto.Image);
-                    if (fotoBytes != null)
-                        cmd.Parameters.AddWithValue("@foto", fotoBytes);
+                    if (fotoBytes != null && fotoBytes.Length > 0)
+                    {
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary, -1).Value = fotoBytes;
+                    }
                     else
-                        cmd.Parameters.AddWithValue("@foto", DBNull.Value);
+                    {
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary, -1).Value = DBNull.Value;
+                    }
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Datos del cliente actualizados correctamente.", "Actualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    CargarClientes();
+                    // Forzar recarga limpia
                     LimpiarFormulario();
+                    CargarClientes();
                 }
             }
             catch (Exception ex)
@@ -253,7 +265,8 @@ namespace Proyecto_GYM
                 {
                     using (SqlConnection con = Conexion.ObtenerConexion())
                     {
-                        SqlCommand cmd = new SqlCommand("UPDATE Clientes SET estado = 'Inactivo' WHERE cedula = @cedula", con);
+                        // Se actualiza a 0 si la columna estado en la BD es BIT
+                        SqlCommand cmd = new SqlCommand("UPDATE Clientes SET estado = 0 WHERE cedula = @cedula", con);
                         cmd.Parameters.AddWithValue("@cedula", txtCedula.Text.Trim());
 
                         cmd.ExecuteNonQuery();
@@ -303,9 +316,9 @@ namespace Proyecto_GYM
                     cmbSexo.Text = valSexo.ToString();
                 }
 
-                // 4. Cargar Estado
+                // 4. Cargar Estado (Especialmente ajustado para leer 1, True o Activo)
                 string estado = fila.Cells["estado"]?.Value?.ToString() ?? "";
-                if (estado == "Activo")
+                if (estado == "1" || estado.Equals("True", StringComparison.OrdinalIgnoreCase) || estado == "Activo")
                 {
                     rbActivo.Checked = true;
                 }
