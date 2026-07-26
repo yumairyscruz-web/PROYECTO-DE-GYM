@@ -42,17 +42,17 @@
             txtDireccion = new TextBox();
             txtCedula = new MaskedTextBox();
             txtTelefono = new MaskedTextBox();
-            dateTimePicker1 = new DateTimePicker();
-            comboBox1 = new ComboBox();
+            dtpFechaNacimiento = new DateTimePicker();
+            cmbSexo = new ComboBox();
             pbFoto = new PictureBox();
             btnCargarFoto = new Button();
             label10 = new Label();
-            radioButton1 = new RadioButton();
-            radioButton2 = new RadioButton();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
+            rbActivo = new RadioButton();
+            rbInactivo = new RadioButton();
+            tnGuardar = new Button();
+            btnEditar = new Button();
+            btnInnativa = new Button();
+            btnLimpia = new Button();
             label11 = new Label();
             txtBuscar = new TextBox();
             btnBuscar = new Button();
@@ -189,21 +189,21 @@
             txtTelefono.Size = new Size(100, 29);
             txtTelefono.TabIndex = 14;
             // 
-            // dateTimePicker1
+            // dtpFechaNacimiento
             // 
-            dateTimePicker1.Location = new Point(155, 313);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 29);
-            dateTimePicker1.TabIndex = 15;
+            dtpFechaNacimiento.Location = new Point(155, 313);
+            dtpFechaNacimiento.Name = "dtpFechaNacimiento";
+            dtpFechaNacimiento.Size = new Size(200, 29);
+            dtpFechaNacimiento.TabIndex = 15;
             // 
-            // comboBox1
+            // cmbSexo
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "F", "M" });
-            comboBox1.Location = new Point(123, 353);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 29);
-            comboBox1.TabIndex = 16;
+            cmbSexo.FormattingEnabled = true;
+            cmbSexo.Items.AddRange(new object[] { "F", "M" });
+            cmbSexo.Location = new Point(123, 353);
+            cmbSexo.Name = "cmbSexo";
+            cmbSexo.Size = new Size(121, 29);
+            cmbSexo.TabIndex = 16;
             // 
             // pbFoto
             // 
@@ -212,6 +212,7 @@
             pbFoto.Location = new Point(405, 33);
             pbFoto.Name = "pbFoto";
             pbFoto.Size = new Size(227, 214);
+            pbFoto.SizeMode = PictureBoxSizeMode.AutoSize;
             pbFoto.TabIndex = 17;
             pbFoto.TabStop = false;
             // 
@@ -237,63 +238,65 @@
             label10.TabIndex = 19;
             label10.Text = "Estado:";
             // 
-            // radioButton1
+            // rbActivo
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(476, 317);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(77, 25);
-            radioButton1.TabIndex = 20;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Activo";
-            radioButton1.UseVisualStyleBackColor = true;
+            rbActivo.AutoSize = true;
+            rbActivo.Location = new Point(476, 317);
+            rbActivo.Name = "rbActivo";
+            rbActivo.Size = new Size(77, 25);
+            rbActivo.TabIndex = 20;
+            rbActivo.TabStop = true;
+            rbActivo.Text = "Activo";
+            rbActivo.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbInactivo
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(559, 317);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(100, 25);
-            radioButton2.TabIndex = 21;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Innactivo";
-            radioButton2.UseVisualStyleBackColor = true;
+            rbInactivo.AutoSize = true;
+            rbInactivo.Location = new Point(559, 317);
+            rbInactivo.Name = "rbInactivo";
+            rbInactivo.Size = new Size(100, 25);
+            rbInactivo.TabIndex = 21;
+            rbInactivo.TabStop = true;
+            rbInactivo.Text = "Innactivo";
+            rbInactivo.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // tnGuardar
             // 
-            button2.Location = new Point(57, 403);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 29);
-            button2.TabIndex = 22;
-            button2.Text = "Guardar";
-            button2.UseVisualStyleBackColor = true;
+            tnGuardar.Location = new Point(57, 403);
+            tnGuardar.Name = "tnGuardar";
+            tnGuardar.Size = new Size(75, 29);
+            tnGuardar.TabIndex = 22;
+            tnGuardar.Text = "Guardar";
+            tnGuardar.UseVisualStyleBackColor = true;
+            tnGuardar.Click += button2_Click;
             // 
-            // button3
+            // btnEditar
             // 
-            button3.Location = new Point(184, 403);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 29);
-            button3.TabIndex = 23;
-            button3.Text = "Editar";
-            button3.UseVisualStyleBackColor = true;
+            btnEditar.Location = new Point(184, 403);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(75, 29);
+            btnEditar.TabIndex = 23;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.Click += btnEditar_Click;
             // 
-            // button4
+            // btnInnativa
             // 
-            button4.Location = new Point(320, 403);
-            button4.Name = "button4";
-            button4.Size = new Size(82, 29);
-            button4.TabIndex = 24;
-            button4.Text = "Innativa";
-            button4.UseVisualStyleBackColor = true;
+            btnInnativa.Location = new Point(320, 403);
+            btnInnativa.Name = "btnInnativa";
+            btnInnativa.Size = new Size(82, 29);
+            btnInnativa.TabIndex = 24;
+            btnInnativa.Text = "Innativa";
+            btnInnativa.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // btnLimpia
             // 
-            button5.Location = new Point(440, 403);
-            button5.Name = "button5";
-            button5.Size = new Size(75, 29);
-            button5.TabIndex = 25;
-            button5.Text = "Limpiar";
-            button5.UseVisualStyleBackColor = true;
+            btnLimpia.Location = new Point(440, 403);
+            btnLimpia.Name = "btnLimpia";
+            btnLimpia.Size = new Size(75, 29);
+            btnLimpia.TabIndex = 25;
+            btnLimpia.Text = "Limpiar";
+            btnLimpia.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -326,31 +329,31 @@
             // 
             dgvClientes.BackgroundColor = SystemColors.ActiveCaption;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(51, 497);
+            dgvClientes.Location = new Point(29, 492);
             dgvClientes.Name = "dgvClientes";
-            dgvClientes.Size = new Size(528, 125);
+            dgvClientes.Size = new Size(747, 135);
             dgvClientes.TabIndex = 29;
             // 
             // FormClientes
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(707, 685);
+            ClientSize = new Size(788, 685);
             Controls.Add(pbFoto);
             Controls.Add(dgvClientes);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
             Controls.Add(label11);
-            Controls.Add(button5);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(radioButton2);
-            Controls.Add(radioButton1);
+            Controls.Add(btnLimpia);
+            Controls.Add(btnInnativa);
+            Controls.Add(btnEditar);
+            Controls.Add(tnGuardar);
+            Controls.Add(rbInactivo);
+            Controls.Add(rbActivo);
             Controls.Add(label10);
             Controls.Add(btnCargarFoto);
-            Controls.Add(comboBox1);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(cmbSexo);
+            Controls.Add(dtpFechaNacimiento);
             Controls.Add(txtTelefono);
             Controls.Add(txtCedula);
             Controls.Add(txtDireccion);
@@ -391,17 +394,17 @@
         private TextBox txtDireccion;
         private MaskedTextBox txtCedula;
         private MaskedTextBox txtTelefono;
-        private DateTimePicker dateTimePicker1;
-        private ComboBox comboBox1;
+        private DateTimePicker dtpFechaNacimiento;
+        private ComboBox cmbSexo;
         private PictureBox pbFoto;
         private Button btnCargarFoto;
         private Label label10;
-        private RadioButton radioButton1;
-        private RadioButton radioButton2;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
+        private RadioButton rbActivo;
+        private RadioButton rbInactivo;
+        private Button tnGuardar;
+        private Button btnEditar;
+        private Button btnInnativa;
+        private Button btnLimpia;
         private Label label11;
         private TextBox txtBuscar;
         private Button btnBuscar;

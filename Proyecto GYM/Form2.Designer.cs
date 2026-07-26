@@ -36,6 +36,7 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
+            btnUsuario = new Button();
             button9 = new Button();
             button4 = new Button();
             panel6 = new Panel();
@@ -68,7 +69,7 @@
             panel1.Controls.Add(button1);
             panel1.Location = new Point(2, 1);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1017, 92);
+            panel1.Size = new Size(1021, 92);
             panel1.TabIndex = 0;
             // 
             // btnSalir
@@ -121,6 +122,7 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.RoyalBlue;
+            panel2.Controls.Add(btnUsuario);
             panel2.Controls.Add(button9);
             panel2.Controls.Add(button4);
             panel2.Controls.Add(panel6);
@@ -137,8 +139,22 @@
             panel2.Controls.Add(pictureBox1);
             panel2.Location = new Point(2, 1);
             panel2.Name = "panel2";
-            panel2.Size = new Size(226, 732);
+            panel2.Size = new Size(209, 727);
             panel2.TabIndex = 1;
+            // 
+            // btnUsuario
+            // 
+            btnUsuario.FlatAppearance.BorderColor = Color.RoyalBlue;
+            btnUsuario.FlatAppearance.BorderSize = 0;
+            btnUsuario.FlatStyle = FlatStyle.Flat;
+            btnUsuario.ForeColor = Color.White;
+            btnUsuario.Location = new Point(27, 120);
+            btnUsuario.Name = "btnUsuario";
+            btnUsuario.Size = new Size(86, 26);
+            btnUsuario.TabIndex = 15;
+            btnUsuario.Text = "Usuario";
+            btnUsuario.UseVisualStyleBackColor = true;
+            btnUsuario.Click += btnUsuario_Click;
             // 
             // button9
             // 
@@ -146,7 +162,7 @@
             button9.FlatAppearance.BorderSize = 0;
             button9.FlatStyle = FlatStyle.Flat;
             button9.ForeColor = Color.White;
-            button9.Location = new Point(26, 248);
+            button9.Location = new Point(26, 259);
             button9.Name = "button9";
             button9.Size = new Size(104, 26);
             button9.TabIndex = 14;
@@ -159,7 +175,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.White;
-            button4.Location = new Point(31, 216);
+            button4.Location = new Point(26, 237);
             button4.Name = "button4";
             button4.Size = new Size(86, 26);
             button4.TabIndex = 13;
@@ -169,7 +185,7 @@
             // panel6
             // 
             panel6.BackColor = Color.Silver;
-            panel6.Location = new Point(3, 356);
+            panel6.Location = new Point(3, 361);
             panel6.Name = "panel6";
             panel6.Size = new Size(220, 2);
             panel6.TabIndex = 12;
@@ -178,9 +194,9 @@
             // 
             panel5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel5.BackColor = Color.Silver;
-            panel5.Location = new Point(3, 90);
+            panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(4042, 2);
+            panel5.Size = new Size(6122, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -202,7 +218,7 @@
             button7.FlatAppearance.BorderSize = 0;
             button7.FlatStyle = FlatStyle.Flat;
             button7.ForeColor = Color.White;
-            button7.Location = new Point(34, 184);
+            button7.Location = new Point(34, 205);
             button7.Name = "button7";
             button7.Size = new Size(86, 26);
             button7.TabIndex = 9;
@@ -214,7 +230,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Bell MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ActiveBorder;
-            label1.Location = new Point(31, 101);
+            label1.Location = new Point(26, 93);
             label1.Name = "label1";
             label1.Size = new Size(156, 19);
             label1.TabIndex = 3;
@@ -226,7 +242,7 @@
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
             button6.ForeColor = Color.White;
-            button6.Location = new Point(26, 329);
+            button6.Location = new Point(26, 334);
             button6.Name = "button6";
             button6.Size = new Size(138, 26);
             button6.TabIndex = 8;
@@ -239,7 +255,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.ForeColor = Color.White;
-            button5.Location = new Point(26, 301);
+            button5.Location = new Point(26, 311);
             button5.Name = "button5";
             button5.Size = new Size(149, 26);
             button5.TabIndex = 7;
@@ -252,7 +268,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
-            button3.Location = new Point(26, 269);
+            button3.Location = new Point(26, 280);
             button3.Name = "button3";
             button3.Size = new Size(157, 26);
             button3.TabIndex = 6;
@@ -265,7 +281,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.ForeColor = Color.White;
-            button2.Location = new Point(34, 152);
+            button2.Location = new Point(34, 173);
             button2.Name = "button2";
             button2.Size = new Size(101, 26);
             button2.TabIndex = 5;
@@ -278,7 +294,7 @@
             btnClientes.FlatAppearance.BorderSize = 0;
             btnClientes.FlatStyle = FlatStyle.Flat;
             btnClientes.ForeColor = Color.White;
-            btnClientes.Location = new Point(26, 123);
+            btnClientes.Location = new Point(27, 150);
             btnClientes.Name = "btnClientes";
             btnClientes.Size = new Size(86, 26);
             btnClientes.TabIndex = 4;
@@ -297,9 +313,9 @@
             // 
             panel4.BackColor = Color.MidnightBlue;
             panel4.Controls.Add(lblTituloHeader);
-            panel4.Location = new Point(226, 94);
+            panel4.Location = new Point(207, 94);
             panel4.Name = "panel4";
-            panel4.Size = new Size(710, 35);
+            panel4.Size = new Size(816, 35);
             panel4.TabIndex = 2;
             // 
             // lblTituloHeader
@@ -323,7 +339,7 @@
             panel7.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             panel7.Location = new Point(234, 132);
             panel7.Name = "panel7";
-            panel7.Size = new Size(719, 573);
+            panel7.Size = new Size(778, 596);
             panel7.TabIndex = 3;
             // 
             // Form2
@@ -331,7 +347,7 @@
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(954, 715);
+            ClientSize = new Size(1024, 748);
             Controls.Add(panel7);
             Controls.Add(panel4);
             Controls.Add(panel2);
@@ -375,5 +391,6 @@
         private NotifyIcon notifyIcon1;
         private Panel panel7;
         private Label lblTituloHeader;
+        private Button btnUsuario;
     }
 }
