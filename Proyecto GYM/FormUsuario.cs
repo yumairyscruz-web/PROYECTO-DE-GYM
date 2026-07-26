@@ -12,11 +12,13 @@ namespace Proyecto_GYM
         public FormUsuario()
         {
             InitializeComponent();
-        }
 
-        // Carga la lista en el DataGridView al abrir el formulario
+            // Suscripción al evento adentro del constructor
+            this.dgvUsuarios.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellClick);
+        }
         private void FormUsuario_Load(object sender, EventArgs e)
         {
+            cmbRol.DropDownStyle = ComboBoxStyle.DropDownList;
             CargarUsuarios();
         }
 
@@ -26,15 +28,34 @@ namespace Proyecto_GYM
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlCommand cmd = new SqlCommand("SELECT id_usuario, usuario, cedula, nombre, apellido, correo, rol, estado FROM Usuarios", con);
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    // Si tu DataGridView en el diseñador se llama dgvUsuarios o dgvClientes
-                    if (dgvUsuarios != null)
+                    if (con.State == ConnectionState.Closed)
                     {
-                        dgvUsuarios.DataSource = dt;
+                        con.Open();
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("sp_BuscarUsuario", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@criterio", "");
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dgvUsuarios != null)
+                        {
+                            dgvUsuarios.DataSource = dt;
+
+                            // Ocultar la columna binaria de la foto sin lanzar excepciones
+                            if (dgvUsuarios.Columns.Contains("foto"))
+                            {
+                                var columnaFoto = dgvUsuarios.Columns["foto"];
+                                if (columnaFoto != null)
+                                {
+                                    columnaFoto.Visible = false;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -45,37 +66,55 @@ namespace Proyecto_GYM
             }
         }
 
-        // ----------------------------------------------------
-        // Botón "Cargar" (Foto)
-        // ----------------------------------------------------
         private void btnCargarFoto_Click(object sender, EventArgs e)
         {
-            OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = "Archivos de Imagen (*.jpg; *.jpeg; *.png; *.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
-            abrirImagen.Title = "Seleccionar Foto del Usuario";
-
-            if (abrirImagen.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog abrirImagen = new OpenFileDialog())
             {
-                pbFotoUsuario.Image = Image.FromFile(abrirImagen.FileName);
-                pbFotoUsuario.SizeMode = PictureBoxSizeMode.Zoom;
+                abrirImagen.Filter = "Archivos de Imagen (*.jpg; *.jpeg; *.png; *.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
+                abrirImagen.Title = "Seleccionar Foto del Usuario";
+
+                if (abrirImagen.ShowDialog() == DialogResult.OK)
+                {
+                    pbFotoUsuario.Image = Image.FromFile(abrirImagen.FileName);
+                    pbFotoUsuario.SizeMode = PictureBoxSizeMode.Zoom;
+                }
             }
         }
 
-        // ----------------------------------------------------
-        // Botón "Guarda"
-        // ----------------------------------------------------
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text) || string.IsNullOrWhiteSpace(txtClave.Text))
+            if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                MessageBox.Show("Por favor, complete los campos obligatorios (Usuario y Contraseña).", "Campos Requeridos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe ingresar un nombre de usuario.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtUsuario.Focus();
                 return;
             }
+
+            if (string.IsNullOrWhiteSpace(txtClave.Text))
+            {
+                MessageBox.Show("Debe ingresar una contraseña.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtClave.Focus();
+                return;
+            }
+
+            if (cmbRol.SelectedIndex == -1)
+            {
+                MessageBox.Show("Por favor, seleccione un Rol de la lista.", "Rol Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbRol.Focus();
+                return;
+            }
+
+            string estadoUsuario = rbActivo.Checked ? "Activo" : "Inactivo";
 
             try
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
                 {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
                     SqlCommand cmd = new SqlCommand("sp_GuardarUsuario", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -85,37 +124,46 @@ namespace Proyecto_GYM
                     cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                     cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
                     cmd.Parameters.AddWithValue("@correo", txtCorreo.Text.Trim());
-                    cmd.Parameters.AddWithValue("@rol", cmbRol.Text);
-                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? "Activo" : "Inactivo");
+                    cmd.Parameters.AddWithValue("@rol", cmbRol.Text.Trim());
+                    cmd.Parameters.AddWithValue("@estado", estadoUsuario);
 
-                    // Manejo de la foto
                     if (pbFotoUsuario.Image != null)
                     {
-                        MemoryStream ms = new MemoryStream();
-                        pbFotoUsuario.Image.Save(ms, pbFotoUsuario.Image.RawFormat);
-                        cmd.Parameters.AddWithValue("@foto", ms.ToArray());
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbFotoUsuario.Image.Save(ms, pbFotoUsuario.Image.RawFormat);
+                            cmd.Parameters.Add("@foto", SqlDbType.VarBinary).Value = ms.ToArray();
+                        }
                     }
                     else
                     {
-                        cmd.Parameters.AddWithValue("@foto", DBNull.Value);
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary).Value = DBNull.Value;
                     }
 
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Usuario guardado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("¡Usuario guardado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     CargarUsuarios();
                     LimpiarFormulario();
                 }
             }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    MessageBox.Show("El nombre de usuario o la cédula ya existe en la base de datos.", "Registro Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Error en SQL Server: " + ex.Message, "Error de Base de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // ----------------------------------------------------
-        // Botón "Editar"
-        // ----------------------------------------------------
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
@@ -124,10 +172,22 @@ namespace Proyecto_GYM
                 return;
             }
 
+            if (cmbRol.SelectedIndex == -1)
+            {
+                MessageBox.Show("Por favor, seleccione un Rol de la lista.", "Rol Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbRol.Focus();
+                return;
+            }
+
             try
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
                 {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
                     SqlCommand cmd = new SqlCommand("sp_EditarUsuario", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -137,18 +197,20 @@ namespace Proyecto_GYM
                     cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                     cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
                     cmd.Parameters.AddWithValue("@correo", txtCorreo.Text.Trim());
-                    cmd.Parameters.AddWithValue("@rol", cmbRol.Text);
+                    cmd.Parameters.AddWithValue("@rol", cmbRol.Text.Trim());
                     cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? "Activo" : "Inactivo");
 
                     if (pbFotoUsuario.Image != null)
                     {
-                        MemoryStream ms = new MemoryStream();
-                        pbFotoUsuario.Image.Save(ms, pbFotoUsuario.Image.RawFormat);
-                        cmd.Parameters.AddWithValue("@foto", ms.ToArray());
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pbFotoUsuario.Image.Save(ms, pbFotoUsuario.Image.RawFormat);
+                            cmd.Parameters.Add("@foto", SqlDbType.VarBinary).Value = ms.ToArray();
+                        }
                     }
                     else
                     {
-                        cmd.Parameters.AddWithValue("@foto", DBNull.Value);
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary).Value = DBNull.Value;
                     }
 
                     cmd.ExecuteNonQuery();
@@ -164,9 +226,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // ----------------------------------------------------
-        // Botón "Innacti" (Inactivar / Borrado lógico)
-        // ----------------------------------------------------
         private void btnInactivar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
@@ -184,7 +243,12 @@ namespace Proyecto_GYM
                 {
                     using (SqlConnection con = Conexion.ObtenerConexion())
                     {
-                        SqlCommand cmd = new SqlCommand("UPDATE Usuarios SET estado = 'Inactivo' WHERE usuario = @usuario", con);
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+
+                        SqlCommand cmd = new SqlCommand("UPDATE usuarios SET estado = 0 WHERE usuario = @usuario", con);
                         cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
 
                         cmd.ExecuteNonQuery();
@@ -201,15 +265,80 @@ namespace Proyecto_GYM
             }
         }
 
-        // ----------------------------------------------------
-        // Botón "buscar"
-        // ----------------------------------------------------
+        // Evento para transferir la información de la fila seleccionada a los controles
+        private void dgvUsuarios_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificamos que el clic sea sobre una fila válida (no en el encabezado)
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvUsuarios.Rows[e.RowIndex];
+
+                // 1. Cargar TextBoxes principales
+                txtUsuario.Text = fila.Cells["usuario"]?.Value?.ToString() ?? "";
+                txtCedula.Text = fila.Cells["cedula"]?.Value?.ToString() ?? "";
+                txtNombre.Text = fila.Cells["nombre"]?.Value?.ToString() ?? "";
+                txtApellido.Text = fila.Cells["apellido"]?.Value?.ToString() ?? "";
+                txtCorreo.Text = fila.Cells["correo"]?.Value?.ToString() ?? "";
+
+                // 2. Cargar Contraseña (si viene en la consulta sp_BuscarUsuario)
+                if (dgvUsuarios.Columns.Contains("clave"))
+                {
+                    txtClave.Text = fila.Cells["clave"]?.Value?.ToString() ?? "";
+                }
+
+                // 3. Cargar Rol en el ComboBox
+                string? rolGuardado = fila.Cells["rol"]?.Value?.ToString();
+                if (!string.IsNullOrEmpty(rolGuardado))
+                {
+                    cmbRol.Text = rolGuardado;
+                }
+
+                // 4. Cargar Estado (RadioButtons)
+                string? estadoGuardado = fila.Cells["estado"]?.Value?.ToString();
+                if (estadoGuardado == "Activo")
+                {
+                    rbActivo.Checked = true;
+                }
+                else
+                {
+                    rbInactivo.Checked = true;
+                }
+
+                // 5. Cargar Foto en el PictureBox
+                if (dgvUsuarios.Columns.Contains("foto"))
+                {
+                    object? valorFoto = fila.Cells["foto"]?.Value;
+
+                    if (valorFoto != null && valorFoto != DBNull.Value && valorFoto is byte[] bytesImagen && bytesImagen.Length > 0)
+                    {
+                        using (MemoryStream ms = new MemoryStream(bytesImagen))
+                        {
+                            pbFotoUsuario.Image = Image.FromStream(ms);
+                            pbFotoUsuario.SizeMode = PictureBoxSizeMode.Zoom;
+                        }
+                    }
+                    else
+                    {
+                        pbFotoUsuario.Image = null;
+                    }
+                }
+                else
+                {
+                    pbFotoUsuario.Image = null;
+                }
+            }
+        }
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
                 {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
                     SqlCommand cmd = new SqlCommand("sp_BuscarUsuario", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@criterio", txtBuscar.Text.Trim());
@@ -227,23 +356,18 @@ namespace Proyecto_GYM
             }
         }
 
-        // Búsqueda automática mientras escribes
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-            string busqueda = txtBuscar.Text.Trim();
-
             if (dgvUsuarios.DataSource is DataTable dt)
             {
+                string filtro = txtBuscar.Text.Trim();
                 dt.DefaultView.RowFilter = string.Format(
-                    "usuario LIKE '%{0}%' OR cedula LIKE '%{0}%' OR nombre LIKE '%{0}%' OR apellido LIKE '%{0}%'",
-                    busqueda
+                    "usuario LIKE '%{0}%' OR cedula LIKE '%{0}%' OR nombre LIKE '%{0}%' OR apellido LIKE '%{0}%' OR rol LIKE '%{0}%'",
+                    filtro
                 );
             }
         }
 
-        // ----------------------------------------------------
-        // Botón "Elimina" / "Limpia"
-        // ----------------------------------------------------
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarFormulario();
@@ -259,14 +383,9 @@ namespace Proyecto_GYM
             txtCorreo.Clear();
             txtBuscar.Clear();
 
-            if (cmbRol.Items.Count > 0)
-            {
-                cmbRol.SelectedIndex = -1;
-            }
-
+            cmbRol.SelectedIndex = -1;
             rbActivo.Checked = true;
             rbInactivo.Checked = false;
-
             pbFotoUsuario.Image = null;
 
             if (dgvUsuarios.DataSource is DataTable dt)

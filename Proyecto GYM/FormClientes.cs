@@ -1,11 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Proyecto_GYM
@@ -15,6 +12,7 @@ namespace Proyecto_GYM
         public FormClientes()
         {
             InitializeComponent();
+            this.dgvClientes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellClick);
         }
 
         // Evento que se ejecuta al abrir el formulario
@@ -76,6 +74,21 @@ namespace Proyecto_GYM
             txtCedula.Focus();
         }
 
+        private byte[] ObtenerBytesDeImagen(Image imagen)
+        {
+            if (imagen == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Guardar explícitamente en PNG para evitar errores de RawFormat en GDI+
+                using (Bitmap bmp = new Bitmap(imagen))
+                {
+                    bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                }
+                return ms.ToArray();
+            }
+        }
+
 
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -101,23 +114,22 @@ namespace Proyecto_GYM
             }
         }
 
-
         private void button1_Click(object sender, EventArgs e)
         {
-            // Ventana emergente para seleccionar la imagen
-            OpenFileDialog abrirImagen = new OpenFileDialog();
-
-            // Filtro para mostrar únicamente archivos de imagen válidos
-            abrirImagen.Filter = "Archivos de Imagen (*.jpg; *.jpeg; *.png; *.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
-            abrirImagen.Title = "Seleccionar Foto del Cliente";
-
-            if (abrirImagen.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog abrirImagen = new OpenFileDialog())
             {
-                // Asigna la foto al PictureBox usando el nombre pbFoto
-                pbFoto.Image = Image.FromFile(abrirImagen.FileName);
+                abrirImagen.Filter = "Archivos de Imagen (*.jpg; *.jpeg; *.png; *.bmp)|*.jpg;*.jpeg;*.png;*.bmp";
+                abrirImagen.Title = "Seleccionar Foto del Cliente";
 
-                // Ajusta la escala de la imagen para que no se deforme ni se corte
-                pbFoto.SizeMode = PictureBoxSizeMode.Zoom;
+                if (abrirImagen.ShowDialog() == DialogResult.OK)
+                {
+                    // Cargar imagen en memoria para evitar bloqueos de archivo
+                    using (var imgTemp = Image.FromFile(abrirImagen.FileName))
+                    {
+                        pbFoto.Image = new Bitmap(imgTemp);
+                    }
+                    pbFoto.SizeMode = PictureBoxSizeMode.Zoom;
+                }
             }
         }
 
@@ -134,11 +146,9 @@ namespace Proyecto_GYM
             }
         }
 
-        
-
+        // GUARDAR CLIENTE
         private void button2_Click(object sender, EventArgs e)
         {
-            // Validar campos obligatorios básicos
             if (string.IsNullOrWhiteSpace(txtCedula.Text) || string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtApellido.Text))
             {
                 MessageBox.Show("Por favor, complete los campos obligatorios (Cédula, Nombre, Apellido).", "Campos Requeridos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -162,16 +172,11 @@ namespace Proyecto_GYM
                     cmd.Parameters.AddWithValue("@sexo", cmbSexo.Text);
                     cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? "Activo" : "Inactivo");
 
-                    if (pbFoto.Image != null)
-                    {
-                        MemoryStream ms = new MemoryStream();
-                        pbFoto.Image.Save(ms, pbFoto.Image.RawFormat);
-                        cmd.Parameters.AddWithValue("@foto", ms.ToArray());
-                    }
+                    byte[] fotoBytes = ObtenerBytesDeImagen(pbFoto.Image);
+                    if (fotoBytes != null)
+                        cmd.Parameters.AddWithValue("@foto", fotoBytes);
                     else
-                    {
                         cmd.Parameters.AddWithValue("@foto", DBNull.Value);
-                    }
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Cliente guardado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -186,6 +191,7 @@ namespace Proyecto_GYM
             }
         }
 
+        // EDITAR CLIENTE
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCedula.Text))
@@ -211,16 +217,11 @@ namespace Proyecto_GYM
                     cmd.Parameters.AddWithValue("@sexo", cmbSexo.Text);
                     cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? "Activo" : "Inactivo");
 
-                    if (pbFoto.Image != null)
-                    {
-                        MemoryStream ms = new MemoryStream();
-                        pbFoto.Image.Save(ms, pbFoto.Image.RawFormat);
-                        cmd.Parameters.AddWithValue("@foto", ms.ToArray());
-                    }
+                    byte[] fotoBytes = ObtenerBytesDeImagen(pbFoto.Image);
+                    if (fotoBytes != null)
+                        cmd.Parameters.AddWithValue("@foto", fotoBytes);
                     else
-                    {
                         cmd.Parameters.AddWithValue("@foto", DBNull.Value);
-                    }
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Datos del cliente actualizados correctamente.", "Actualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -273,8 +274,73 @@ namespace Proyecto_GYM
         {
             LimpiarFormulario();
         }
+
+        // Evento para llenar los controles al hacer clic en el DataGridView
+        private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvClientes.Rows[e.RowIndex];
+
+                // 1. Cargar datos de texto
+                txtNombre.Text = fila.Cells["nombre"].Value?.ToString();
+                txtApellido.Text = fila.Cells["apellido"].Value?.ToString();
+                txtCedula.Text = fila.Cells["cedula"].Value?.ToString();
+                txtTelefono.Text = fila.Cells["telefono"].Value?.ToString();
+                txtCorreo.Text = fila.Cells["correo"].Value?.ToString();
+                txtDireccion.Text = fila.Cells["direccion"].Value?.ToString();
+
+                // 2. Cargar Fecha de Nacimiento
+                if (fila.Cells["fecha_nacimiento"].Value is object valFecha &&
+                    DateTime.TryParse(valFecha.ToString(), out DateTime fechaNac))
+                {
+                    dtpFechaNacimiento.Value = fechaNac;
+                }
+
+                // 3. Cargar Sexo
+                if (fila.Cells["sexo"].Value is object valSexo)
+                {
+                    cmbSexo.Text = valSexo.ToString();
+                }
+
+                // 4. Cargar Estado
+                string estado = fila.Cells["estado"]?.Value?.ToString() ?? "";
+                if (estado == "Activo")
+                {
+                    rbActivo.Checked = true;
+                }
+                else
+                {
+                    rbInactivo.Checked = true;
+                }
+
+                // 5. Cargar Fotografía desde arreglo de bytes (byte[])
+                if (dgvClientes.Columns.Contains("foto") &&
+                    fila.Cells["foto"].Value is byte[] bytesFoto &&
+                    bytesFoto.Length > 0)
+                {
+                    try
+                    {
+                        using (MemoryStream ms = new MemoryStream(bytesFoto))
+                        {
+                            using (Image imgOriginal = Image.FromStream(ms))
+                            {
+                                pbFoto.Image = new Bitmap(imgOriginal);
+                            }
+                        }
+                        pbFoto.SizeMode = PictureBoxSizeMode.Zoom;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Error al convertir la foto: " + ex.Message);
+                        pbFoto.Image = null;
+                    }
+                }
+                else
+                {
+                    pbFoto.Image = null;
+                }
+            }
+        }
     }
 }
-
-
-

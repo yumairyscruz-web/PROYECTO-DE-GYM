@@ -27,7 +27,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
-        {
+        {// 1. Primero instancias el control
+            dgvUsuarios = new DataGridView();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -50,14 +51,22 @@
             btnGuardar = new Button();
             btnEditar = new Button();
             btnInactivar = new Button();
-            btnEliminar = new Button();
+            btnLimpiar = new Button();
             label9 = new Label();
             txtBuscar = new TextBox();
             btnBuscar = new Button();
-            dgvUsuarios = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).BeginInit();
             SuspendLayout();
+            // 
+            // dgvUsuarios
+            // 
+            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsuarios.Location = new Point(0, 361);
+            dgvUsuarios.Name = "dgvUsuarios";
+            dgvUsuarios.Size = new Size(676, 150);
+            dgvUsuarios.TabIndex = 27;
+            dgvUsuarios.CellClick += dgvUsuarios_CellClick;
             // 
             // label1
             // 
@@ -133,7 +142,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(466, 272);
+            label8.Location = new Point(452, 259);
             label8.Name = "label8";
             label8.Size = new Size(65, 21);
             label8.TabIndex = 7;
@@ -193,15 +202,15 @@
             cmbRol.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbRol.FormattingEnabled = true;
             cmbRol.Items.AddRange(new object[] { "Administrador", "Recepcionista", "Entrenador" });
-            cmbRol.Location = new Point(565, 296);
+            cmbRol.Location = new Point(552, 296);
             cmbRol.Name = "cmbRol";
-            cmbRol.Size = new Size(121, 23);
+            cmbRol.Size = new Size(152, 23);
             cmbRol.TabIndex = 15;
             // 
             // rbActivo
             // 
             rbActivo.AutoSize = true;
-            rbActivo.Location = new Point(537, 271);
+            rbActivo.Location = new Point(536, 259);
             rbActivo.Name = "rbActivo";
             rbActivo.Size = new Size(59, 19);
             rbActivo.TabIndex = 16;
@@ -212,12 +221,12 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
-            rbInactivo.Location = new Point(602, 271);
+            rbInactivo.Location = new Point(630, 259);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(74, 19);
+            rbInactivo.Size = new Size(67, 19);
             rbInactivo.TabIndex = 17;
             rbInactivo.TabStop = true;
-            rbInactivo.Text = "Innactivo";
+            rbInactivo.Text = "Inactivo";
             rbInactivo.UseVisualStyleBackColor = true;
             // 
             // pbFotoUsuario
@@ -241,6 +250,7 @@
             btnCargarFoto.TabIndex = 19;
             btnCargarFoto.Text = "Cargar Foto";
             btnCargarFoto.UseVisualStyleBackColor = false;
+            btnCargarFoto.Click += btnCargarFoto_Click;
             // 
             // btnGuardar
             // 
@@ -250,6 +260,7 @@
             btnGuardar.TabIndex = 20;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnEditar
             // 
@@ -257,8 +268,9 @@
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(90, 32);
             btnEditar.TabIndex = 21;
-            btnEditar.Text = "Editar";
+            btnEditar.Text = "Actualizar";
             btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.Click += btnEditar_Click;
             // 
             // btnInactivar
             // 
@@ -268,15 +280,17 @@
             btnInactivar.TabIndex = 22;
             btnInactivar.Text = "Innactiva";
             btnInactivar.UseVisualStyleBackColor = true;
+            btnInactivar.Click += btnInactivar_Click;
             // 
-            // btnEliminar
+            // btnLimpiar
             // 
-            btnEliminar.Location = new Point(353, 276);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(90, 32);
-            btnEliminar.TabIndex = 23;
-            btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnLimpiar.Location = new Point(353, 276);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(90, 32);
+            btnLimpiar.TabIndex = 23;
+            btnLimpiar.Text = "Eliminar";
+            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // label9
             // 
@@ -295,6 +309,8 @@
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(129, 30);
             txtBuscar.TabIndex = 25;
+            txtBuscar.Click += txtBuscar_TextChanged;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // btnBuscar
             // 
@@ -304,14 +320,7 @@
             btnBuscar.TabIndex = 26;
             btnBuscar.Text = "buscar";
             btnBuscar.UseVisualStyleBackColor = true;
-            // 
-            // dgvUsuarios
-            // 
-            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsuarios.Location = new Point(0, 361);
-            dgvUsuarios.Name = "dgvUsuarios";
-            dgvUsuarios.Size = new Size(676, 150);
-            dgvUsuarios.TabIndex = 27;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // FormUsuario
             // 
@@ -322,7 +331,7 @@
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
             Controls.Add(label9);
-            Controls.Add(btnEliminar);
+            Controls.Add(btnLimpiar);
             Controls.Add(btnInactivar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
@@ -347,8 +356,8 @@
             Controls.Add(label1);
             Name = "FormUsuario";
             Text = "FormUsuario";
-            ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -377,7 +386,7 @@
         private Button btnGuardar;
         private Button btnEditar;
         private Button btnInactivar;
-        private Button btnEliminar;
+        private Button btnLimpiar;
         private Label label9;
         private TextBox txtBuscar;
         private Button btnBuscar;

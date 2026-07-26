@@ -146,7 +146,7 @@
             txtNombre.Location = new Point(116, 102);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(225, 23);
+            txtNombre.Size = new Size(225, 38);
             txtNombre.TabIndex = 9;
             // 
             // txtApellido
@@ -154,7 +154,7 @@
             txtApellido.Location = new Point(116, 146);
             txtApellido.Multiline = true;
             txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(225, 23);
+            txtApellido.Size = new Size(225, 41);
             txtApellido.TabIndex = 10;
             // 
             // txtCorreo
@@ -162,7 +162,7 @@
             txtCorreo.Location = new Point(116, 238);
             txtCorreo.Multiline = true;
             txtCorreo.Name = "txtCorreo";
-            txtCorreo.Size = new Size(225, 23);
+            txtCorreo.Size = new Size(225, 31);
             txtCorreo.TabIndex = 11;
             // 
             // txtDireccion
@@ -170,7 +170,7 @@
             txtDireccion.Location = new Point(123, 275);
             txtDireccion.Multiline = true;
             txtDireccion.Name = "txtDireccion";
-            txtDireccion.Size = new Size(225, 23);
+            txtDireccion.Size = new Size(218, 32);
             txtDireccion.TabIndex = 12;
             // 
             // txtCedula
@@ -186,7 +186,7 @@
             txtTelefono.Location = new Point(116, 193);
             txtTelefono.Mask = "(999)000-0000";
             txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(100, 29);
+            txtTelefono.Size = new Size(128, 29);
             txtTelefono.TabIndex = 14;
             // 
             // dtpFechaNacimiento
@@ -220,9 +220,9 @@
             // 
             btnCargarFoto.BackColor = SystemColors.ActiveCaption;
             btnCargarFoto.ForeColor = SystemColors.ButtonHighlight;
-            btnCargarFoto.Location = new Point(419, 268);
+            btnCargarFoto.Location = new Point(456, 256);
             btnCargarFoto.Name = "btnCargarFoto";
-            btnCargarFoto.Size = new Size(111, 40);
+            btnCargarFoto.Size = new Size(111, 43);
             btnCargarFoto.TabIndex = 18;
             btnCargarFoto.Text = "Cargar Foto";
             btnCargarFoto.UseVisualStyleBackColor = false;
@@ -264,7 +264,7 @@
             // 
             tnGuardar.Location = new Point(57, 403);
             tnGuardar.Name = "tnGuardar";
-            tnGuardar.Size = new Size(75, 29);
+            tnGuardar.Size = new Size(91, 29);
             tnGuardar.TabIndex = 22;
             tnGuardar.Text = "Guardar";
             tnGuardar.UseVisualStyleBackColor = true;
@@ -272,11 +272,11 @@
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(184, 403);
+            btnEditar.Location = new Point(176, 403);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(75, 29);
+            btnEditar.Size = new Size(97, 29);
             btnEditar.TabIndex = 23;
-            btnEditar.Text = "Editar";
+            btnEditar.Text = "Actualizar";
             btnEditar.UseVisualStyleBackColor = true;
             btnEditar.Click += btnEditar_Click;
             // 
@@ -284,7 +284,7 @@
             // 
             btnInnativa.Location = new Point(320, 403);
             btnInnativa.Name = "btnInnativa";
-            btnInnativa.Size = new Size(82, 29);
+            btnInnativa.Size = new Size(88, 29);
             btnInnativa.TabIndex = 24;
             btnInnativa.Text = "Innativa";
             btnInnativa.UseVisualStyleBackColor = true;
@@ -293,9 +293,9 @@
             // 
             btnLimpia.Location = new Point(440, 403);
             btnLimpia.Name = "btnLimpia";
-            btnLimpia.Size = new Size(75, 29);
+            btnLimpia.Size = new Size(97, 29);
             btnLimpia.TabIndex = 25;
-            btnLimpia.Text = "Limpiar";
+            btnLimpia.Text = "Eliminar";
             btnLimpia.UseVisualStyleBackColor = true;
             // 
             // label11
@@ -319,7 +319,7 @@
             // 
             btnBuscar.Location = new Point(302, 454);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(80, 32);
+            btnBuscar.Size = new Size(90, 32);
             btnBuscar.TabIndex = 28;
             btnBuscar.Text = "buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -329,9 +329,9 @@
             // 
             dgvClientes.BackgroundColor = SystemColors.ActiveCaption;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(29, 492);
+            dgvClientes.Location = new Point(3, 492);
             dgvClientes.Name = "dgvClientes";
-            dgvClientes.Size = new Size(747, 135);
+            dgvClientes.Size = new Size(773, 135);
             dgvClientes.TabIndex = 29;
             // 
             // FormClientes
