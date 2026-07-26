@@ -232,12 +232,15 @@
             // 
             // btnCargarFoto
             // 
+            btnCargarFoto.BackColor = SystemColors.ActiveCaption;
+            btnCargarFoto.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCargarFoto.ForeColor = SystemColors.ButtonFace;
             btnCargarFoto.Location = new Point(565, 221);
             btnCargarFoto.Name = "btnCargarFoto";
             btnCargarFoto.Size = new Size(96, 32);
             btnCargarFoto.TabIndex = 19;
             btnCargarFoto.Text = "Cargar Foto";
-            btnCargarFoto.UseVisualStyleBackColor = true;
+            btnCargarFoto.UseVisualStyleBackColor = false;
             // 
             // btnGuardar
             // 
