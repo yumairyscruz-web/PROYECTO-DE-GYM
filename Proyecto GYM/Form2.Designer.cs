@@ -196,7 +196,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(6122, 2);
+            panel5.Size = new Size(6685, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -261,6 +261,7 @@
             button5.TabIndex = 7;
             button5.Text = "Clases / Actividades";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button3
             // 

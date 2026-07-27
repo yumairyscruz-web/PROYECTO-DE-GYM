@@ -126,5 +126,11 @@ namespace Proyecto_GYM
         {
             AbrirFormularioHijo(new FormUsuario(), "Mantenimiento de Usuarios");
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormClientes(), "Gestión de Horarios de Clases / Actividades");
+
+        }
     }
 }
