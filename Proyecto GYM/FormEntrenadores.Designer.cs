@@ -52,7 +52,7 @@
             txtBuscar = new TextBox();
             dgvEntrenadores = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dgvEntrenadores).BeginInit();
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // label1
             // 
@@ -142,6 +142,7 @@
             btnGuardar.TabIndex = 8;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnditar
             // 
@@ -151,6 +152,7 @@
             btnditar.TabIndex = 9;
             btnditar.Text = "Editar";
             btnditar.UseVisualStyleBackColor = true;
+            btnditar.Click += btnEditar_Click;
             // 
             // btnInactivar
             // 
@@ -160,6 +162,7 @@
             btnInactivar.TabIndex = 10;
             btnInactivar.Text = "Inactivar";
             btnInactivar.UseVisualStyleBackColor = true;
+            btnInactivar.Click += btnInactivar_Click;
             // 
             // btnLimpiar
             // 
@@ -169,6 +172,7 @@
             btnLimpiar.TabIndex = 11;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // txtNombre
             // 
@@ -258,6 +262,7 @@
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(227, 34);
             txtBuscar.TabIndex = 22;
+            txtBuscar.ClientSizeChanged += txtBuscar_TextChanged;
             // 
             // dgvEntrenadores
             // 
@@ -269,37 +274,37 @@
             // 
             // FormEntrenadores
             // 
-            this.AutoScaleDimensions = new SizeF(7F, 15F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(850, 450);
-            this.Controls.Add(dgvEntrenadores);
-            this.Controls.Add(txtBuscar);
-            this.Controls.Add(label9);
-            this.Controls.Add(rbInactivo);
-            this.Controls.Add(rbActivo);
-            this.Controls.Add(cmbEspecialidad);
-            this.Controls.Add(txtCedula);
-            this.Controls.Add(txtTelefono);
-            this.Controls.Add(txtCorreo);
-            this.Controls.Add(txtApellido);
-            this.Controls.Add(txtNombre);
-            this.Controls.Add(btnLimpiar);
-            this.Controls.Add(btnInactivar);
-            this.Controls.Add(btnditar);
-            this.Controls.Add(btnGuardar);
-            this.Controls.Add(label8);
-            this.Controls.Add(label7);
-            this.Controls.Add(label6);
-            this.Controls.Add(label5);
-            this.Controls.Add(label4);
-            this.Controls.Add(label3);
-            this.Controls.Add(label2);
-            this.Controls.Add(label1);
-            this.Name = "FormEntrenadores";
-            this.Load += FormEntrenadores_Load;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(850, 450);
+            Controls.Add(dgvEntrenadores);
+            Controls.Add(txtBuscar);
+            Controls.Add(label9);
+            Controls.Add(rbInactivo);
+            Controls.Add(rbActivo);
+            Controls.Add(cmbEspecialidad);
+            Controls.Add(txtCedula);
+            Controls.Add(txtTelefono);
+            Controls.Add(txtCorreo);
+            Controls.Add(txtApellido);
+            Controls.Add(txtNombre);
+            Controls.Add(btnLimpiar);
+            Controls.Add(btnInactivar);
+            Controls.Add(btnditar);
+            Controls.Add(btnGuardar);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Name = "FormEntrenadores";
+            Load += FormEntrenadores_Load;
             ((System.ComponentModel.ISupportInitialize)dgvEntrenadores).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

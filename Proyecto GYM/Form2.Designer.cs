@@ -196,7 +196,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(6685, 2);
+            panel5.Size = new Size(7248, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -288,6 +288,7 @@
             button2.TabIndex = 5;
             button2.Text = "Entrenadores";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // btnClientes
             // 
