@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Windows.Forms;
-using CapaDatos;
 
 namespace Proyecto_GYM
 {
     public partial class FormHorarioClase : Form
     {
-        private CD_Conexion conexion = new CD_Conexion();
-
         public FormHorarioClase()
         {
             InitializeComponent();
@@ -21,23 +18,31 @@ namespace Proyecto_GYM
             CargarHorarios();
         }
 
-        // Carga las clases registradas (Punto 4) en el ComboBox
+        // Carga las clases registradas en el ComboBox
         private void CargarClasesComboBox()
         {
             try
             {
-                DataTable tabla = new DataTable();
-                using (SqlCommand cmd = new SqlCommand("SELECT id_clase, nombre FROM clases WHERE estado = 1", conexion.AbrirConexion()))
+                using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(tabla);
-                }
-                conexion.CerrarConexion();
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
 
-                cmbClase.DataSource = tabla;
-                cmbClase.DisplayMember = "nombre";
-                cmbClase.ValueMember = "id_clase";
-                cmbClase.SelectedIndex = -1;
+                    string query = "SELECT id_clase, nombre FROM clases WHERE estado = 1";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable tabla = new DataTable();
+                        da.Fill(tabla);
+
+                        cmbClase.DataSource = tabla;
+                        cmbClase.DisplayMember = "nombre";
+                        cmbClase.ValueMember = "id_clase";
+                        cmbClase.SelectedIndex = -1;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -50,24 +55,31 @@ namespace Proyecto_GYM
         {
             try
             {
-                DataTable tabla = new DataTable();
-                string query = @"SELECT h.id_horario, c.nombre AS [Clase], h.dia_semana AS [Día], 
-                                CONVERT(VARCHAR(5), h.hora_inicio, 108) AS [Hora Inicio], 
-                                CONVERT(VARCHAR(5), h.hora_fin, 108) AS [Hora Fin]
-                                FROM horarios_clases h
-                                INNER JOIN clases c ON h.id_clase = c.id_clase";
-
-                using (SqlCommand cmd = new SqlCommand(query, conexion.AbrirConexion()))
+                using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(tabla);
-                }
-                conexion.CerrarConexion();
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
 
-                dgvHorariosClases.DataSource = tabla;
-                if (dgvHorariosClases.Columns.Contains("id_horario"))
-                {
-                    dgvHorariosClases.Columns["id_horario"].Visible = false;
+                    string query = @"SELECT h.id_horario, c.nombre AS [Clase], h.dia_semana AS [Día], 
+                                    CONVERT(VARCHAR(5), h.hora_inicio, 108) AS [Hora Inicio], 
+                                    CONVERT(VARCHAR(5), h.hora_fin, 108) AS [Hora Fin]
+                                    FROM horarios_clases h
+                                    INNER JOIN clases c ON h.id_clase = c.id_clase";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable tabla = new DataTable();
+                        da.Fill(tabla);
+
+                        dgvHorariosClases.DataSource = tabla;
+                        if (dgvHorariosClases.Columns.Contains("id_horario"))
+                        {
+                            dgvHorariosClases.Columns["id_horario"].Visible = false;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -95,16 +107,23 @@ namespace Proyecto_GYM
 
             try
             {
-                string query = "INSERT INTO horarios_clases (id_clase, dia_semana, hora_inicio, hora_fin) VALUES (@id_clase, @dia, @inicio, @fin)";
-                using (SqlCommand cmd = new SqlCommand(query, conexion.AbrirConexion()))
+                using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    cmd.Parameters.AddWithValue("@id_clase", Convert.ToInt32(cmbClase.SelectedValue));
-                    cmd.Parameters.AddWithValue("@dia", cmbDia.SelectedItem.ToString());
-                    cmd.Parameters.AddWithValue("@inicio", inicio);
-                    cmd.Parameters.AddWithValue("@fin", fin);
-                    cmd.ExecuteNonQuery();
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+
+                    string query = "INSERT INTO horarios_clases (id_clase, dia_semana, hora_inicio, hora_fin) VALUES (@id_clase, @dia, @inicio, @fin)";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@id_clase", Convert.ToInt32(cmbClase.SelectedValue));
+                        cmd.Parameters.AddWithValue("@dia", cmbDia.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@inicio", inicio);
+                        cmd.Parameters.AddWithValue("@fin", fin);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
-                conexion.CerrarConexion();
 
                 MessageBox.Show("Horario asignado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarHorarios();
@@ -126,13 +145,20 @@ namespace Proyecto_GYM
                 {
                     try
                     {
-                        string query = "DELETE FROM horarios_clases WHERE id_horario = @id";
-                        using (SqlCommand cmd = new SqlCommand(query, conexion.AbrirConexion()))
+                        using (SqlConnection con = Conexion.ObtenerConexion())
                         {
-                            cmd.Parameters.AddWithValue("@id", idHorario);
-                            cmd.ExecuteNonQuery();
+                            if (con.State == ConnectionState.Closed)
+                            {
+                                con.Open();
+                            }
+
+                            string query = "DELETE FROM horarios_clases WHERE id_horario = @id";
+                            using (SqlCommand cmd = new SqlCommand(query, con))
+                            {
+                                cmd.Parameters.AddWithValue("@id", idHorario);
+                                cmd.ExecuteNonQuery();
+                            }
                         }
-                        conexion.CerrarConexion();
 
                         CargarHorarios();
                         LimpiarFormulario();
