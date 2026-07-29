@@ -55,6 +55,8 @@
             label9 = new Label();
             txtBuscar = new TextBox();
             btnBuscar = new Button();
+            cmbEntrenador = new ComboBox();
+            label10 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).BeginInit();
             SuspendLayout();
@@ -62,9 +64,9 @@
             // dgvUsuarios
             // 
             dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsuarios.Location = new Point(0, 361);
+            dgvUsuarios.Location = new Point(12, 380);
             dgvUsuarios.Name = "dgvUsuarios";
-            dgvUsuarios.Size = new Size(676, 150);
+            dgvUsuarios.Size = new Size(721, 150);
             dgvUsuarios.TabIndex = 27;
             dgvUsuarios.CellClick += dgvUsuarios_CellClick;
             // 
@@ -132,7 +134,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(478, 298);
+            label7.Location = new Point(478, 294);
             label7.Name = "label7";
             label7.Size = new Size(39, 21);
             label7.TabIndex = 6;
@@ -206,6 +208,7 @@
             cmbRol.Name = "cmbRol";
             cmbRol.Size = new Size(152, 23);
             cmbRol.TabIndex = 15;
+            cmbRol.SelectedIndexChanged += cmbRol_SelectedIndexChanged;
             // 
             // rbActivo
             // 
@@ -322,11 +325,32 @@
             btnBuscar.UseVisualStyleBackColor = true;
             btnBuscar.Click += btnBuscar_Click;
             // 
+            // cmbEntrenador
+            // 
+            cmbEntrenador.FormattingEnabled = true;
+            cmbEntrenador.Location = new Point(552, 341);
+            cmbEntrenador.Name = "cmbEntrenador";
+            cmbEntrenador.Size = new Size(152, 23);
+            cmbEntrenador.TabIndex = 28;
+            cmbEntrenador.SelectedIndexChanged += cmbEntrenador_SelectedIndexChanged;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.Location = new Point(425, 344);
+            label10.Name = "label10";
+            label10.Size = new Size(92, 20);
+            label10.TabIndex = 29;
+            label10.Text = "Entrenador:";
+            // 
             // FormUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(767, 513);
+            ClientSize = new Size(767, 542);
+            Controls.Add(label10);
+            Controls.Add(cmbEntrenador);
             Controls.Add(dgvUsuarios);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
@@ -356,6 +380,7 @@
             Controls.Add(label1);
             Name = "FormUsuario";
             Text = "FormUsuario";
+            Load += FormUsuario_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).EndInit();
             ResumeLayout(false);
@@ -391,5 +416,7 @@
         private TextBox txtBuscar;
         private Button btnBuscar;
         private DataGridView dgvUsuarios;
+        private ComboBox cmbEntrenador;
+        private Label label10;
     }
 }

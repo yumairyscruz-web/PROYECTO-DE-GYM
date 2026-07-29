@@ -51,7 +51,15 @@
             label9 = new Label();
             txtBuscar = new TextBox();
             dgvEntrenadores = new DataGridView();
+            label10 = new Label();
+            pbFotoEntrenador = new PictureBox();
+            btnCargaFoto = new Button();
+            label11 = new Label();
+            label12 = new Label();
+            dtpHoraEntrada = new DateTimePicker();
+            dtpHoraSalida = new DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)dgvEntrenadores).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbFotoEntrenador).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -68,7 +76,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(23, 52);
+            label2.Location = new Point(12, 50);
             label2.Name = "label2";
             label2.Size = new Size(67, 21);
             label2.TabIndex = 1;
@@ -78,7 +86,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(23, 92);
+            label3.Location = new Point(11, 103);
             label3.Name = "label3";
             label3.Size = new Size(77, 21);
             label3.TabIndex = 2;
@@ -88,17 +96,17 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(26, 130);
+            label4.Location = new Point(232, 103);
             label4.Name = "label4";
-            label4.Size = new Size(74, 21);
+            label4.Size = new Size(79, 21);
             label4.TabIndex = 3;
-            label4.Text = "Apelido:";
+            label4.Text = "Apellido:";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(23, 179);
+            label5.Location = new Point(11, 161);
             label5.Name = "label5";
             label5.Size = new Size(81, 21);
             label5.TabIndex = 4;
@@ -108,7 +116,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(23, 216);
+            label6.Location = new Point(232, 163);
             label6.Name = "label6";
             label6.Size = new Size(65, 21);
             label6.TabIndex = 5;
@@ -118,7 +126,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(15, 269);
+            label7.Location = new Point(12, 234);
             label7.Name = "label7";
             label7.Size = new Size(110, 21);
             label7.TabIndex = 6;
@@ -128,7 +136,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(23, 307);
+            label8.Location = new Point(482, 261);
             label8.Name = "label8";
             label8.Size = new Size(65, 21);
             label8.TabIndex = 7;
@@ -136,63 +144,67 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(15, 354);
+            btnGuardar.BackColor = SystemColors.Highlight;
+            btnGuardar.Location = new Point(377, 286);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(89, 43);
             btnGuardar.TabIndex = 8;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
             // btnditar
             // 
-            btnditar.Location = new Point(121, 354);
+            btnditar.BackColor = Color.LightGreen;
+            btnditar.Location = new Point(482, 286);
             btnditar.Name = "btnditar";
             btnditar.Size = new Size(89, 43);
             btnditar.TabIndex = 9;
             btnditar.Text = "Editar";
-            btnditar.UseVisualStyleBackColor = true;
+            btnditar.UseVisualStyleBackColor = false;
             btnditar.Click += btnEditar_Click;
             // 
             // btnInactivar
             // 
-            btnInactivar.Location = new Point(229, 354);
+            btnInactivar.BackColor = Color.Red;
+            btnInactivar.Location = new Point(577, 286);
             btnInactivar.Name = "btnInactivar";
             btnInactivar.Size = new Size(89, 43);
             btnInactivar.TabIndex = 10;
             btnInactivar.Text = "Inactivar";
-            btnInactivar.UseVisualStyleBackColor = true;
+            btnInactivar.UseVisualStyleBackColor = false;
             btnInactivar.Click += btnInactivar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(324, 354);
+            btnLimpiar.BackColor = SystemColors.ActiveBorder;
+            btnLimpiar.Location = new Point(689, 286);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(89, 43);
             btnLimpiar.TabIndex = 11;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(121, 80);
+            txtNombre.Location = new Point(90, 103);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(164, 33);
+            txtNombre.Size = new Size(136, 33);
             txtNombre.TabIndex = 12;
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(121, 119);
+            txtApellido.Location = new Point(317, 103);
             txtApellido.Multiline = true;
             txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(164, 33);
+            txtApellido.Size = new Size(159, 33);
             txtApellido.TabIndex = 13;
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(109, 217);
+            txtCorreo.Location = new Point(303, 161);
             txtCorreo.Multiline = true;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(197, 33);
@@ -200,25 +212,25 @@
             // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(126, 178);
+            txtTelefono.Location = new Point(109, 161);
             txtTelefono.Mask = "(999)000-0000";
             txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(159, 23);
+            txtTelefono.Size = new Size(117, 23);
             txtTelefono.TabIndex = 15;
             // 
             // txtCedula
             // 
-            txtCedula.Location = new Point(128, 55);
+            txtCedula.Location = new Point(96, 50);
             txtCedula.Mask = "000-0000000-0";
             txtCedula.Name = "txtCedula";
-            txtCedula.Size = new Size(157, 23);
+            txtCedula.Size = new Size(133, 23);
             txtCedula.TabIndex = 16;
             // 
             // cmbEspecialidad
             // 
             cmbEspecialidad.FormattingEnabled = true;
             cmbEspecialidad.Items.AddRange(new object[] { "Entrenamiento Funcional", "Pesas y Musculación", "Yoga / Pilates", "CrossFit", "Spinning / Ciclismo", "Boxeo / Artes Marciales", "Cardio / Aeróbicos" });
-            cmbEspecialidad.Location = new Point(142, 267);
+            cmbEspecialidad.Location = new Point(130, 236);
             cmbEspecialidad.Name = "cmbEspecialidad";
             cmbEspecialidad.Size = new Size(121, 23);
             cmbEspecialidad.TabIndex = 17;
@@ -227,7 +239,7 @@
             // 
             rbActivo.AutoSize = true;
             rbActivo.Checked = true;
-            rbActivo.Location = new Point(94, 307);
+            rbActivo.Location = new Point(597, 261);
             rbActivo.Name = "rbActivo";
             rbActivo.Size = new Size(59, 19);
             rbActivo.TabIndex = 18;
@@ -238,7 +250,7 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
-            rbInactivo.Location = new Point(194, 307);
+            rbInactivo.Location = new Point(689, 261);
             rbInactivo.Name = "rbInactivo";
             rbInactivo.Size = new Size(67, 19);
             rbInactivo.TabIndex = 19;
@@ -249,7 +261,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(413, 22);
+            label9.Location = new Point(130, 367);
             label9.Name = "label9";
             label9.Size = new Size(65, 21);
             label9.TabIndex = 21;
@@ -257,26 +269,100 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(484, 22);
+            txtBuscar.Location = new Point(219, 354);
             txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(227, 34);
             txtBuscar.TabIndex = 22;
-            txtBuscar.ClientSizeChanged += txtBuscar_TextChanged;
             // 
             // dgvEntrenadores
             // 
             dgvEntrenadores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEntrenadores.Location = new Point(324, 62);
+            dgvEntrenadores.Location = new Point(26, 394);
             dgvEntrenadores.Name = "dgvEntrenadores";
-            dgvEntrenadores.Size = new Size(514, 188);
+            dgvEntrenadores.Size = new Size(733, 132);
             dgvEntrenadores.TabIndex = 23;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.Location = new Point(26, 203);
+            label10.Name = "label10";
+            label10.Size = new Size(207, 20);
+            label10.TabIndex = 24;
+            label10.Text = "ESPECIALIDAD Y HORARIOS";
+            // 
+            // pbFotoEntrenador
+            // 
+            pbFotoEntrenador.BackColor = SystemColors.ButtonFace;
+            pbFotoEntrenador.Location = new Point(507, 9);
+            pbFotoEntrenador.Name = "pbFotoEntrenador";
+            pbFotoEntrenador.Size = new Size(274, 185);
+            pbFotoEntrenador.SizeMode = PictureBoxSizeMode.Zoom;
+            pbFotoEntrenador.TabIndex = 25;
+            pbFotoEntrenador.TabStop = false;
+            // 
+            // btnCargaFoto
+            // 
+            btnCargaFoto.Location = new Point(597, 203);
+            btnCargaFoto.Name = "btnCargaFoto";
+            btnCargaFoto.Size = new Size(102, 34);
+            btnCargaFoto.TabIndex = 26;
+            btnCargaFoto.Text = "Carga Foto";
+            btnCargaFoto.UseVisualStyleBackColor = true;
+            btnCargaFoto.Click += btnCargarFoto_Click;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.Location = new Point(12, 271);
+            label11.Name = "label11";
+            label11.Size = new Size(114, 21);
+            label11.TabIndex = 27;
+            label11.Text = "Hora Entrada:";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.Location = new Point(26, 321);
+            label12.Name = "label12";
+            label12.Size = new Size(102, 21);
+            label12.TabIndex = 28;
+            label12.Text = "Hora Salida:";
+            // 
+            // dtpHoraEntrada
+            // 
+            dtpHoraEntrada.Format = DateTimePickerFormat.Time;
+            dtpHoraEntrada.Location = new Point(141, 271);
+            dtpHoraEntrada.Name = "dtpHoraEntrada";
+            dtpHoraEntrada.ShowUpDown = true;
+            dtpHoraEntrada.Size = new Size(200, 23);
+            dtpHoraEntrada.TabIndex = 29;
+            // 
+            // dtpHoraSalida
+            // 
+            dtpHoraSalida.Format = DateTimePickerFormat.Time;
+            dtpHoraSalida.Location = new Point(141, 318);
+            dtpHoraSalida.Name = "dtpHoraSalida";
+            dtpHoraSalida.ShowUpDown = true;
+            dtpHoraSalida.Size = new Size(200, 23);
+            dtpHoraSalida.TabIndex = 30;
             // 
             // FormEntrenadores
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(850, 450);
+            ClientSize = new Size(805, 529);
+            Controls.Add(dtpHoraSalida);
+            Controls.Add(dtpHoraEntrada);
+            Controls.Add(label12);
+            Controls.Add(label11);
+            Controls.Add(btnCargaFoto);
+            Controls.Add(pbFotoEntrenador);
+            Controls.Add(label10);
             Controls.Add(dgvEntrenadores);
             Controls.Add(txtBuscar);
             Controls.Add(label9);
@@ -303,6 +389,7 @@
             Name = "FormEntrenadores";
             Load += FormEntrenadores_Load;
             ((System.ComponentModel.ISupportInitialize)dgvEntrenadores).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbFotoEntrenador).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -332,5 +419,12 @@
         private Label label9;
         private TextBox txtBuscar;
         private DataGridView dgvEntrenadores;
+        private Label label10;
+        private PictureBox pbFotoEntrenador;
+        private Button btnCargaFoto;
+        private Label label11;
+        private Label label12;
+        private DateTimePicker dtpHoraEntrada;
+        private DateTimePicker dtpHoraSalida;
     }
 }

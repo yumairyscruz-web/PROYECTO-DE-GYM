@@ -40,32 +40,34 @@
             btnEliminar = new Button();
             dgvHorariosClases = new DataGridView();
             btnLimpiar = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvHorariosClases).BeginInit();
             SuspendLayout();
             // 
             // lblClase
             // 
             lblClase.AutoSize = true;
-            lblClase.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblClase.Location = new Point(288, 9);
+            lblClase.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClase.Location = new Point(25, 50);
             lblClase.Name = "lblClase";
-            lblClase.Size = new Size(163, 25);
+            lblClase.Size = new Size(142, 21);
             lblClase.TabIndex = 0;
             lblClase.Text = "Clase / Actividad:";
             // 
             // cmbClase
             // 
             cmbClase.FormattingEnabled = true;
-            cmbClase.Location = new Point(46, 89);
+            cmbClase.Items.AddRange(new object[] { "Entrenamiento Funcional", "Pesas y Musculación", "Yoga / Pilates", "CrossFit", "Spinning / Ciclismo", "Boxeo / Artes Marciales", "Cardio / Aeróbicos" });
+            cmbClase.Location = new Point(23, 86);
             cmbClase.Name = "cmbClase";
-            cmbClase.Size = new Size(121, 23);
+            cmbClase.Size = new Size(144, 23);
             cmbClase.TabIndex = 1;
             // 
             // lblDia
             // 
             lblDia.AutoSize = true;
             lblDia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDia.Location = new Point(46, 137);
+            lblDia.Location = new Point(609, 50);
             lblDia.Name = "lblDia";
             lblDia.Size = new Size(144, 21);
             lblDia.TabIndex = 2;
@@ -76,7 +78,7 @@
             cmbDia.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDia.FormattingEnabled = true;
             cmbDia.Items.AddRange(new object[] { "Lunes", " Martes", "Miércoles", " Jueves", "Viernes", "Sábado", "Domingo" });
-            cmbDia.Location = new Point(46, 178);
+            cmbDia.Location = new Point(619, 86);
             cmbDia.Name = "cmbDia";
             cmbDia.Size = new Size(134, 23);
             cmbDia.TabIndex = 3;
@@ -85,7 +87,7 @@
             // 
             lblHoraInicio.AutoSize = true;
             lblHoraInicio.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblHoraInicio.Location = new Point(333, 70);
+            lblHoraInicio.Location = new Point(272, 50);
             lblHoraInicio.Name = "lblHoraInicio";
             lblHoraInicio.Size = new Size(98, 21);
             lblHoraInicio.TabIndex = 4;
@@ -94,17 +96,17 @@
             // dtpHoraInicio
             // 
             dtpHoraInicio.Format = DateTimePickerFormat.Time;
-            dtpHoraInicio.Location = new Point(299, 96);
+            dtpHoraInicio.Location = new Point(238, 83);
             dtpHoraInicio.Name = "dtpHoraInicio";
             dtpHoraInicio.ShowUpDown = true;
-            dtpHoraInicio.Size = new Size(200, 23);
+            dtpHoraInicio.Size = new Size(160, 23);
             dtpHoraInicio.TabIndex = 5;
             // 
             // lblHoraFin
             // 
             lblHoraFin.AutoSize = true;
             lblHoraFin.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblHoraFin.Location = new Point(333, 137);
+            lblHoraFin.Location = new Point(462, 50);
             lblHoraFin.Name = "lblHoraFin";
             lblHoraFin.Size = new Size(74, 21);
             lblHoraFin.TabIndex = 6;
@@ -113,15 +115,15 @@
             // dtpHoraFin
             // 
             dtpHoraFin.Format = DateTimePickerFormat.Time;
-            dtpHoraFin.Location = new Point(299, 178);
+            dtpHoraFin.Location = new Point(439, 83);
             dtpHoraFin.Name = "dtpHoraFin";
             dtpHoraFin.ShowUpDown = true;
-            dtpHoraFin.Size = new Size(200, 23);
+            dtpHoraFin.Size = new Size(139, 23);
             dtpHoraFin.TabIndex = 7;
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(573, 50);
+            btnGuardar.Location = new Point(514, 183);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(113, 41);
             btnGuardar.TabIndex = 8;
@@ -130,7 +132,7 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(573, 117);
+            btnEliminar.Location = new Point(514, 239);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(113, 41);
             btnEliminar.TabIndex = 9;
@@ -140,27 +142,38 @@
             // dgvHorariosClases
             // 
             dgvHorariosClases.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvHorariosClases.Location = new Point(73, 248);
+            dgvHorariosClases.Location = new Point(12, 173);
             dgvHorariosClases.Name = "dgvHorariosClases";
             dgvHorariosClases.ReadOnly = true;
             dgvHorariosClases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHorariosClases.Size = new Size(630, 166);
+            dgvHorariosClases.Size = new Size(435, 170);
             dgvHorariosClases.TabIndex = 10;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(573, 177);
+            btnLimpiar.Location = new Point(514, 308);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(113, 35);
             btnLimpiar.TabIndex = 11;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(364, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(117, 21);
+            label1.TabIndex = 12;
+            label1.Text = " FORMULARIO";
+            // 
             // FormHorarioClase
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(btnLimpiar);
             Controls.Add(dgvHorariosClases);
             Controls.Add(btnEliminar);
@@ -195,5 +208,6 @@
         private Button btnEliminar;
         private DataGridView dgvHorariosClases;
         private Button btnLimpiar;
+        private Label label1;
     }
 }

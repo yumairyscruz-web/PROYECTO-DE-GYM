@@ -3,29 +3,40 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms; // <-- Faltaba el ';' aquí
+using System.Windows.Forms;
 
 namespace Proyecto_GYM
 {
     public partial class FormEntrenadores : Form
     {
-        public FormEntrenadores() // <-- Cambiar el nombre del constructor también
+        public FormEntrenadores()
         {
             InitializeComponent();
 
             if (this.dgvEntrenadores != null)
             {
-                this.dgvEntrenadores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEntrenadores_CellClick);
+                this.dgvEntrenadores.CellClick += this.dgvEntrenadores_CellClick;
+            }
+
+            // Suscribir evento de la tecla Enter en la caja de búsqueda
+            if (this.txtBuscar != null)
+            {
+                this.txtBuscar.KeyDown += this.txtBuscar_KeyDown;
             }
         }
 
-        // ... el resto de tus métodos siguen igual
         private void FormEntrenadores_Load(object sender, EventArgs e)
         {
             if (cmbEspecialidad != null)
             {
                 cmbEspecialidad.DropDownStyle = ComboBoxStyle.DropDownList;
             }
+
+            // Configuración de controles de hora
+            dtpHoraEntrada.Format = DateTimePickerFormat.Time;
+            dtpHoraEntrada.ShowUpDown = true;
+            dtpHoraSalida.Format = DateTimePickerFormat.Time;
+            dtpHoraSalida.ShowUpDown = true;
 
             CargarEntrenadores();
         }
@@ -42,8 +53,11 @@ namespace Proyecto_GYM
                         con.Open();
                     }
 
-                    string query = @"SELECT id_entrenador, cedula, nombre, apellido, telefono, correo, especialidad, estado 
-                            FROM entrenadores";
+                    // Se incluyen hora_entrada, hora_salida y foto
+                    string query = @"SELECT id_entrenador, cedula, nombre, apellido, telefono, correo, 
+                                            especialidad, hora_entrada, hora_salida, foto, 
+                                            CASE WHEN estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado 
+                                     FROM entrenadores";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -55,10 +69,15 @@ namespace Proyecto_GYM
                         {
                             dgvEntrenadores.DataSource = dt;
 
-                            // Ocultar la columna de manera segura
                             if (dgvEntrenadores.Columns.Count > 0)
                             {
-                                dgvEntrenadores.Columns[0].Visible = false;
+                                dgvEntrenadores.Columns[0].Visible = false; // id_entrenador
+                            }
+
+                            // Ocultar la columna de foto de forma segura sin advertencias de nulo
+                            if (dgvEntrenadores.Columns.Contains("foto") && dgvEntrenadores.Columns["foto"] != null)
+                            {
+                                dgvEntrenadores.Columns["foto"]!.Visible = false;
                             }
                         }
                     }
@@ -67,6 +86,35 @@ namespace Proyecto_GYM
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar la lista de entrenadores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Seleccionar y cargar foto en el PictureBox
+        private void btnCargarFoto_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Imágenes (*.jpg; *.jpeg; *.png)|*.jpg;*.jpeg;*.png";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // Crear copia pura de la imagen en memoria para liberar el archivo original
+                    using (var imgTemp = Image.FromFile(ofd.FileName))
+                    {
+                        pbFotoEntrenador.Image = new Bitmap(imgTemp);
+                    }
+                }
+            }
+        }
+
+        // Convertir la imagen a arreglo de Bytes (Acepta nulos de forma segura)
+        private byte[]? ConvertirImagenABytes(Image? imagen)
+        {
+            if (imagen == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                imagen.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ms.ToArray();
             }
         }
 
@@ -94,7 +142,8 @@ namespace Proyecto_GYM
                 return;
             }
 
-            string estadoEntrenador = rbActivo.Checked ? "Activo" : "Inactivo";
+            bool estadoEntrenador = rbActivo.Checked;
+            byte[]? fotoBytes = ConvertirImagenABytes(pbFotoEntrenador?.Image);
 
             try
             {
@@ -105,8 +154,8 @@ namespace Proyecto_GYM
                         con.Open();
                     }
 
-                    string query = @"INSERT INTO entrenadores (cedula, nombre, apellido, telefono, correo, especialidad, estado) 
-                                    VALUES (@cedula, @nombre, @apellido, @telefono, @correo, @especialidad, @estado)";
+                    string query = @"INSERT INTO entrenadores (cedula, nombre, apellido, telefono, correo, especialidad, hora_entrada, hora_salida, foto, estado) 
+                                    VALUES (@cedula, @nombre, @apellido, @telefono, @correo, @especialidad, @hora_entrada, @hora_salida, @foto, @estado)";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -116,6 +165,10 @@ namespace Proyecto_GYM
                         cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
                         cmd.Parameters.AddWithValue("@correo", txtCorreo.Text.Trim());
                         cmd.Parameters.AddWithValue("@especialidad", cmbEspecialidad.Text.Trim());
+                        cmd.Parameters.AddWithValue("@hora_entrada", dtpHoraEntrada.Value.TimeOfDay);
+                        cmd.Parameters.AddWithValue("@hora_salida", dtpHoraSalida.Value.TimeOfDay);
+
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary).Value = (object?)fotoBytes ?? DBNull.Value;
                         cmd.Parameters.AddWithValue("@estado", estadoEntrenador);
 
                         cmd.ExecuteNonQuery();
@@ -159,8 +212,9 @@ namespace Proyecto_GYM
                 return;
             }
 
-            int idEntrenador = Convert.ToInt32(dgvEntrenadores.CurrentRow.Cells["id_entrenador"].Value);
-            string estadoEntrenador = rbActivo.Checked ? "Activo" : "Inactivo";
+            int idEntrenador = Convert.ToInt32(dgvEntrenadores.CurrentRow.Cells[0].Value);
+            bool estadoEntrenador = rbActivo.Checked;
+            byte[]? fotoBytes = ConvertirImagenABytes(pbFotoEntrenador?.Image);
 
             try
             {
@@ -173,7 +227,9 @@ namespace Proyecto_GYM
 
                     string query = @"UPDATE entrenadores 
                                     SET cedula = @cedula, nombre = @nombre, apellido = @apellido, 
-                                        telefono = @telefono, correo = @correo, especialidad = @especialidad, estado = @estado 
+                                        telefono = @telefono, correo = @correo, especialidad = @especialidad, 
+                                        hora_entrada = @hora_entrada, hora_salida = @hora_salida, 
+                                        foto = @foto, estado = @estado 
                                     WHERE id_entrenador = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -185,6 +241,9 @@ namespace Proyecto_GYM
                         cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
                         cmd.Parameters.AddWithValue("@correo", txtCorreo.Text.Trim());
                         cmd.Parameters.AddWithValue("@especialidad", cmbEspecialidad.Text.Trim());
+                        cmd.Parameters.AddWithValue("@hora_entrada", dtpHoraEntrada.Value.TimeOfDay);
+                        cmd.Parameters.AddWithValue("@hora_salida", dtpHoraSalida.Value.TimeOfDay);
+                        cmd.Parameters.Add("@foto", SqlDbType.VarBinary).Value = (object?)fotoBytes ?? DBNull.Value;
                         cmd.Parameters.AddWithValue("@estado", estadoEntrenador);
 
                         cmd.ExecuteNonQuery();
@@ -217,7 +276,7 @@ namespace Proyecto_GYM
             {
                 try
                 {
-                    int idEntrenador = Convert.ToInt32(dgvEntrenadores.CurrentRow.Cells["id_entrenador"].Value);
+                    int idEntrenador = Convert.ToInt32(dgvEntrenadores.CurrentRow.Cells[0].Value);
 
                     using (SqlConnection con = Conexion.ObtenerConexion())
                     {
@@ -226,7 +285,7 @@ namespace Proyecto_GYM
                             con.Open();
                         }
 
-                        string query = "UPDATE entrenadores SET estado = 'Inactivo' WHERE id_entrenador = @id";
+                        string query = "UPDATE entrenadores SET estado = 0 WHERE id_entrenador = @id";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@id", idEntrenador);
@@ -258,16 +317,42 @@ namespace Proyecto_GYM
                 txtTelefono.Text = fila.Cells["telefono"]?.Value?.ToString() ?? "";
                 txtCorreo.Text = fila.Cells["correo"]?.Value?.ToString() ?? "";
 
-                // Cargar la Especialidad en el ComboBox
+                // Cargar Especialidad
                 string? especialidadGuardada = fila.Cells["especialidad"]?.Value?.ToString();
                 if (!string.IsNullOrEmpty(especialidadGuardada))
                 {
                     cmbEspecialidad.Text = especialidadGuardada;
                 }
 
-                // Cargar el Estado
+                // Cargar Horarios de Entrada y Salida
+                if (TimeSpan.TryParse(fila.Cells["hora_entrada"]?.Value?.ToString(), out TimeSpan hEntrada))
+                {
+                    dtpHoraEntrada.Value = DateTime.Today.Add(hEntrada);
+                }
+                if (TimeSpan.TryParse(fila.Cells["hora_salida"]?.Value?.ToString(), out TimeSpan hSalida))
+                {
+                    dtpHoraSalida.Value = DateTime.Today.Add(hSalida);
+                }
+
+                // Cargar Fotografía desde el arreglo de bytes usando Bitmap para evitar bloqueos
+                if (fila.Cells["foto"]?.Value != DBNull.Value && fila.Cells["foto"]?.Value is byte[] bytesFoto && bytesFoto.Length > 0)
+                {
+                    using (MemoryStream ms = new MemoryStream(bytesFoto))
+                    {
+                        using (Image tempImage = Image.FromStream(ms))
+                        {
+                            pbFotoEntrenador.Image = new Bitmap(tempImage);
+                        }
+                    }
+                }
+                else
+                {
+                    pbFotoEntrenador.Image = null;
+                }
+
+                // Cargar Estado
                 string? estado = fila.Cells["estado"]?.Value?.ToString();
-                if (estado == "Activo")
+                if (estado == "Activo" || estado == "True" || estado == "1")
                 {
                     rbActivo.Checked = true;
                 }
@@ -278,16 +363,33 @@ namespace Proyecto_GYM
             }
         }
 
-        // Filtrar en tiempo real
-        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        // Filtrar solo al presionar la tecla ENTER
+        private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
         {
-            if (dgvEntrenadores.DataSource is DataTable dt)
+            if (e.KeyCode == Keys.Enter)
             {
-                string filtro = txtBuscar.Text.Trim();
-                dt.DefaultView.RowFilter = string.Format(
-                    "cedula LIKE '%{0}%' OR nombre LIKE '%{0}%' OR apellido LIKE '%{0}%' OR especialidad LIKE '%{0}%'",
-                    filtro
-                );
+                e.SuppressKeyPress = true; // Desactiva el sonido "beep" de Windows al dar Enter
+
+                if (dgvEntrenadores.DataSource is DataTable dt)
+                {
+                    string filtro = txtBuscar.Text.Trim()
+                        .Replace("'", "''")
+                        .Replace("[", "[[]")
+                        .Replace("%", "[%]")
+                        .Replace("*", "[*]");
+
+                    if (string.IsNullOrEmpty(filtro))
+                    {
+                        dt.DefaultView.RowFilter = "";
+                    }
+                    else
+                    {
+                        dt.DefaultView.RowFilter = string.Format(
+                            "cedula LIKE '%{0}%' OR nombre LIKE '%{0}%' OR apellido LIKE '%{0}%' OR especialidad LIKE '%{0}%'",
+                            filtro
+                        );
+                    }
+                }
             }
         }
 
@@ -308,6 +410,15 @@ namespace Proyecto_GYM
             cmbEspecialidad.SelectedIndex = -1;
             rbActivo.Checked = true;
             rbInactivo.Checked = false;
+
+            dtpHoraEntrada.Value = DateTime.Now;
+            dtpHoraSalida.Value = DateTime.Now;
+
+            if (pbFotoEntrenador.Image != null)
+            {
+                pbFotoEntrenador.Image.Dispose();
+                pbFotoEntrenador.Image = null;
+            }
 
             if (dgvEntrenadores.DataSource is DataTable dt)
             {
