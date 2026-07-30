@@ -232,7 +232,7 @@
             cmbEspecialidad.Items.AddRange(new object[] { "Entrenamiento Funcional", "Pesas y Musculación", "Yoga / Pilates", "CrossFit", "Spinning / Ciclismo", "Boxeo / Artes Marciales", "Cardio / Aeróbicos" });
             cmbEspecialidad.Location = new Point(130, 236);
             cmbEspecialidad.Name = "cmbEspecialidad";
-            cmbEspecialidad.Size = new Size(121, 23);
+            cmbEspecialidad.Size = new Size(232, 23);
             cmbEspecialidad.TabIndex = 17;
             // 
             // rbActivo
@@ -296,6 +296,7 @@
             // pbFotoEntrenador
             // 
             pbFotoEntrenador.BackColor = SystemColors.ButtonFace;
+            pbFotoEntrenador.BorderStyle = BorderStyle.FixedSingle;
             pbFotoEntrenador.Location = new Point(507, 9);
             pbFotoEntrenador.Name = "pbFotoEntrenador";
             pbFotoEntrenador.Size = new Size(274, 185);

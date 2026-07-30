@@ -129,13 +129,19 @@ namespace Proyecto_GYM
 
         private void button5_Click(object sender, EventArgs e)
         {
-            AbrirFormularioHijo(new FormHorarioClase(), "Gestión de Horarios de Clases / Actividades");
+            AbrirFormularioHijo(new Clase_y_Actividades_de_Gym(), "Clases-actividades del gym(");
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FormEntrenadores(), "Gestión de Entrenadores");
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormHorarioClase(), "Gestión de Horarios de Clases / Actividades");
 
         }
     }

@@ -196,7 +196,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(7248, 2);
+            panel5.Size = new Size(7811, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -248,6 +248,7 @@
             button6.TabIndex = 8;
             button6.Text = "Horarios de Clases";
             button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // button5
             // 

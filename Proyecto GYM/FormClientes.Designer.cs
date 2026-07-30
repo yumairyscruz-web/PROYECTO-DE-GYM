@@ -176,7 +176,7 @@
             // txtCedula
             // 
             txtCedula.Location = new Point(116, 56);
-            txtCedula.Mask = "000-000-0000-0";
+            txtCedula.Mask = "000-0000000-0";
             txtCedula.Name = "txtCedula";
             txtCedula.Size = new Size(143, 29);
             txtCedula.TabIndex = 13;
