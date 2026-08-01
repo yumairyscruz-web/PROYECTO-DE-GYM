@@ -38,10 +38,10 @@
             label8 = new Label();
             label9 = new Label();
             label10 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
+            btnAsignar = new Button();
+            btnCancelar = new Button();
+            btnEditar = new Button();
+            btnLimpiar = new Button();
             cmbCliente = new ComboBox();
             txtTelefono = new TextBox();
             txtCedula = new MaskedTextBox();
@@ -52,7 +52,11 @@
             dtpVencimiento = new DateTimePicker();
             rbActivo = new RadioButton();
             rbInactivo = new RadioButton();
+            label11 = new Label();
+            txtBuscar = new TextBox();
+            dgvAsignaciones = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)nudDuracion).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvAsignaciones).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -155,41 +159,41 @@
             label10.TabIndex = 9;
             label10.Text = "Estado";
             // 
-            // button1
+            // btnAsignar
             // 
-            button1.Location = new Point(359, 274);
-            button1.Name = "button1";
-            button1.Size = new Size(80, 40);
-            button1.TabIndex = 10;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            btnAsignar.Location = new Point(359, 274);
+            btnAsignar.Name = "btnAsignar";
+            btnAsignar.Size = new Size(80, 40);
+            btnAsignar.TabIndex = 10;
+            btnAsignar.Text = "Asignar";
+            btnAsignar.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnCancelar
             // 
-            button2.Location = new Point(562, 259);
-            button2.Name = "button2";
-            button2.Size = new Size(80, 40);
-            button2.TabIndex = 11;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            btnCancelar.Location = new Point(457, 274);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(80, 40);
+            btnCancelar.TabIndex = 11;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnEditar
             // 
-            button3.Location = new Point(464, 269);
-            button3.Name = "button3";
-            button3.Size = new Size(80, 40);
-            button3.TabIndex = 12;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
+            btnEditar.Location = new Point(576, 274);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(80, 40);
+            btnEditar.TabIndex = 12;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btnLimpiar
             // 
-            button4.Location = new Point(672, 245);
-            button4.Name = "button4";
-            button4.Size = new Size(80, 40);
-            button4.TabIndex = 13;
-            button4.Text = "button4";
-            button4.UseVisualStyleBackColor = true;
+            btnLimpiar.Location = new Point(668, 274);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(80, 40);
+            btnLimpiar.TabIndex = 13;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // cmbCliente
             // 
@@ -272,11 +276,39 @@
             rbInactivo.Text = "Inactivo";
             rbInactivo.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.Location = new Point(62, 335);
+            label11.Name = "label11";
+            label11.Size = new Size(60, 21);
+            label11.TabIndex = 24;
+            label11.Text = "Buscar";
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(134, 337);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(173, 23);
+            txtBuscar.TabIndex = 25;
+            // 
+            // dgvAsignaciones
+            // 
+            dgvAsignaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvAsignaciones.Location = new Point(134, 366);
+            dgvAsignaciones.Name = "dgvAsignaciones";
+            dgvAsignaciones.Size = new Size(443, 150);
+            dgvAsignaciones.TabIndex = 26;
+            // 
             // FrmAsignarMembresia
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 518);
+            Controls.Add(dgvAsignaciones);
+            Controls.Add(txtBuscar);
+            Controls.Add(label11);
             Controls.Add(rbInactivo);
             Controls.Add(rbActivo);
             Controls.Add(dtpVencimiento);
@@ -287,10 +319,10 @@
             Controls.Add(txtCedula);
             Controls.Add(txtTelefono);
             Controls.Add(cmbCliente);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnLimpiar);
+            Controls.Add(btnEditar);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnAsignar);
             Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(label8);
@@ -305,6 +337,7 @@
             Text = "FrmAsignarMembresia";
             Load += FrmAsignarMembresia_Load;
             ((System.ComponentModel.ISupportInitialize)nudDuracion).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvAsignaciones).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -321,10 +354,10 @@
         private Label label8;
         private Label label9;
         private Label label10;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
+        private Button btnAsignar;
+        private Button btnCancelar;
+        private Button btnEditar;
+        private Button btnLimpiar;
         private ComboBox cmbCliente;
         private TextBox txtTelefono;
         private MaskedTextBox txtCedula;
@@ -335,5 +368,8 @@
         private DateTimePicker dtpVencimiento;
         private RadioButton rbActivo;
         private RadioButton rbInactivo;
+        private Label label11;
+        private TextBox txtBuscar;
+        private DataGridView dgvAsignaciones;
     }
 }
