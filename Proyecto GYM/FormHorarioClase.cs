@@ -27,19 +27,38 @@ namespace Proyecto_GYM
             if (cmbDia != null) cmbDia.DropDownStyle = ComboBoxStyle.DropDownList;
             if (cmbEntrenador != null) cmbEntrenador.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            // Configuración adecuada de DateTimePicker con AM/PM y botones UpDown
+            // Configuración adecuada de DateTimePicker en formato 24 horas
+            //
+            // FIX DEFINITIVO: se elimina por completo el uso de "tt" (AM/PM).
+            // El problema real era que la cultura regional del equipo (es-ES / es-DO,
+            // etc.) tiene el designador AM/PM VACÍO ("" en vez de "AM"/"PM"). Eso
+            // hacía que el control mostrara "10:30" o "11:45" sin ningún indicador,
+            // pero por dentro seguía guardando un valor de 12 horas con AM/PM que el
+            // usuario no podía ver ni cambiar correctamente, generando comparaciones
+            // erróneas contra la jornada laboral del entrenador (ej. 11:45 se
+            // guardaba como 23:45 en vez de 11:45).
+            //
+            // Usando formato 24 horas (HH:mm) se elimina la ambigüedad de raíz,
+            // sin depender de la configuración regional de Windows.
             if (dtpHoraInicio != null)
             {
                 dtpHoraInicio.Format = DateTimePickerFormat.Custom;
-                dtpHoraInicio.CustomFormat = "hh:mm tt";
+                dtpHoraInicio.CustomFormat = "HH:mm";
                 dtpHoraInicio.ShowUpDown = true;
+
+                // Valor por defecto explícito (9:00 AM / 09:00)
+                dtpHoraInicio.Value = DateTime.Today.AddHours(9);
             }
 
             if (dtpHoraFin != null)
             {
                 dtpHoraFin.Format = DateTimePickerFormat.Custom;
-                dtpHoraFin.CustomFormat = "hh:mm tt";
+                dtpHoraFin.CustomFormat = "HH:mm";
                 dtpHoraFin.ShowUpDown = true;
+
+                // Valor por defecto explícito (10:00 AM / 10:00), una hora
+                // después del inicio, para que la validación inicial nunca falle.
+                dtpHoraFin.Value = DateTime.Today.AddHours(10);
             }
 
             if (nudCapacidad != null)
@@ -226,10 +245,13 @@ namespace Proyecto_GYM
 
                                 if (inicio < horaEntradaEntrenador || fin > horaSalidaEntrenador)
                                 {
-                                    string hEnt = DateTime.Today.Add(horaEntradaEntrenador).ToString("hh:mm tt");
-                                    string hSal = DateTime.Today.Add(horaSalidaEntrenador).ToString("hh:mm tt");
-                                    string hIni = DateTime.Today.Add(inicio).ToString("hh:mm tt");
-                                    string hFin = DateTime.Today.Add(fin).ToString("hh:mm tt");
+                                    // FIX: se usa formato 24h ("HH:mm") en vez de "hh:mm tt"
+                                    // para que el mensaje sea consistente con lo que el
+                                    // usuario ve y selecciona en el formulario.
+                                    string hEnt = DateTime.Today.Add(horaEntradaEntrenador).ToString("HH:mm");
+                                    string hSal = DateTime.Today.Add(horaSalidaEntrenador).ToString("HH:mm");
+                                    string hIni = DateTime.Today.Add(inicio).ToString("HH:mm");
+                                    string hFin = DateTime.Today.Add(fin).ToString("HH:mm");
 
                                     MessageBox.Show($"El horario de la clase ({hIni} - {hFin}) se encuentra fuera de la jornada laboral del entrenador ({hEnt} - {hSal}).",
                                                     "Conflicto de Horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -309,7 +331,12 @@ namespace Proyecto_GYM
 
             if (inicio >= fin)
             {
-                MessageBox.Show("La hora de inicio debe ser menor a la hora de fin.\nVerifique los campos AM / PM.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // FIX: mensaje simplificado a formato 24h únicamente, ya que
+                // el control ya no maneja AM/PM.
+                MessageBox.Show(
+                    $"La hora de inicio debe ser menor a la hora de fin.\n" +
+                    $"Inicio: {dtpHoraInicio.Value:HH:mm}   Fin: {dtpHoraFin.Value:HH:mm}",
+                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 dtpHoraInicio.Focus();
                 return false;
             }
@@ -540,8 +567,11 @@ namespace Proyecto_GYM
 
             if (cmbEntrenador != null) cmbEntrenador.DataSource = null;
 
-            dtpHoraInicio.Value = DateTime.Now;
-            dtpHoraFin.Value = DateTime.Now;
+            // FIX: se reemplaza DateTime.Now por valores explícitos (09:00 y
+            // 10:00 en formato 24h), evitando cualquier ambigüedad de horario
+            // que rompa la validación.
+            dtpHoraInicio.Value = DateTime.Today.AddHours(9);
+            dtpHoraFin.Value = DateTime.Today.AddHours(10);
 
             if (nudCapacidad != null) nudCapacidad.Value = 20;
 

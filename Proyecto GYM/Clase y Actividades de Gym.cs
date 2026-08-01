@@ -45,9 +45,14 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
 
-                    using (SqlCommand cmd = new SqlCommand("sp_ObtenerEntrenadoresCombo", con))
+                    // Se consulta únicamente Nombre y Apellido (sin concatenar cédula)
+                    string query = @"SELECT id_entrenador, 
+                                            ISNULL(nombre, '') + ' ' + ISNULL(apellido, '') AS nombre_completo 
+                                     FROM entrenadores 
+                                     WHERE estado = 1";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         DataTable dt = new DataTable();
                         da.Fill(dt);
@@ -95,7 +100,7 @@ namespace Proyecto_GYM
 
                         dgvClases.DataSource = dt;
 
-                        // Ocultar IDs que no son necesarios mostrar directamente al usuario en la vista
+                        // Ocultar IDs no necesarios para el usuario
                         if (dgvClases.Columns.Contains("id_clase")) dgvClases.Columns["id_clase"].Visible = false;
                         if (dgvClases.Columns.Contains("id_entrenador")) dgvClases.Columns["id_entrenador"].Visible = false;
                     }
@@ -249,7 +254,6 @@ namespace Proyecto_GYM
             {
                 DataGridViewRow fila = dgvClases.Rows[e.RowIndex];
 
-                // Cargar ID de la Clase
                 if (dgvClases.Columns.Contains("id_clase"))
                 {
                     object? valId = fila.Cells["id_clase"].Value;
@@ -259,7 +263,6 @@ namespace Proyecto_GYM
                     }
                 }
 
-                // Cargar Nombre y Descripción (Validando nombres de columnas comunes)
                 if (dgvClases.Columns.Contains("Nombre"))
                     txtNombre.Text = fila.Cells["Nombre"].Value?.ToString() ?? "";
                 else if (dgvClases.Columns.Contains("nombre"))
@@ -270,7 +273,6 @@ namespace Proyecto_GYM
                 else if (dgvClases.Columns.Contains("descripcion"))
                     txtDescripcion.Text = fila.Cells["descripcion"].Value?.ToString() ?? "";
 
-                // Seleccionar Entrenador en el ComboBox
                 if (dgvClases.Columns.Contains("id_entrenador") && cmbEntrenador != null)
                 {
                     object? idEntrenadorVal = fila.Cells["id_entrenador"].Value;
@@ -285,7 +287,6 @@ namespace Proyecto_GYM
                     }
                 }
 
-                // Cargar Cupo Máximo
                 string? colCupo = null;
                 if (dgvClases.Columns.Contains("Cupo Máximo")) colCupo = "Cupo Máximo";
                 else if (dgvClases.Columns.Contains("cupo_maximo")) colCupo = "cupo_maximo";
@@ -302,7 +303,6 @@ namespace Proyecto_GYM
                     }
                 }
 
-                // Cargar Estado
                 string? colEstado = null;
                 if (dgvClases.Columns.Contains("Estado")) colEstado = "Estado";
                 else if (dgvClases.Columns.Contains("estado")) colEstado = "estado";

@@ -196,7 +196,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(7811, 2);
+            panel5.Size = new Size(8374, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -276,6 +276,7 @@
             button3.TabIndex = 6;
             button3.Text = "Tipos de Membresías";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
