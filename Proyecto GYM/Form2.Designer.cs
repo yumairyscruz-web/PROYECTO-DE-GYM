@@ -196,7 +196,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(8374, 2);
+            panel5.Size = new Size(8937, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -224,6 +224,7 @@
             button7.TabIndex = 9;
             button7.Text = "Categorías";
             button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
             // 
             // label1
             // 

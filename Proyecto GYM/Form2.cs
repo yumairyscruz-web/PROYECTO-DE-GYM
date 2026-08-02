@@ -139,5 +139,10 @@ namespace Proyecto_GYM
         {
             AbrirRenovacionMembresia();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormCategorias(), "Mantenimiento de Categorías de Productos");
+        }
     }
 }
