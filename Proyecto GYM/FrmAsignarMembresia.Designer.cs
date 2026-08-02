@@ -143,7 +143,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(341, 216);
+            label9.Location = new Point(359, 227);
             label9.Name = "label9";
             label9.Size = new Size(155, 21);
             label9.TabIndex = 8;
@@ -163,7 +163,7 @@
             // 
             btnAsignar.Location = new Point(359, 274);
             btnAsignar.Name = "btnAsignar";
-            btnAsignar.Size = new Size(80, 40);
+            btnAsignar.Size = new Size(84, 40);
             btnAsignar.TabIndex = 10;
             btnAsignar.Text = "Asignar";
             btnAsignar.UseVisualStyleBackColor = true;
@@ -172,16 +172,16 @@
             // 
             btnCancelar.Location = new Point(457, 274);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(80, 40);
+            btnCancelar.Size = new Size(85, 40);
             btnCancelar.TabIndex = 11;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(576, 274);
+            btnEditar.Location = new Point(571, 274);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(80, 40);
+            btnEditar.Size = new Size(85, 40);
             btnEditar.TabIndex = 12;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
@@ -190,7 +190,7 @@
             // 
             btnLimpiar.Location = new Point(668, 274);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(80, 40);
+            btnLimpiar.Size = new Size(85, 40);
             btnLimpiar.TabIndex = 13;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
@@ -249,7 +249,7 @@
             // 
             // dtpVencimiento
             // 
-            dtpVencimiento.Location = new Point(530, 216);
+            dtpVencimiento.Location = new Point(544, 226);
             dtpVencimiento.Name = "dtpVencimiento";
             dtpVencimiento.Size = new Size(200, 23);
             dtpVencimiento.TabIndex = 21;
@@ -280,7 +280,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(62, 335);
+            label11.Location = new Point(55, 326);
             label11.Name = "label11";
             label11.Size = new Size(60, 21);
             label11.TabIndex = 24;
@@ -288,7 +288,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(134, 337);
+            txtBuscar.Location = new Point(134, 328);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(173, 23);
             txtBuscar.TabIndex = 25;
@@ -296,16 +296,16 @@
             // dgvAsignaciones
             // 
             dgvAsignaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAsignaciones.Location = new Point(134, 366);
+            dgvAsignaciones.Location = new Point(134, 376);
             dgvAsignaciones.Name = "dgvAsignaciones";
-            dgvAsignaciones.Size = new Size(443, 150);
+            dgvAsignaciones.Size = new Size(464, 150);
             dgvAsignaciones.TabIndex = 26;
             // 
             // FrmAsignarMembresia
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 518);
+            ClientSize = new Size(800, 526);
             Controls.Add(dgvAsignaciones);
             Controls.Add(txtBuscar);
             Controls.Add(label11);

@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            cmbiInactivo = new RadioButton();
+            cmbActivo = new RadioButton();
+            txtCodigo = new TextBox();
+            label6 = new Label();
+            button2 = new Button();
+            button1 = new Button();
             dgvMembresias = new DataGridView();
             btnLimpiar = new Button();
             btnEliminar = new Button();
@@ -38,22 +44,16 @@
             txtBuscar = new TextBox();
             txtDescripcion = new TextBox();
             txtNombre = new TextBox();
-            nudDuracionDias = new NumericUpDown();
+            nudDuracionmeses = new NumericUpDown();
             nudPrecio = new NumericUpDown();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
             lblNombre = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            label6 = new Label();
-            textBox1 = new TextBox();
-            cmbActivo = new RadioButton();
-            cmbiInactivo = new RadioButton();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMembresias).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudDuracionDias).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudDuracionmeses).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             SuspendLayout();
             // 
@@ -62,7 +62,7 @@
             panel1.BackColor = Color.White;
             panel1.Controls.Add(cmbiInactivo);
             panel1.Controls.Add(cmbActivo);
-            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(txtCodigo);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
@@ -75,7 +75,7 @@
             panel1.Controls.Add(txtBuscar);
             panel1.Controls.Add(txtDescripcion);
             panel1.Controls.Add(txtNombre);
-            panel1.Controls.Add(nudDuracionDias);
+            panel1.Controls.Add(nudDuracionmeses);
             panel1.Controls.Add(nudPrecio);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
@@ -86,6 +86,63 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(786, 481);
             panel1.TabIndex = 0;
+            // 
+            // cmbiInactivo
+            // 
+            cmbiInactivo.AutoSize = true;
+            cmbiInactivo.Location = new Point(657, 75);
+            cmbiInactivo.Name = "cmbiInactivo";
+            cmbiInactivo.Size = new Size(67, 19);
+            cmbiInactivo.TabIndex = 22;
+            cmbiInactivo.TabStop = true;
+            cmbiInactivo.Text = "Inactivo";
+            cmbiInactivo.UseVisualStyleBackColor = true;
+            // 
+            // cmbActivo
+            // 
+            cmbActivo.AutoSize = true;
+            cmbActivo.Location = new Point(575, 75);
+            cmbActivo.Name = "cmbActivo";
+            cmbActivo.Size = new Size(59, 19);
+            cmbActivo.TabIndex = 21;
+            cmbActivo.TabStop = true;
+            cmbActivo.Text = "Activo";
+            cmbActivo.UseVisualStyleBackColor = true;
+            // 
+            // txtCodigo
+            // 
+            txtCodigo.Location = new Point(162, 28);
+            txtCodigo.Name = "txtCodigo";
+            txtCodigo.Size = new Size(100, 23);
+            txtCodigo.TabIndex = 20;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(58, 28);
+            label6.Name = "label6";
+            label6.Size = new Size(69, 21);
+            label6.TabIndex = 19;
+            label6.Text = "Código:";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(657, 189);
+            button2.Name = "button2";
+            button2.Size = new Size(89, 44);
+            button2.TabIndex = 18;
+            button2.Text = "Renovar Membresía";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(545, 189);
+            button1.Name = "button1";
+            button1.Size = new Size(89, 44);
+            button1.TabIndex = 17;
+            button1.Text = "Asignar Membresía";
+            button1.UseVisualStyleBackColor = true;
             // 
             // dgvMembresias
             // 
@@ -163,15 +220,15 @@
             txtNombre.Size = new Size(192, 23);
             txtNombre.TabIndex = 8;
             // 
-            // nudDuracionDias
+            // nudDuracionmeses
             // 
-            nudDuracionDias.Location = new Point(605, 26);
-            nudDuracionDias.Maximum = new decimal(new int[] { 3650, 0, 0, 0 });
-            nudDuracionDias.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nudDuracionDias.Name = "nudDuracionDias";
-            nudDuracionDias.Size = new Size(120, 23);
-            nudDuracionDias.TabIndex = 6;
-            nudDuracionDias.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudDuracionmeses.Location = new Point(605, 26);
+            nudDuracionmeses.Maximum = new decimal(new int[] { 3650, 0, 0, 0 });
+            nudDuracionmeses.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudDuracionmeses.Name = "nudDuracionmeses";
+            nudDuracionmeses.Size = new Size(120, 23);
+            nudDuracionmeses.TabIndex = 6;
+            nudDuracionmeses.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // nudPrecio
             // 
@@ -233,63 +290,6 @@
             lblNombre.TabIndex = 0;
             lblNombre.Text = "Nombre de la membresía";
             // 
-            // button1
-            // 
-            button1.Location = new Point(545, 189);
-            button1.Name = "button1";
-            button1.Size = new Size(89, 44);
-            button1.TabIndex = 17;
-            button1.Text = "Asignar Membresía";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(657, 189);
-            button2.Name = "button2";
-            button2.Size = new Size(89, 44);
-            button2.TabIndex = 18;
-            button2.Text = "Renovar Membresía";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(58, 28);
-            label6.Name = "label6";
-            label6.Size = new Size(69, 21);
-            label6.TabIndex = 19;
-            label6.Text = "Código:";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(162, 28);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
-            textBox1.TabIndex = 20;
-            // 
-            // cmbActivo
-            // 
-            cmbActivo.AutoSize = true;
-            cmbActivo.Location = new Point(575, 75);
-            cmbActivo.Name = "cmbActivo";
-            cmbActivo.Size = new Size(59, 19);
-            cmbActivo.TabIndex = 21;
-            cmbActivo.TabStop = true;
-            cmbActivo.Text = "Activo";
-            cmbActivo.UseVisualStyleBackColor = true;
-            // 
-            // cmbiInactivo
-            // 
-            cmbiInactivo.AutoSize = true;
-            cmbiInactivo.Location = new Point(657, 75);
-            cmbiInactivo.Name = "cmbiInactivo";
-            cmbiInactivo.Size = new Size(67, 19);
-            cmbiInactivo.TabIndex = 22;
-            cmbiInactivo.TabStop = true;
-            cmbiInactivo.Text = "Inactivo";
-            cmbiInactivo.UseVisualStyleBackColor = true;
-            // 
             // FormTiposMembresias
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -301,7 +301,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMembresias).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudDuracionDias).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudDuracionmeses).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             ResumeLayout(false);
         }
@@ -314,7 +314,7 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private NumericUpDown nudDuracionDias;
+        private NumericUpDown nudDuracionmeses;
         private NumericUpDown nudPrecio;
         private TextBox txtNombre;
         private DataGridView dgvMembresias;
@@ -327,7 +327,7 @@
         private TextBox txtDescripcion;
         private Button button2;
         private Button button1;
-        private TextBox textBox1;
+        private TextBox txtCodigo;
         private Label label6;
         private RadioButton cmbiInactivo;
         private RadioButton cmbActivo;
