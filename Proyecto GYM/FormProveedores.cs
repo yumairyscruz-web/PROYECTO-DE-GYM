@@ -7,7 +7,8 @@ namespace Proyecto_GYM
 {
     public partial class FormProveedores : Form
     {
-        private string cadenaConexion = "Server=.;Database=GimnasioDB;Integrated Security=True;TrustServerCertificate=True;";
+        // Bandera para evitar que eventos del formulario se disparen al poblar controles
+        private bool cargandoDatos = false;
 
         public FormProveedores()
         {
@@ -16,29 +17,41 @@ namespace Proyecto_GYM
 
         private void FormProveedores_Load(object sender, EventArgs e)
         {
+            cargandoDatos = true;
+
             CargarTablaProveedores();
             LimpiarCampos();
+
+            cargandoDatos = false;
         }
 
         private void CargarTablaProveedores(string criterio = "")
         {
             try
             {
-                using (SqlConnection con = new SqlConnection(cadenaConexion))
+                using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlCommand cmd = new SqlCommand("sp_ListarProveedores", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@criterio", criterio);
+                    if (con.State == ConnectionState.Closed) con.Open();
 
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dgvProveedores.DataSource = dt;
+                    using (SqlCommand cmd = new SqlCommand("sp_ListarProveedores", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@criterio", criterio);
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        cargandoDatos = true;
+                        dgvProveedores.DataSource = dt;
+                        cargandoDatos = false;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar proveedores: " + ex.Message, "Error de SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cargandoDatos = false;
+                MessageBox.Show("Error al cargar la lista de proveedores: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -47,27 +60,31 @@ namespace Proyecto_GYM
             if (string.IsNullOrWhiteSpace(txtNombreEmpresa.Text))
             {
                 MessageBox.Show("Por favor ingrese el Nombre de la Empresa.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreEmpresa.Focus();
                 return;
             }
 
             try
             {
-                using (SqlConnection con = new SqlConnection(cadenaConexion))
+                using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlCommand cmd = new SqlCommand("sp_GuardarProveedor", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (con.State == ConnectionState.Closed) con.Open();
 
-                    cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
-                    cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim());
-                    cmd.Parameters.AddWithValue("@contacto_nombre", txtContacto.Text.Trim());
-                    cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
-                    cmd.Parameters.AddWithValue("@correo", txtEmail.Text.Trim());
-                    cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
-                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
+                    using (SqlCommand cmd = new SqlCommand("sp_GuardarProveedor", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Proveedor registrado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
+                        cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim());
+                        cmd.Parameters.AddWithValue("@contacto_nombre", txtContacto.Text.Trim());
+                        cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
+                        cmd.Parameters.AddWithValue("@correo", txtEmail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
+                        cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Proveedor registrado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 CargarTablaProveedores();
@@ -75,7 +92,7 @@ namespace Proyecto_GYM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al guardar el proveedor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -89,23 +106,29 @@ namespace Proyecto_GYM
 
             try
             {
-                using (SqlConnection con = new SqlConnection(cadenaConexion))
+                using (SqlConnection con = Conexion.ObtenerConexion())
                 {
-                    SqlCommand cmd = new SqlCommand("sp_EditarProveedor", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (con.State == ConnectionState.Closed) con.Open();
 
-                    cmd.Parameters.AddWithValue("@id_proveedor", Convert.ToInt32(txtIdProveedor.Text));
-                    cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
-                    cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim());
-                    cmd.Parameters.AddWithValue("@contacto_nombre", txtContacto.Text.Trim());
-                    cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
-                    cmd.Parameters.AddWithValue("@correo", txtEmail.Text.Trim());
-                    cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
-                    cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
+                    using (SqlCommand cmd = new SqlCommand("sp_GuardarProveedor", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                        // Solo agrega los parámetros QUE REALMENTE pida el Stored Procedure:
+                        cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim()); cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
+                        cmd.Parameters.AddWithValue("@nombre_contacto", txtContacto.Text.Trim());
+                        cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
+                        cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
+                        cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
+
+                        // Si tu SP también recibe el ID para saber si edita o inserta, agrégalo:
+                        // cmd.Parameters.AddWithValue("@id_proveedor", string.IsNullOrEmpty(txtIdProveedor.Text) ? (object)DBNull.Value : Convert.ToInt32(txtIdProveedor.Text));
+
+                        cmd.ExecuteNonQuery();
+                    
                     MessageBox.Show("Proveedor actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 CargarTablaProveedores();
@@ -113,7 +136,7 @@ namespace Proyecto_GYM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al editar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al editar el proveedor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -121,6 +144,8 @@ namespace Proyecto_GYM
         {
             if (e.RowIndex >= 0)
             {
+                cargandoDatos = true;
+
                 DataGridViewRow fila = dgvProveedores.Rows[e.RowIndex];
 
                 txtIdProveedor.Text = fila.Cells["Código"].Value?.ToString() ?? "";
@@ -134,6 +159,8 @@ namespace Proyecto_GYM
                 string estadoStr = fila.Cells["Estado"].Value?.ToString() ?? "Activo";
                 rbActivo.Checked = (estadoStr == "Activo");
                 rbInactivo.Checked = (estadoStr == "Inactivo");
+
+                cargandoDatos = false;
             }
         }
 
@@ -149,6 +176,8 @@ namespace Proyecto_GYM
 
         private void LimpiarCampos()
         {
+            cargandoDatos = true;
+
             txtIdProveedor.Clear();
             txtRNC.Clear();
             txtNombreEmpresa.Clear();
@@ -158,6 +187,8 @@ namespace Proyecto_GYM
             txtDireccion.Clear();
             txtBuscar.Clear();
             rbActivo.Checked = true;
+
+            cargandoDatos = false;
         }
     }
 }

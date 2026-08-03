@@ -120,7 +120,7 @@
             // dgvCategorias
             // 
             dgvCategorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCategorias.Location = new Point(74, 274);
+            dgvCategorias.Location = new Point(74, 283);
             dgvCategorias.Name = "dgvCategorias";
             dgvCategorias.Size = new Size(621, 164);
             dgvCategorias.TabIndex = 7;
@@ -136,17 +136,18 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(156, 105);
+            txtNombre.Location = new Point(150, 105);
+            txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(166, 23);
+            txtNombre.Size = new Size(257, 32);
             txtNombre.TabIndex = 9;
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(150, 143);
+            txtDescripcion.Location = new Point(150, 155);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(335, 33);
+            txtDescripcion.Size = new Size(394, 33);
             txtDescripcion.TabIndex = 10;
             // 
             // rbActivo

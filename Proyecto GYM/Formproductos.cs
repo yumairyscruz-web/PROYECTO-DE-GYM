@@ -15,10 +15,26 @@ namespace Proyecto_GYM
 
         private void FormProductos_Load(object sender, EventArgs e)
         {
+            ConfigurarLimitesNumericos();
             CargarComboCategorias();
-            CargarComboMarcas();
+            CargarComboMarcas(); // Carga dinámica de marcas desde la BD
             CargarTablaProductos();
             LimpiarCampos();
+        }
+
+        private void ConfigurarLimitesNumericos()
+        {
+            numPrecioCompra.Minimum = 0m;
+            numPrecioCompra.Maximum = 1000000m;
+
+            numPrecioVenta.Minimum = 0m;
+            numPrecioVenta.Maximum = 1000000m;
+
+            numStock.Minimum = 0m;
+            numStock.Maximum = 100000m;
+
+            numStockMinimo.Minimum = 0m;
+            numStockMinimo.Maximum = 100000m;
         }
 
         private void CargarComboCategorias()
@@ -115,6 +131,7 @@ namespace Proyecto_GYM
 
                         dgvProductos.DataSource = dt;
 
+                        // Ocultar IDs que solo sirven para la lógica interna
                         if (dgvProductos.Columns["id_categoria"] != null) dgvProductos.Columns["id_categoria"].Visible = false;
                         if (dgvProductos.Columns["id_marca"] != null) dgvProductos.Columns["id_marca"].Visible = false;
                         if (dgvProductos.Columns["descripcion"] != null) dgvProductos.Columns["descripcion"].Visible = false;
@@ -160,16 +177,16 @@ namespace Proyecto_GYM
                 return;
             }
 
-            if (cmbCategoria.SelectedIndex == -1)
+            if (cmbCategoria.SelectedValue == null)
             {
-                MessageBox.Show("Seleccione una categoría.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione una categoría válida.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbCategoria.Focus();
                 return;
             }
 
-            if (cmbMarca.SelectedIndex == -1)
+            if (cmbMarca.SelectedValue == null)
             {
-                MessageBox.Show("Seleccione una marca.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione una marca válida.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbMarca.Focus();
                 return;
             }
@@ -285,10 +302,10 @@ namespace Proyecto_GYM
                 else
                     cmbMarca.SelectedIndex = -1;
 
-                numPrecioCompra.Value = decimal.TryParse(row.Cells["P. Compra"].Value?.ToString(), out decimal pc) ? pc : 0;
-                numPrecioVenta.Value = decimal.TryParse(row.Cells["P. Venta"].Value?.ToString(), out decimal pv) ? pv : 0;
-                numStock.Value = decimal.TryParse(row.Cells["Stock"].Value?.ToString(), out decimal st) ? st : 0;
-                numStockMinimo.Value = decimal.TryParse(row.Cells["Stock Min."].Value?.ToString(), out decimal sm) ? sm : 5;
+                numPrecioCompra.Value = decimal.TryParse(row.Cells["P. Compra"].Value?.ToString(), out decimal pc) ? pc : 0m;
+                numPrecioVenta.Value = decimal.TryParse(row.Cells["P. Venta"].Value?.ToString(), out decimal pv) ? pv : 0m;
+                numStock.Value = decimal.TryParse(row.Cells["Stock"].Value?.ToString(), out decimal st) ? st : 0m;
+                numStockMinimo.Value = decimal.TryParse(row.Cells["Stock Min."].Value?.ToString(), out decimal sm) ? sm : 5m;
 
                 string estado = row.Cells["Estado"].Value?.ToString() ?? "Activo";
                 if (estado == "Activo") rbActivo.Checked = true; else rbInactivo.Checked = true;
@@ -307,12 +324,15 @@ namespace Proyecto_GYM
             txtCodigoBarras.Clear();
             txtNombre.Clear();
             txtDescripcion.Clear();
+
             cmbCategoria.SelectedIndex = -1;
             cmbMarca.SelectedIndex = -1;
-            numPrecioCompra.Value = 0;
-            numPrecioVenta.Value = 0;
-            numStock.Value = 0;
-            numStockMinimo.Value = 5;
+
+            numPrecioCompra.Value = 0m;
+            numPrecioVenta.Value = 0m;
+            numStock.Value = 0m;
+            numStockMinimo.Value = 5m;
+
             rbActivo.Checked = true;
             txtNombre.Focus();
         }

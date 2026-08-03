@@ -162,7 +162,7 @@
             button9.FlatAppearance.BorderSize = 0;
             button9.FlatStyle = FlatStyle.Flat;
             button9.ForeColor = Color.White;
-            button9.Location = new Point(26, 259);
+            button9.Location = new Point(26, 334);
             button9.Name = "button9";
             button9.Size = new Size(104, 26);
             button9.TabIndex = 14;
@@ -176,7 +176,7 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.White;
-            button4.Location = new Point(26, 237);
+            button4.Location = new Point(34, 313);
             button4.Name = "button4";
             button4.Size = new Size(86, 26);
             button4.TabIndex = 13;
@@ -198,7 +198,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(10063, 2);
+            panel5.Size = new Size(10626, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -220,7 +220,7 @@
             button7.FlatAppearance.BorderSize = 0;
             button7.FlatStyle = FlatStyle.Flat;
             button7.ForeColor = Color.White;
-            button7.Location = new Point(34, 205);
+            button7.Location = new Point(34, 291);
             button7.Name = "button7";
             button7.Size = new Size(86, 26);
             button7.TabIndex = 9;
@@ -245,7 +245,7 @@
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
             button6.ForeColor = Color.White;
-            button6.Location = new Point(26, 334);
+            button6.Location = new Point(26, 259);
             button6.Name = "button6";
             button6.Size = new Size(138, 26);
             button6.TabIndex = 8;
@@ -259,7 +259,7 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.ForeColor = Color.White;
-            button5.Location = new Point(26, 311);
+            button5.Location = new Point(26, 237);
             button5.Name = "button5";
             button5.Size = new Size(149, 26);
             button5.TabIndex = 7;
@@ -273,7 +273,7 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
-            button3.Location = new Point(26, 280);
+            button3.Location = new Point(27, 205);
             button3.Name = "button3";
             button3.Size = new Size(157, 26);
             button3.TabIndex = 6;

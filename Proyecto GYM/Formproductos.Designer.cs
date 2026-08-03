@@ -306,6 +306,7 @@ namespace Proyecto_GYM
             // cmbMarca
             // 
             cmbMarca.FormattingEnabled = true;
+            cmbMarca.Items.AddRange(new object[] { "Optimum Nutrition", "MuscleTech", "Cellucor", "Nike", "Gatorade" });
             cmbMarca.Location = new Point(450, 103);
             cmbMarca.Name = "cmbMarca";
             cmbMarca.Size = new Size(138, 23);
@@ -333,17 +334,23 @@ namespace Proyecto_GYM
             // 
             // numPrecioVenta
             // 
+            numPrecioVenta.DecimalPlaces = 2;
             numPrecioVenta.Location = new Point(459, 183);
+            numPrecioVenta.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             numPrecioVenta.Name = "numPrecioVenta";
             numPrecioVenta.Size = new Size(120, 23);
             numPrecioVenta.TabIndex = 30;
+            numPrecioVenta.Value = new decimal(new int[] { 10000, 0, 0, 0 });
             // 
             // numPrecioCompra
             // 
+            numPrecioCompra.DecimalPlaces = 2;
             numPrecioCompra.Location = new Point(163, 188);
+            numPrecioCompra.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             numPrecioCompra.Name = "numPrecioCompra";
             numPrecioCompra.Size = new Size(120, 23);
             numPrecioCompra.TabIndex = 31;
+            numPrecioCompra.Value = new decimal(new int[] { 10000, 0, 0, 0 });
             // 
             // numStock
             // 
