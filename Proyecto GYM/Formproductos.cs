@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 
@@ -138,8 +139,10 @@ namespace Proyecto_GYM
                 dgvProductos.AllowUserToAddRows = false;
                 dgvProductos.ReadOnly = true;
 
-                dgvProductos.Columns["P. Compra"].DefaultCellStyle.Format = "N2";
-                dgvProductos.Columns["P. Venta"].DefaultCellStyle.Format = "N2";
+                if (dgvProductos.Columns["P. Compra"] != null)
+                    dgvProductos.Columns["P. Compra"].DefaultCellStyle.Format = "N2";
+                if (dgvProductos.Columns["P. Venta"] != null)
+                    dgvProductos.Columns["P. Venta"].DefaultCellStyle.Format = "N2";
             }
         }
 

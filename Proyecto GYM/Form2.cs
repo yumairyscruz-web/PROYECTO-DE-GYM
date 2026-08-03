@@ -144,5 +144,17 @@ namespace Proyecto_GYM
         {
             AbrirFormularioHijo(new FormCategorias(), "Mantenimiento de Categorías de Productos");
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormProductos(), "GESTIÓN DE PRODUCTOS");
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormProveedores(), "Mantenimiento de Proveedores");
+
+        }
     }
 }

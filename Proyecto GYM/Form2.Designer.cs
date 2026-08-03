@@ -168,6 +168,7 @@
             button9.TabIndex = 14;
             button9.Text = "Proveedores";
             button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
             // 
             // button4
             // 
@@ -181,6 +182,7 @@
             button4.TabIndex = 13;
             button4.Text = "Productos";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // panel6
             // 
@@ -196,7 +198,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(8937, 2);
+            panel5.Size = new Size(10063, 2);
             panel5.TabIndex = 11;
             // 
             // button8

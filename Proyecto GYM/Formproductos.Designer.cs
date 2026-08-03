@@ -1,16 +1,10 @@
-﻿namespace Proyecto_GYM
+﻿
+namespace Proyecto_GYM
 {
-    partial class Formproductos
+    partial class FormProductos
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +16,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             label1 = new Label();
@@ -140,45 +130,49 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(313, 295);
+            btnGuardar.Location = new Point(313, 302);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(88, 37);
             btnGuardar.TabIndex = 7;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // tnEditar
             // 
-            tnEditar.Location = new Point(407, 293);
+            tnEditar.Location = new Point(407, 305);
             tnEditar.Name = "tnEditar";
             tnEditar.Size = new Size(88, 37);
             tnEditar.TabIndex = 8;
             tnEditar.Text = "Editar";
             tnEditar.UseVisualStyleBackColor = true;
+            tnEditar.Click += btnEditar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(501, 293);
+            btnLimpiar.Location = new Point(500, 305);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(88, 37);
             btnLimpiar.TabIndex = 9;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(595, 295);
+            btnEliminar.Location = new Point(594, 305);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(88, 37);
             btnEliminar.TabIndex = 10;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(31, 358);
+            label8.Location = new Point(31, 368);
             label8.Name = "label8";
             label8.Size = new Size(60, 21);
             label8.TabIndex = 11;
@@ -186,7 +180,7 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(276, 352);
+            btnBuscar.Location = new Point(294, 358);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(88, 37);
             btnBuscar.TabIndex = 12;
@@ -226,11 +220,12 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(97, 360);
+            txtBuscar.Location = new Point(113, 366);
             txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(155, 23);
             txtBuscar.TabIndex = 18;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // rbActivo
             // 
@@ -257,10 +252,11 @@
             // dgvProductos
             // 
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Location = new Point(12, 396);
+            dgvProductos.Location = new Point(12, 407);
             dgvProductos.Name = "dgvProductos";
             dgvProductos.Size = new Size(680, 150);
             dgvProductos.TabIndex = 21;
+            dgvProductos.CellClick += dgvProductos_CellClick;
             // 
             // label9
             // 
@@ -276,6 +272,7 @@
             // 
             txtIdProducto.Location = new Point(163, 19);
             txtIdProducto.Name = "txtIdProducto";
+            txtIdProducto.ReadOnly = true;
             txtIdProducto.Size = new Size(150, 23);
             txtIdProducto.TabIndex = 23;
             // 
@@ -362,7 +359,7 @@
             numStockMinimo.Size = new Size(120, 23);
             numStockMinimo.TabIndex = 33;
             // 
-            // Formproductos
+            // FormProductos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -400,9 +397,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Name = "Formproductos";
-            Text = "Formproductos";
-            Load += Formproductos_Load;
+            Name = "FormProductos";
+            Text = "Gestión de Productos";
+            Load += FormProductos_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
             ((System.ComponentModel.ISupportInitialize)numPrecioVenta).EndInit();
             ((System.ComponentModel.ISupportInitialize)numPrecioCompra).EndInit();
