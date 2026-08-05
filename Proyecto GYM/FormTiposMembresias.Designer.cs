@@ -172,7 +172,7 @@
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(238, 189);
+            btnEditar.Location = new Point(219, 189);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(84, 44);
             btnEditar.TabIndex = 13;
@@ -210,7 +210,7 @@
             txtDescripcion.Location = new Point(144, 145);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(300, 33);
+            txtDescripcion.Size = new Size(375, 33);
             txtDescripcion.TabIndex = 9;
             // 
             // txtNombre

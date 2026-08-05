@@ -66,7 +66,7 @@
             cmbClase.Items.AddRange(new object[] { "Entrenamiento Funcional", "Pesas y Musculación", "Yoga / Pilates", "CrossFit", "Spinning / Ciclismo", "Boxeo / Artes Marciales", "Cardio / Aeróbicos" });
             cmbClase.Location = new Point(25, 109);
             cmbClase.Name = "cmbClase";
-            cmbClase.Size = new Size(144, 23);
+            cmbClase.Size = new Size(184, 23);
             cmbClase.TabIndex = 1;
             cmbClase.SelectedIndexChanged += cmbClase_SelectedIndexChanged;
             // 
@@ -205,9 +205,9 @@
             // 
             cmbEntrenador.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEntrenador.FormattingEnabled = true;
-            cmbEntrenador.Location = new Point(129, 180);
+            cmbEntrenador.Location = new Point(118, 174);
             cmbEntrenador.Name = "cmbEntrenador";
-            cmbEntrenador.Size = new Size(121, 23);
+            cmbEntrenador.Size = new Size(137, 23);
             cmbEntrenador.TabIndex = 15;
             // 
             // label3

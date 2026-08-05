@@ -81,7 +81,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(52, 205);
+            label4.Location = new Point(40, 206);
             label4.Name = "label4";
             label4.Size = new Size(65, 21);
             label4.TabIndex = 3;
@@ -139,7 +139,7 @@
             txtNombre.Location = new Point(150, 105);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(257, 32);
+            txtNombre.Size = new Size(296, 32);
             txtNombre.TabIndex = 9;
             // 
             // txtDescripcion
@@ -147,15 +147,16 @@
             txtDescripcion.Location = new Point(150, 155);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(394, 33);
+            txtDescripcion.Size = new Size(429, 33);
             txtDescripcion.TabIndex = 10;
             // 
             // rbActivo
             // 
             rbActivo.AutoSize = true;
+            rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             rbActivo.Location = new Point(132, 208);
             rbActivo.Name = "rbActivo";
-            rbActivo.Size = new Size(59, 19);
+            rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 11;
             rbActivo.TabStop = true;
             rbActivo.Text = "Activo";
@@ -164,9 +165,10 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
+            rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             rbInactivo.Location = new Point(222, 208);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(67, 19);
+            rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 12;
             rbInactivo.TabStop = true;
             rbInactivo.Text = "Inactivo";
@@ -176,7 +178,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(74, 240);
+            label5.Location = new Point(40, 240);
             label5.Name = "label5";
             label5.Size = new Size(65, 21);
             label5.TabIndex = 13;
@@ -184,9 +186,10 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(156, 242);
+            txtBuscar.Location = new Point(132, 233);
+            txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(190, 23);
+            txtBuscar.Size = new Size(190, 35);
             txtBuscar.TabIndex = 14;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 

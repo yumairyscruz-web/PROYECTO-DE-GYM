@@ -74,7 +74,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(33, 50);
+            label1.Location = new Point(12, 50);
             label1.Name = "label1";
             label1.Size = new Size(73, 21);
             label1.TabIndex = 0;
@@ -84,7 +84,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(247, 41);
+            label2.Location = new Point(246, 50);
             label2.Name = "label2";
             label2.Size = new Size(100, 21);
             label2.TabIndex = 1;
@@ -94,7 +94,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(33, 171);
+            label3.Location = new Point(18, 173);
             label3.Name = "label3";
             label3.Size = new Size(67, 21);
             label3.TabIndex = 2;
@@ -104,7 +104,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(33, 114);
+            label4.Location = new Point(12, 114);
             label4.Name = "label4";
             label4.Size = new Size(77, 21);
             label4.TabIndex = 3;
@@ -124,7 +124,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(33, 232);
+            label6.Location = new Point(18, 227);
             label6.Name = "label6";
             label6.Size = new Size(65, 21);
             label6.TabIndex = 5;
@@ -152,40 +152,40 @@
             // 
             // txtUsuario
             // 
-            txtUsuario.Location = new Point(112, 41);
+            txtUsuario.Location = new Point(91, 43);
             txtUsuario.Multiline = true;
             txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(129, 30);
+            txtUsuario.Size = new Size(150, 30);
             txtUsuario.TabIndex = 8;
             // 
             // txtClave
             // 
-            txtClave.Location = new Point(353, 41);
+            txtClave.Location = new Point(352, 43);
             txtClave.Multiline = true;
             txtClave.Name = "txtClave";
-            txtClave.Size = new Size(129, 30);
+            txtClave.Size = new Size(143, 30);
             txtClave.TabIndex = 9;
             txtClave.UseSystemPasswordChar = true;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(112, 116);
+            txtNombre.Location = new Point(95, 107);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(129, 30);
+            txtNombre.Size = new Size(146, 30);
             txtNombre.TabIndex = 10;
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(353, 116);
+            txtApellido.Location = new Point(341, 114);
             txtApellido.Multiline = true;
             txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(129, 30);
+            txtApellido.Size = new Size(143, 30);
             txtApellido.TabIndex = 11;
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(114, 229);
+            txtCorreo.Location = new Point(95, 227);
             txtCorreo.Multiline = true;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(276, 30);
@@ -193,10 +193,10 @@
             // 
             // txtCedula
             // 
-            txtCedula.Location = new Point(114, 171);
+            txtCedula.Location = new Point(91, 175);
             txtCedula.Mask = "000-000-0000-0";
             txtCedula.Name = "txtCedula";
-            txtCedula.Size = new Size(143, 23);
+            txtCedula.Size = new Size(210, 23);
             txtCedula.TabIndex = 14;
             // 
             // cmbRol
@@ -213,9 +213,10 @@
             // rbActivo
             // 
             rbActivo.AutoSize = true;
+            rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             rbActivo.Location = new Point(536, 259);
             rbActivo.Name = "rbActivo";
-            rbActivo.Size = new Size(59, 19);
+            rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 16;
             rbActivo.TabStop = true;
             rbActivo.Text = "Activo";
@@ -224,9 +225,10 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
+            rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             rbInactivo.Location = new Point(630, 259);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(67, 19);
+            rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 17;
             rbInactivo.TabStop = true;
             rbInactivo.Text = "Inactivo";
@@ -271,7 +273,7 @@
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(90, 32);
             btnEditar.TabIndex = 21;
-            btnEditar.Text = "Actualizar";
+            btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
             btnEditar.Click += btnEditar_Click;
             // 
@@ -291,7 +293,7 @@
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(90, 32);
             btnLimpiar.TabIndex = 23;
-            btnLimpiar.Text = "Eliminar";
+            btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
             // 

@@ -49,7 +49,7 @@
             label10 = new Label();
             rbActivo = new RadioButton();
             rbInactivo = new RadioButton();
-            tnGuardar = new Button();
+            btnGuardar = new Button();
             btnEditar = new Button();
             btnInnativa = new Button();
             btnLimpia = new Button();
@@ -260,15 +260,15 @@
             rbInactivo.Text = "Innactivo";
             rbInactivo.UseVisualStyleBackColor = true;
             // 
-            // tnGuardar
+            // btnGuardar
             // 
-            tnGuardar.Location = new Point(57, 403);
-            tnGuardar.Name = "tnGuardar";
-            tnGuardar.Size = new Size(91, 29);
-            tnGuardar.TabIndex = 22;
-            tnGuardar.Text = "Guardar";
-            tnGuardar.UseVisualStyleBackColor = true;
-            tnGuardar.Click += button2_Click;
+            btnGuardar.Location = new Point(57, 403);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(91, 29);
+            btnGuardar.TabIndex = 22;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += button2_Click;
             // 
             // btnEditar
             // 
@@ -276,7 +276,7 @@
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(97, 29);
             btnEditar.TabIndex = 23;
-            btnEditar.Text = "Actualizar";
+            btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = true;
             btnEditar.Click += btnEditar_Click;
             // 
@@ -288,6 +288,7 @@
             btnInnativa.TabIndex = 24;
             btnInnativa.Text = "Innativa";
             btnInnativa.UseVisualStyleBackColor = true;
+            btnInnativa.Click += btnInactivar_Click;
             // 
             // btnLimpia
             // 
@@ -295,8 +296,9 @@
             btnLimpia.Name = "btnLimpia";
             btnLimpia.Size = new Size(97, 29);
             btnLimpia.TabIndex = 25;
-            btnLimpia.Text = "Eliminar";
+            btnLimpia.Text = "Limpiar";
             btnLimpia.UseVisualStyleBackColor = true;
+            btnLimpia.Click += btnLimpiar_Click;
             // 
             // label11
             // 
@@ -311,7 +313,7 @@
             // 
             txtBuscar.Location = new Point(136, 454);
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(100, 29);
+            txtBuscar.Size = new Size(137, 29);
             txtBuscar.TabIndex = 27;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
@@ -323,22 +325,24 @@
             btnBuscar.TabIndex = 28;
             btnBuscar.Text = "buscar";
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.TextChanged += btnBuscar_Click;
             btnBuscar.Click += btnBuscar_Click;
             // 
             // dgvClientes
             // 
             dgvClientes.BackgroundColor = SystemColors.ActiveCaption;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(3, 492);
+            dgvClientes.Location = new Point(1, 492);
             dgvClientes.Name = "dgvClientes";
-            dgvClientes.Size = new Size(773, 135);
+            dgvClientes.Size = new Size(832, 149);
             dgvClientes.TabIndex = 29;
+            dgvClientes.CellClick += dgvClientes_CellClick;
             // 
             // FormClientes
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(788, 685);
+            ClientSize = new Size(838, 685);
             Controls.Add(pbFoto);
             Controls.Add(dgvClientes);
             Controls.Add(btnBuscar);
@@ -347,7 +351,7 @@
             Controls.Add(btnLimpia);
             Controls.Add(btnInnativa);
             Controls.Add(btnEditar);
-            Controls.Add(tnGuardar);
+            Controls.Add(btnGuardar);
             Controls.Add(rbInactivo);
             Controls.Add(rbActivo);
             Controls.Add(label10);
@@ -373,6 +377,8 @@
             Margin = new Padding(4);
             Name = "FormClientes";
             Text = "FormClientes";
+            Load += FormClientes_Load_1;
+            Click += FormClientes_Load_1;
             ((System.ComponentModel.ISupportInitialize)pbFoto).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
             ResumeLayout(false);
@@ -401,7 +407,7 @@
         private Label label10;
         private RadioButton rbActivo;
         private RadioButton rbInactivo;
-        private Button tnGuardar;
+        private Button btnGuardar;
         private Button btnEditar;
         private Button btnInnativa;
         private Button btnLimpia;

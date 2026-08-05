@@ -141,7 +141,7 @@
             cmbEstado.FormattingEnabled = true;
             cmbEstado.Location = new Point(593, 92);
             cmbEstado.Name = "cmbEstado";
-            cmbEstado.Size = new Size(121, 23);
+            cmbEstado.Size = new Size(128, 23);
             cmbEstado.TabIndex = 9;
             // 
             // txtDescripcion
@@ -149,7 +149,7 @@
             txtDescripcion.Location = new Point(154, 150);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(482, 54);
+            txtDescripcion.Size = new Size(543, 54);
             txtDescripcion.TabIndex = 10;
             // 
             // txtBuscar
