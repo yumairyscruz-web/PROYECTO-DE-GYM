@@ -130,42 +130,54 @@ namespace Proyecto_GYM
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(313, 302);
+            btnGuardar.BackColor = Color.ForestGreen;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = SystemColors.ButtonFace;
+            btnGuardar.Location = new Point(313, 305);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(88, 37);
             btnGuardar.TabIndex = 7;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
             // tnEditar
             // 
+            tnEditar.BackColor = Color.OrangeRed;
+            tnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tnEditar.ForeColor = SystemColors.ControlLightLight;
             tnEditar.Location = new Point(407, 305);
             tnEditar.Name = "tnEditar";
             tnEditar.Size = new Size(88, 37);
             tnEditar.TabIndex = 8;
             tnEditar.Text = "Editar";
-            tnEditar.UseVisualStyleBackColor = true;
+            tnEditar.UseVisualStyleBackColor = false;
             tnEditar.Click += btnEditar_Click;
             // 
             // btnLimpiar
             // 
+            btnLimpiar.BackColor = SystemColors.ButtonShadow;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = SystemColors.ControlLightLight;
             btnLimpiar.Location = new Point(500, 305);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(88, 37);
             btnLimpiar.TabIndex = 9;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
             // btnEliminar
             // 
+            btnEliminar.BackColor = Color.Red;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = SystemColors.ButtonFace;
             btnEliminar.Location = new Point(594, 305);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(88, 37);
+            btnEliminar.Size = new Size(98, 37);
             btnEliminar.TabIndex = 10;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
             // label8
@@ -180,12 +192,15 @@ namespace Proyecto_GYM
             // 
             // btnBuscar
             // 
+            btnBuscar.BackColor = SystemColors.ActiveCaption;
+            btnBuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.ForeColor = SystemColors.ControlLightLight;
             btnBuscar.Location = new Point(291, 362);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(88, 37);
             btnBuscar.TabIndex = 12;
             btnBuscar.Text = "Buscar";
-            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.UseVisualStyleBackColor = false;
             // 
             // cmbCategoria
             // 
@@ -230,9 +245,10 @@ namespace Proyecto_GYM
             // rbActivo
             // 
             rbActivo.AutoSize = true;
+            rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             rbActivo.Location = new Point(113, 311);
             rbActivo.Name = "rbActivo";
-            rbActivo.Size = new Size(59, 19);
+            rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 19;
             rbActivo.TabStop = true;
             rbActivo.Text = "Activo";
@@ -241,9 +257,10 @@ namespace Proyecto_GYM
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
+            rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             rbInactivo.Location = new Point(195, 311);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(67, 19);
+            rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 20;
             rbInactivo.TabStop = true;
             rbInactivo.Text = "Inactivo";
@@ -340,7 +357,7 @@ namespace Proyecto_GYM
             numPrecioVenta.Name = "numPrecioVenta";
             numPrecioVenta.Size = new Size(120, 23);
             numPrecioVenta.TabIndex = 30;
-            numPrecioVenta.Value = new decimal(new int[] { 10000, 0, 0, 0 });
+            numPrecioVenta.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // numPrecioCompra
             // 
@@ -350,7 +367,7 @@ namespace Proyecto_GYM
             numPrecioCompra.Name = "numPrecioCompra";
             numPrecioCompra.Size = new Size(120, 23);
             numPrecioCompra.TabIndex = 31;
-            numPrecioCompra.Value = new decimal(new int[] { 10000, 0, 0, 0 });
+            numPrecioCompra.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // numStock
             // 

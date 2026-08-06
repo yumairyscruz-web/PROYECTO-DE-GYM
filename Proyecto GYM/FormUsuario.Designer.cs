@@ -281,7 +281,7 @@
             // 
             btnInactivar.Location = new Point(236, 276);
             btnInactivar.Name = "btnInactivar";
-            btnInactivar.Size = new Size(90, 32);
+            btnInactivar.Size = new Size(99, 32);
             btnInactivar.TabIndex = 22;
             btnInactivar.Text = "Innactiva";
             btnInactivar.UseVisualStyleBackColor = true;

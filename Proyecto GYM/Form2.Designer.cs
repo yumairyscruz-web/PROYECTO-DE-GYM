@@ -198,7 +198,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(10626, 2);
+            panel5.Size = new Size(11189, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -233,7 +233,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Bell MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ActiveBorder;
-            label1.Location = new Point(26, 93);
+            label1.Location = new Point(19, 101);
             label1.Name = "label1";
             label1.Size = new Size(156, 19);
             label1.TabIndex = 3;

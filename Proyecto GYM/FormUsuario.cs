@@ -1,10 +1,10 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace Proyecto_GYM
 {
@@ -341,7 +341,7 @@ namespace Proyecto_GYM
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
-                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim());
+                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim()); // Guardando la contraseña correctamente
                         cmd.Parameters.AddWithValue("@cedula", txtCedula.Text.Trim());
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
@@ -428,7 +428,7 @@ namespace Proyecto_GYM
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
-                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim());
+                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim()); // Actualizando la contraseña
                         cmd.Parameters.AddWithValue("@cedula", txtCedula.Text.Trim());
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
@@ -492,7 +492,7 @@ namespace Proyecto_GYM
             }
 
             DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea cambiar el estado del usuario a Inactivo?",
-                                                     "Confirmar Inactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                                   "Confirmar Inactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
             {
@@ -502,7 +502,7 @@ namespace Proyecto_GYM
                     {
                         if (con.State == ConnectionState.Closed) con.Open();
 
-                        using (SqlCommand cmd = new SqlCommand("UPDATE usuarios SET estado = 'Inactivo' WHERE usuario = @usuario", con))
+                        using (SqlCommand cmd = new SqlCommand("UPDATE usuarios SET estado = 0 WHERE usuario = @usuario", con))
                         {
                             cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
                             cmd.ExecuteNonQuery();
@@ -537,7 +537,12 @@ namespace Proyecto_GYM
                 txtApellido.Text = dgvUsuarios.Columns.Contains("apellido") ? fila.Cells["apellido"].Value?.ToString() ?? "" : "";
                 txtCorreo.Text = dgvUsuarios.Columns.Contains("correo") ? fila.Cells["correo"].Value?.ToString() ?? "" : "";
 
-                if (dgvUsuarios.Columns.Contains("clave"))
+                // Mapeo seguro de la clave si la columna existe en el grid
+                if (dgvUsuarios.Columns.Contains("clave_hash"))
+                {
+                    txtClave.Text = fila.Cells["clave_hash"].Value?.ToString() ?? "";
+                }
+                else if (dgvUsuarios.Columns.Contains("clave"))
                 {
                     txtClave.Text = fila.Cells["clave"].Value?.ToString() ?? "";
                 }
@@ -569,7 +574,7 @@ namespace Proyecto_GYM
                 if (dgvUsuarios.Columns.Contains("estado"))
                 {
                     string? estadoGuardado = fila.Cells["estado"].Value?.ToString();
-                    if (estadoGuardado == "Activo")
+                    if (estadoGuardado == "Activo" || estadoGuardado == "True" || estadoGuardado == "1")
                     {
                         rbActivo.Checked = true;
                     }

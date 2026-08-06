@@ -90,9 +90,10 @@
             // cmbiInactivo
             // 
             cmbiInactivo.AutoSize = true;
+            cmbiInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbiInactivo.Location = new Point(657, 75);
             cmbiInactivo.Name = "cmbiInactivo";
-            cmbiInactivo.Size = new Size(67, 19);
+            cmbiInactivo.Size = new Size(75, 21);
             cmbiInactivo.TabIndex = 22;
             cmbiInactivo.TabStop = true;
             cmbiInactivo.Text = "Inactivo";
@@ -101,9 +102,10 @@
             // cmbActivo
             // 
             cmbActivo.AutoSize = true;
+            cmbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbActivo.Location = new Point(575, 75);
             cmbActivo.Name = "cmbActivo";
-            cmbActivo.Size = new Size(59, 19);
+            cmbActivo.Size = new Size(65, 21);
             cmbActivo.TabIndex = 21;
             cmbActivo.TabStop = true;
             cmbActivo.Text = "Activo";
@@ -111,16 +113,16 @@
             // 
             // txtCodigo
             // 
-            txtCodigo.Location = new Point(162, 28);
+            txtCodigo.Location = new Point(103, 26);
             txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(100, 23);
+            txtCodigo.Size = new Size(109, 23);
             txtCodigo.TabIndex = 20;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(58, 28);
+            label6.Location = new Point(9, 23);
             label6.Name = "label6";
             label6.Size = new Size(69, 21);
             label6.TabIndex = 19;
@@ -128,71 +130,89 @@
             // 
             // button2
             // 
-            button2.Location = new Point(657, 189);
+            button2.BackColor = Color.Blue;
+            button2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.ForeColor = SystemColors.ButtonHighlight;
+            button2.Location = new Point(632, 295);
             button2.Name = "button2";
-            button2.Size = new Size(89, 44);
+            button2.Size = new Size(93, 48);
             button2.TabIndex = 18;
             button2.Text = "Renovar Membresía";
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
             // 
             // button1
             // 
-            button1.Location = new Point(545, 189);
+            button1.BackColor = Color.Blue;
+            button1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = SystemColors.ButtonHighlight;
+            button1.Location = new Point(489, 295);
             button1.Name = "button1";
-            button1.Size = new Size(89, 44);
+            button1.Size = new Size(95, 48);
             button1.TabIndex = 17;
             button1.Text = "Asignar Membresía";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             // 
             // dgvMembresias
             // 
             dgvMembresias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMembresias.Location = new Point(58, 285);
+            dgvMembresias.Location = new Point(9, 273);
             dgvMembresias.Name = "dgvMembresias";
-            dgvMembresias.Size = new Size(645, 162);
+            dgvMembresias.Size = new Size(451, 162);
             dgvMembresias.TabIndex = 16;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(435, 189);
+            btnLimpiar.BackColor = Color.Silver;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = SystemColors.ButtonHighlight;
+            btnLimpiar.Location = new Point(575, 201);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(84, 44);
             btnLimpiar.TabIndex = 15;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(328, 189);
+            btnEliminar.BackColor = Color.Red;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = SystemColors.ButtonHighlight;
+            btnEliminar.Location = new Point(669, 201);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(84, 44);
             btnEliminar.TabIndex = 14;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(219, 189);
+            btnEditar.BackColor = Color.OrangeRed;
+            btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditar.ForeColor = SystemColors.ButtonHighlight;
+            btnEditar.Location = new Point(466, 201);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(84, 44);
+            btnEditar.Size = new Size(89, 44);
             btnEditar.TabIndex = 13;
             btnEditar.Text = "Editar";
-            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.UseVisualStyleBackColor = false;
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(119, 189);
+            btnGuardar.BackColor = Color.ForestGreen;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = SystemColors.ButtonHighlight;
+            btnGuardar.Location = new Point(367, 201);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(84, 44);
+            btnGuardar.Size = new Size(93, 44);
             btnGuardar.TabIndex = 12;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(58, 256);
+            label5.Location = new Point(31, 212);
             label5.Name = "label5";
             label5.Size = new Size(65, 21);
             label5.TabIndex = 11;
@@ -200,14 +220,14 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(130, 256);
+            txtBuscar.Location = new Point(119, 210);
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(173, 23);
+            txtBuscar.Size = new Size(213, 23);
             txtBuscar.TabIndex = 10;
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(144, 145);
+            txtDescripcion.Location = new Point(119, 145);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(375, 33);
@@ -264,7 +284,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(19, 145);
+            label2.Location = new Point(9, 145);
             label2.Name = "label2";
             label2.Size = new Size(104, 21);
             label2.TabIndex = 2;
@@ -274,7 +294,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(19, 103);
+            label1.Location = new Point(9, 103);
             label1.Name = "label1";
             label1.Size = new Size(87, 21);
             label1.TabIndex = 1;
