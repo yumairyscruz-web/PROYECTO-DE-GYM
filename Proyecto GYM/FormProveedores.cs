@@ -19,7 +19,7 @@ namespace Proyecto_GYM
         {
             cargandoDatos = true;
 
-            CargarTablaProveedores();
+            CargarTablaProveedores(""); // Se envían comillas vacías para cargar todos los registros
             LimpiarCampos();
 
             cargandoDatos = false;
@@ -110,24 +110,22 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
 
-                    using (SqlCommand cmd = new SqlCommand("sp_GuardarProveedor", con))
+                    using (SqlCommand cmd = new SqlCommand("sp_EditarProveedor", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        // Solo agrega los parámetros QUE REALMENTE pida el Stored Procedure:
-                        cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim()); cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
-                        cmd.Parameters.AddWithValue("@nombre_contacto", txtContacto.Text.Trim());
+                        cmd.Parameters.AddWithValue("@id_proveedor", Convert.ToInt32(txtIdProveedor.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
+                        cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim());
+                        cmd.Parameters.AddWithValue("@contacto_nombre", txtContacto.Text.Trim());
                         cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
-                        cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@correo", txtEmail.Text.Trim());
                         cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text.Trim());
                         cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
 
-                        // Si tu SP también recibe el ID para saber si edita o inserta, agrégalo:
-                        // cmd.Parameters.AddWithValue("@id_proveedor", string.IsNullOrEmpty(txtIdProveedor.Text) ? (object)DBNull.Value : Convert.ToInt32(txtIdProveedor.Text));
-
                         cmd.ExecuteNonQuery();
-                    
-                    MessageBox.Show("Proveedor actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        MessageBox.Show("Proveedor actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
 
@@ -151,7 +149,7 @@ namespace Proyecto_GYM
                 txtIdProveedor.Text = fila.Cells["Código"].Value?.ToString() ?? "";
                 txtNombreEmpresa.Text = fila.Cells["Nombre Empresa"].Value?.ToString() ?? "";
                 txtRNC.Text = fila.Cells["RNC / Cédula"].Value?.ToString() ?? "";
-                txtContacto.Text = fila.Cells["Nombre Contacto"].Value?.ToString() ?? "";
+                txtContacto.Text = fila.Cells["Nombre Contacto"].Value != DBNull.Value ? fila.Cells["Nombre Contacto"].Value?.ToString() ?? "" : "";
                 txtTelefono.Text = fila.Cells["Teléfono"].Value?.ToString() ?? "";
                 txtEmail.Text = fila.Cells["Correo"].Value?.ToString() ?? "";
                 txtDireccion.Text = fila.Cells["Dirección"].Value?.ToString() ?? "";

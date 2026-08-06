@@ -180,7 +180,7 @@ namespace Proyecto_GYM
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(294, 358);
+            btnBuscar.Location = new Point(291, 362);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(88, 37);
             btnBuscar.TabIndex = 12;
@@ -223,7 +223,7 @@ namespace Proyecto_GYM
             txtBuscar.Location = new Point(113, 366);
             txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(155, 23);
+            txtBuscar.Size = new Size(155, 29);
             txtBuscar.TabIndex = 18;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
