@@ -27,26 +27,11 @@ namespace Proyecto_GYM
             if (cmbDia != null) cmbDia.DropDownStyle = ComboBoxStyle.DropDownList;
             if (cmbEntrenador != null) cmbEntrenador.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            // Configuración adecuada de DateTimePicker en formato 24 horas
-            //
-            // FIX DEFINITIVO: se elimina por completo el uso de "tt" (AM/PM).
-            // El problema real era que la cultura regional del equipo (es-ES / es-DO,
-            // etc.) tiene el designador AM/PM VACÍO ("" en vez de "AM"/"PM"). Eso
-            // hacía que el control mostrara "10:30" o "11:45" sin ningún indicador,
-            // pero por dentro seguía guardando un valor de 12 horas con AM/PM que el
-            // usuario no podía ver ni cambiar correctamente, generando comparaciones
-            // erróneas contra la jornada laboral del entrenador (ej. 11:45 se
-            // guardaba como 23:45 en vez de 11:45).
-            //
-            // Usando formato 24 horas (HH:mm) se elimina la ambigüedad de raíz,
-            // sin depender de la configuración regional de Windows.
             if (dtpHoraInicio != null)
             {
                 dtpHoraInicio.Format = DateTimePickerFormat.Custom;
                 dtpHoraInicio.CustomFormat = "HH:mm";
                 dtpHoraInicio.ShowUpDown = true;
-
-                // Valor por defecto explícito (9:00 AM / 09:00)
                 dtpHoraInicio.Value = DateTime.Today.AddHours(9);
             }
 
@@ -55,9 +40,6 @@ namespace Proyecto_GYM
                 dtpHoraFin.Format = DateTimePickerFormat.Custom;
                 dtpHoraFin.CustomFormat = "HH:mm";
                 dtpHoraFin.ShowUpDown = true;
-
-                // Valor por defecto explícito (10:00 AM / 10:00), una hora
-                // después del inicio, para que la validación inicial nunca falle.
                 dtpHoraFin.Value = DateTime.Today.AddHours(10);
             }
 
@@ -69,9 +51,71 @@ namespace Proyecto_GYM
             }
 
             CargarClasesComboBox();
-            CargarHorarios();
+
+            // Cargamos la tabla inicialmente con el buscador vacío
+            FiltrarHorarios("");
+
+            // Suscribimos el evento de búsqueda en tiempo real
+            if (txtBuscar != null)
+            {
+                txtBuscar.TextChanged += txtBuscar_TextChanged;
+            }
 
             cargandoDatos = false;
+        }
+
+        // EVENTO: Se dispara cada vez que escribes en la caja de texto Buscar
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarHorarios(txtBuscar.Text.Trim());
+        }
+
+        // MÉTODO DE BÚSQUEDA Y FILTRADO
+        private void FiltrarHorarios(string criterio)
+        {
+            try
+            {
+                using (SqlConnection con = Conexion.ObtenerConexion())
+                {
+                    if (con.State == ConnectionState.Closed) con.Open();
+
+                    string query = @"SELECT h.id_horario, 
+                                            c.nombre AS [Clase], 
+                                            ISNULL(e.nombre, '') + ' ' + ISNULL(e.apellido, '') AS [Entrenador],
+                                            h.dia_semana AS [Día], 
+                                            CONVERT(VARCHAR(5), h.hora_inicio, 108) AS [Hora Inicio], 
+                                            CONVERT(VARCHAR(5), h.hora_fin, 108) AS [Hora Fin],
+                                            h.capacidad_maxima AS [Capacidad],
+                                            h.id_clase,
+                                            h.id_entrenador
+                                     FROM horarios_clases h
+                                     INNER JOIN clases c ON h.id_clase = c.id_clase
+                                     LEFT JOIN entrenadores e ON h.id_entrenador = e.id_entrenador
+                                     WHERE c.nombre LIKE @criterio 
+                                        OR e.nombre LIKE @criterio 
+                                        OR e.apellido LIKE @criterio 
+                                        OR h.dia_semana LIKE @criterio";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@criterio", "%" + criterio + "%");
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable tabla = new DataTable();
+                        da.Fill(tabla);
+
+                        dgvHorariosClases.DataSource = tabla;
+
+                        if (dgvHorariosClases.Columns["id_horario"] is { } colHorario) colHorario.Visible = false;
+                        if (dgvHorariosClases.Columns["id_clase"] is { } colClase) colClase.Visible = false;
+                        if (dgvHorariosClases.Columns["id_entrenador"] is { } colEntrenador) colEntrenador.Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar los horarios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // Carga las clases registradas en el ComboBox
@@ -151,7 +195,7 @@ namespace Proyecto_GYM
 
                         if (dt.Rows.Count > 0)
                         {
-                            cmbEntrenador.SelectedIndex = 0; // Selecciona automáticamente al entrenador responsable
+                            cmbEntrenador.SelectedIndex = 0;
                         }
                     }
                 }
@@ -162,49 +206,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // Carga la lista de horarios registrados en el DataGridView
-        private void CargarHorarios()
-        {
-            try
-            {
-                using (SqlConnection con = Conexion.ObtenerConexion())
-                {
-                    if (con.State == ConnectionState.Closed) con.Open();
-
-                    string query = @"SELECT h.id_horario, 
-                                            c.nombre AS [Clase], 
-                                            ISNULL(e.nombre, '') + ' ' + ISNULL(e.apellido, '') AS [Entrenador],
-                                            h.dia_semana AS [Día], 
-                                            CONVERT(VARCHAR(5), h.hora_inicio, 108) AS [Hora Inicio], 
-                                            CONVERT(VARCHAR(5), h.hora_fin, 108) AS [Hora Fin],
-                                            h.capacidad_maxima AS [Capacidad],
-                                            h.id_clase,
-                                            h.id_entrenador
-                                     FROM horarios_clases h
-                                     INNER JOIN clases c ON h.id_clase = c.id_clase
-                                     LEFT JOIN entrenadores e ON h.id_entrenador = e.id_entrenador";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        SqlDataAdapter da = new SqlDataAdapter(cmd);
-                        DataTable tabla = new DataTable();
-                        da.Fill(tabla);
-
-                        dgvHorariosClases.DataSource = tabla;
-
-                        if (dgvHorariosClases.Columns["id_horario"] is { } colHorario) colHorario.Visible = false;
-                        if (dgvHorariosClases.Columns["id_clase"] is { } colClase) colClase.Visible = false;
-                        if (dgvHorariosClases.Columns["id_entrenador"] is { } colEntrenador) colEntrenador.Visible = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los horarios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // METODO AUXILIAR DE VALIDACION DE REGLAS DE NEGOCIO
         private bool ValidarReglasDeNegocio(int idClase, int idEntrenador, string diaSemana, TimeSpan inicio, TimeSpan fin, int capacidad, int idHorarioExcluir = 0)
         {
             try
@@ -213,7 +214,6 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
 
-                    // 1. Validar Cupo Máximo según la Clase seleccionada
                     string queryClase = "SELECT cupo_maximo FROM clases WHERE id_clase = @idClase";
                     using (SqlCommand cmdClase = new SqlCommand(queryClase, con))
                     {
@@ -225,13 +225,12 @@ namespace Proyecto_GYM
                             if (capacidad > cupoMaximoClase)
                             {
                                 MessageBox.Show($"La capacidad asignada ({capacidad}) supera el cupo máximo permitido para esta clase ({cupoMaximoClase}).",
-                                                "Validación de Cupo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        "Validación de Cupo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return false;
                             }
                         }
                     }
 
-                    // 2. Validar Disponibilidad del Entrenador según su Horario Laboral (Entrada/Salida)
                     string queryEntrenador = "SELECT hora_entrada, hora_salida FROM entrenadores WHERE id_entrenador = @idEntrenador";
                     using (SqlCommand cmdEnt = new SqlCommand(queryEntrenador, con))
                     {
@@ -245,23 +244,19 @@ namespace Proyecto_GYM
 
                                 if (inicio < horaEntradaEntrenador || fin > horaSalidaEntrenador)
                                 {
-                                    // FIX: se usa formato 24h ("HH:mm") en vez de "hh:mm tt"
-                                    // para que el mensaje sea consistente con lo que el
-                                    // usuario ve y selecciona en el formulario.
                                     string hEnt = DateTime.Today.Add(horaEntradaEntrenador).ToString("HH:mm");
                                     string hSal = DateTime.Today.Add(horaSalidaEntrenador).ToString("HH:mm");
                                     string hIni = DateTime.Today.Add(inicio).ToString("HH:mm");
                                     string hFin = DateTime.Today.Add(fin).ToString("HH:mm");
 
                                     MessageBox.Show($"El horario de la clase ({hIni} - {hFin}) se encuentra fuera de la jornada laboral del entrenador ({hEnt} - {hSal}).",
-                                                    "Conflicto de Horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                            "Conflicto de Horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     return false;
                                 }
                             }
                         }
                     }
 
-                    // 3. Validar Traslape / Empalme de Horarios del Entrenador en el mismo día
                     string queryCruces = @"SELECT COUNT(1) 
                                            FROM horarios_clases 
                                            WHERE id_entrenador = @idEntrenador 
@@ -281,7 +276,7 @@ namespace Proyecto_GYM
                         if (existeEmpalme > 0)
                         {
                             MessageBox.Show("El entrenador ya tiene asignada otra clase en ese mismo día y rango de horario.",
-                                            "Conflicto de Horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    "Conflicto de Horario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return false;
                         }
                     }
@@ -331,11 +326,9 @@ namespace Proyecto_GYM
 
             if (inicio >= fin)
             {
-                // FIX: mensaje simplificado a formato 24h únicamente, ya que
-                // el control ya no maneja AM/PM.
                 MessageBox.Show(
                     $"La hora de inicio debe ser menor a la hora de fin.\n" +
-                    $"Inicio: {dtpHoraInicio.Value:HH:mm}   Fin: {dtpHoraFin.Value:HH:mm}",
+                    $"Inicio: {dtpHoraInicio.Value:HH:mm}    Fin: {dtpHoraFin.Value:HH:mm}",
                     "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 dtpHoraInicio.Focus();
                 return false;
@@ -354,7 +347,6 @@ namespace Proyecto_GYM
             if (!ValidarCamposFormulario(out int idClaseVal, out int idEntrenadorVal, out string diaVal, out TimeSpan inicio, out TimeSpan fin, out int capacidad))
                 return;
 
-            // Se ejecutan las reglas de validación
             if (!ValidarReglasDeNegocio(idClaseVal, idEntrenadorVal, diaVal, inicio, fin, capacidad))
             {
                 return;
@@ -383,7 +375,7 @@ namespace Proyecto_GYM
                 }
 
                 MessageBox.Show("Horario asignado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarHorarios();
+                FiltrarHorarios(txtBuscar.Text.Trim());
                 LimpiarFormulario();
             }
             catch (Exception ex)
@@ -403,7 +395,6 @@ namespace Proyecto_GYM
             if (!ValidarCamposFormulario(out int idClaseVal, out int idEntrenadorVal, out string diaVal, out TimeSpan inicio, out TimeSpan fin, out int capacidad))
                 return;
 
-            // Se ejecutan las reglas de validación excluyendo el id actual
             if (!ValidarReglasDeNegocio(idClaseVal, idEntrenadorVal, diaVal, inicio, fin, capacidad, idHorarioSeleccionado))
             {
                 return;
@@ -439,7 +430,7 @@ namespace Proyecto_GYM
                 }
 
                 MessageBox.Show("Horario actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarHorarios();
+                FiltrarHorarios(txtBuscar.Text.Trim());
                 LimpiarFormulario();
             }
             catch (Exception ex)
@@ -473,7 +464,7 @@ namespace Proyecto_GYM
                         }
 
                         MessageBox.Show("Horario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarHorarios();
+                        FiltrarHorarios(txtBuscar.Text.Trim());
                         LimpiarFormulario();
                     }
                     catch (Exception ex)
@@ -567,9 +558,6 @@ namespace Proyecto_GYM
 
             if (cmbEntrenador != null) cmbEntrenador.DataSource = null;
 
-            // FIX: se reemplaza DateTime.Now por valores explícitos (09:00 y
-            // 10:00 en formato 24h), evitando cualquier ambigüedad de horario
-            // que rompa la validación.
             dtpHoraInicio.Value = DateTime.Today.AddHours(9);
             dtpHoraFin.Value = DateTime.Today.AddHours(10);
 

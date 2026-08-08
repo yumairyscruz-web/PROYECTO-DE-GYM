@@ -38,7 +38,7 @@
             label8 = new Label();
             label9 = new Label();
             btnRenovar = new Button();
-            btnditar = new Button();
+            btnEditar = new Button();
             cmbCliente = new ComboBox();
             cmbMembresiaActual = new ComboBox();
             cmbNuevaMembresia = new ComboBox();
@@ -51,13 +51,17 @@
             dgvRenovaciones = new DataGridView();
             btnEliminar = new Button();
             btnLimpiar = new Button();
+            label10 = new Label();
+            txtBuscar = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvRenovaciones).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.FromArgb(192, 192, 255);
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = SystemColors.ActiveCaptionText;
             label1.Location = new Point(235, 22);
             label1.Name = "label1";
             label1.Size = new Size(277, 21);
@@ -68,7 +72,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(76, 74);
+            label2.Location = new Point(22, 66);
             label2.Name = "label2";
             label2.Size = new Size(64, 21);
             label2.TabIndex = 1;
@@ -78,7 +82,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(375, 70);
+            label3.Location = new Point(364, 66);
             label3.Name = "label3";
             label3.Size = new Size(148, 21);
             label3.TabIndex = 2;
@@ -88,7 +92,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(50, 117);
+            label4.Location = new Point(22, 119);
             label4.Name = "label4";
             label4.Size = new Size(101, 21);
             label4.TabIndex = 3;
@@ -98,7 +102,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(384, 117);
+            label5.Location = new Point(364, 115);
             label5.Name = "label5";
             label5.Size = new Size(104, 21);
             label5.TabIndex = 4;
@@ -108,7 +112,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(22, 176);
+            label6.Location = new Point(20, 175);
             label6.Name = "label6";
             label6.Size = new Size(103, 21);
             label6.TabIndex = 5;
@@ -118,7 +122,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(280, 172);
+            label7.Location = new Point(280, 175);
             label7.Name = "label7";
             label7.Size = new Size(232, 21);
             label7.TabIndex = 6;
@@ -128,7 +132,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(64, 231);
+            label8.Location = new Point(22, 227);
             label8.Name = "label8";
             label8.Size = new Size(87, 21);
             label8.TabIndex = 7;
@@ -138,7 +142,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(397, 231);
+            label9.Location = new Point(379, 218);
             label9.Name = "label9";
             label9.Size = new Size(61, 21);
             label9.TabIndex = 8;
@@ -146,26 +150,34 @@
             // 
             // btnRenovar
             // 
-            btnRenovar.Location = new Point(343, 269);
+            btnRenovar.BackColor = SystemColors.ActiveBorder;
+            btnRenovar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRenovar.ForeColor = Color.Blue;
+            btnRenovar.Location = new Point(343, 260);
             btnRenovar.Name = "btnRenovar";
             btnRenovar.Size = new Size(87, 37);
             btnRenovar.TabIndex = 9;
             btnRenovar.Text = "Renovar";
-            btnRenovar.UseVisualStyleBackColor = true;
+            btnRenovar.UseVisualStyleBackColor = false;
+            btnRenovar.Click += btnRenovar_Click;
             // 
-            // btnditar
+            // btnEditar
             // 
-            btnditar.Location = new Point(457, 269);
-            btnditar.Name = "btnditar";
-            btnditar.Size = new Size(87, 37);
-            btnditar.TabIndex = 10;
-            btnditar.Text = "Editar";
-            btnditar.UseVisualStyleBackColor = true;
+            btnEditar.BackColor = SystemColors.ActiveBorder;
+            btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditar.ForeColor = Color.Blue;
+            btnEditar.Location = new Point(445, 260);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(87, 37);
+            btnEditar.TabIndex = 10;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
             // cmbCliente
             // 
             cmbCliente.FormattingEnabled = true;
-            cmbCliente.Location = new Point(159, 72);
+            cmbCliente.Location = new Point(131, 68);
             cmbCliente.Name = "cmbCliente";
             cmbCliente.Size = new Size(147, 23);
             cmbCliente.TabIndex = 11;
@@ -173,7 +185,7 @@
             // cmbMembresiaActual
             // 
             cmbMembresiaActual.FormattingEnabled = true;
-            cmbMembresiaActual.Location = new Point(551, 68);
+            cmbMembresiaActual.Location = new Point(529, 68);
             cmbMembresiaActual.Name = "cmbMembresiaActual";
             cmbMembresiaActual.Size = new Size(150, 23);
             cmbMembresiaActual.TabIndex = 12;
@@ -185,31 +197,32 @@
             cmbNuevaMembresia.Name = "cmbNuevaMembresia";
             cmbNuevaMembresia.Size = new Size(127, 23);
             cmbNuevaMembresia.TabIndex = 13;
+            cmbNuevaMembresia.SelectedIndexChanged += cmbNuevaMembresia_SelectedIndexChanged;
             // 
             // dtpFechaInicio
             // 
-            dtpFechaInicio.Location = new Point(157, 117);
+            dtpFechaInicio.Location = new Point(131, 119);
             dtpFechaInicio.Name = "dtpFechaInicio";
             dtpFechaInicio.Size = new Size(200, 23);
             dtpFechaInicio.TabIndex = 14;
             // 
             // dtpFechaVencimiento
             // 
-            dtpFechaVencimiento.Location = new Point(522, 117);
+            dtpFechaVencimiento.Location = new Point(499, 113);
             dtpFechaVencimiento.Name = "dtpFechaVencimiento";
             dtpFechaVencimiento.Size = new Size(200, 23);
             dtpFechaVencimiento.TabIndex = 15;
             // 
             // txtPrecio
             // 
-            txtPrecio.Location = new Point(157, 229);
+            txtPrecio.Location = new Point(115, 231);
             txtPrecio.Name = "txtPrecio";
             txtPrecio.Size = new Size(100, 23);
             txtPrecio.TabIndex = 16;
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(529, 172);
+            dateTimePicker1.Location = new Point(518, 175);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(200, 23);
             dateTimePicker1.TabIndex = 17;
@@ -217,9 +230,10 @@
             // rbActiva
             // 
             rbActiva.AutoSize = true;
-            rbActiva.Location = new Point(487, 229);
+            rbActiva.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbActiva.Location = new Point(467, 218);
             rbActiva.Name = "rbActiva";
-            rbActiva.Size = new Size(59, 19);
+            rbActiva.Size = new Size(65, 21);
             rbActiva.TabIndex = 18;
             rbActiva.TabStop = true;
             rbActiva.Text = "Activo";
@@ -228,9 +242,10 @@
             // rbInactiva
             // 
             rbInactiva.AutoSize = true;
-            rbInactiva.Location = new Point(628, 231);
+            rbInactiva.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbInactiva.Location = new Point(550, 218);
             rbInactiva.Name = "rbInactiva";
-            rbInactiva.Size = new Size(67, 19);
+            rbInactiva.Size = new Size(75, 21);
             rbInactiva.TabIndex = 19;
             rbInactiva.TabStop = true;
             rbInactiva.Text = "Inactivo";
@@ -239,34 +254,63 @@
             // dgvRenovaciones
             // 
             dgvRenovaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRenovaciones.Location = new Point(64, 312);
+            dgvRenovaciones.Location = new Point(53, 332);
             dgvRenovaciones.Name = "dgvRenovaciones";
-            dgvRenovaciones.Size = new Size(665, 150);
+            dgvRenovaciones.Size = new Size(665, 141);
             dgvRenovaciones.TabIndex = 20;
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(660, 269);
+            btnEliminar.BackColor = SystemColors.ActiveBorder;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = Color.Blue;
+            btnEliminar.Location = new Point(642, 260);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(87, 37);
             btnEliminar.TabIndex = 21;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(550, 269);
+            btnLimpiar.BackColor = SystemColors.ActiveBorder;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = Color.Blue;
+            btnLimpiar.Location = new Point(538, 260);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(87, 37);
             btnLimpiar.TabIndex = 22;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.Location = new Point(22, 276);
+            label10.Name = "label10";
+            label10.Size = new Size(65, 21);
+            label10.TabIndex = 23;
+            label10.Text = "Buscar:";
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(93, 278);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(185, 23);
+            txtBuscar.TabIndex = 24;
+            txtBuscar.Click += txtBuscar_TextChanged;
             // 
             // FrmRenovarMembresia
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 466);
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(800, 476);
+            Controls.Add(txtBuscar);
+            Controls.Add(label10);
             Controls.Add(btnLimpiar);
             Controls.Add(btnEliminar);
             Controls.Add(dgvRenovaciones);
@@ -279,7 +323,7 @@
             Controls.Add(cmbNuevaMembresia);
             Controls.Add(cmbMembresiaActual);
             Controls.Add(cmbCliente);
-            Controls.Add(btnditar);
+            Controls.Add(btnEditar);
             Controls.Add(btnRenovar);
             Controls.Add(label9);
             Controls.Add(label8);
@@ -291,6 +335,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FrmRenovarMembresia";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FrmRenovarMembresia";
             Load += FrmRenovarMembresia_Load;
             ((System.ComponentModel.ISupportInitialize)dgvRenovaciones).EndInit();
@@ -310,7 +355,7 @@
         private Label label8;
         private Label label9;
         private Button btnRenovar;
-        private Button btnditar;
+        private Button btnEditar;
         private ComboBox cmbCliente;
         private ComboBox cmbMembresiaActual;
         private ComboBox cmbNuevaMembresia;
@@ -323,5 +368,7 @@
         private DataGridView dgvRenovaciones;
         private Button btnEliminar;
         private Button btnLimpiar;
+        private Label label10;
+        private TextBox txtBuscar;
     }
 }

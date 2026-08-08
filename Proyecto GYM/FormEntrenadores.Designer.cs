@@ -65,6 +65,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.FromArgb(192, 192, 255);
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(23, 9);
             label1.Name = "label1";
@@ -280,6 +281,7 @@
             dgvEntrenadores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEntrenadores.Location = new Point(12, 414);
             dgvEntrenadores.Name = "dgvEntrenadores";
+            dgvEntrenadores.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvEntrenadores.Size = new Size(781, 112);
             dgvEntrenadores.TabIndex = 23;
             // 
@@ -306,7 +308,7 @@
             // 
             // btnCargaFoto
             // 
-            btnCargaFoto.BackColor = SystemColors.ActiveCaption;
+            btnCargaFoto.BackColor = Color.FromArgb(192, 192, 255);
             btnCargaFoto.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCargaFoto.ForeColor = SystemColors.ButtonHighlight;
             btnCargaFoto.Location = new Point(577, 200);
@@ -359,6 +361,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(821, 529);
             Controls.Add(dtpHoraSalida);
             Controls.Add(dtpHoraEntrada);
@@ -391,6 +394,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormEntrenadores";
+            StartPosition = FormStartPosition.CenterParent;
             Load += FormEntrenadores_Load;
             ((System.ComponentModel.ISupportInitialize)dgvEntrenadores).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbFotoEntrenador).EndInit();

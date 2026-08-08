@@ -51,7 +51,7 @@
             rbInactivo = new RadioButton();
             btnGuardar = new Button();
             btnEditar = new Button();
-            btnInnativa = new Button();
+            btnInactivar = new Button();
             btnLimpia = new Button();
             label11 = new Label();
             txtBuscar = new TextBox();
@@ -64,7 +64,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(25, 33);
+            label2.Location = new Point(23, 24);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(67, 21);
@@ -74,7 +74,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(25, 76);
+            label3.Location = new Point(23, 68);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(77, 21);
@@ -84,7 +84,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(23, 122);
+            label4.Location = new Point(21, 112);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(79, 21);
@@ -94,7 +94,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(25, 168);
+            label5.Location = new Point(23, 151);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(81, 21);
@@ -104,7 +104,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(23, 216);
+            label6.Location = new Point(21, 193);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(65, 21);
@@ -114,7 +114,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(5, 256);
+            label7.Location = new Point(5, 232);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(87, 21);
@@ -124,7 +124,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(13, 297);
+            label8.Location = new Point(5, 279);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(119, 21);
@@ -134,7 +134,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(25, 337);
+            label9.Location = new Point(21, 326);
             label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
             label9.Size = new Size(51, 21);
@@ -143,7 +143,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(109, 68);
+            txtNombre.Location = new Point(107, 56);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(225, 38);
@@ -151,7 +151,7 @@
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(116, 112);
+            txtApellido.Location = new Point(109, 100);
             txtApellido.Multiline = true;
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(225, 41);
@@ -159,7 +159,7 @@
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(109, 213);
+            txtCorreo.Location = new Point(99, 195);
             txtCorreo.Multiline = true;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(246, 31);
@@ -167,7 +167,7 @@
             // 
             // txtDireccion
             // 
-            txtDireccion.Location = new Point(99, 250);
+            txtDireccion.Location = new Point(99, 232);
             txtDireccion.Multiline = true;
             txtDireccion.Name = "txtDireccion";
             txtDireccion.Size = new Size(256, 32);
@@ -175,7 +175,7 @@
             // 
             // txtCedula
             // 
-            txtCedula.Location = new Point(101, 33);
+            txtCedula.Location = new Point(99, 21);
             txtCedula.Mask = "000-0000000-0";
             txtCedula.Name = "txtCedula";
             txtCedula.Size = new Size(143, 29);
@@ -183,7 +183,7 @@
             // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(116, 165);
+            txtTelefono.Location = new Point(116, 148);
             txtTelefono.Mask = "(999)000-0000";
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(128, 29);
@@ -191,23 +191,23 @@
             // 
             // dtpFechaNacimiento
             // 
-            dtpFechaNacimiento.Location = new Point(155, 297);
+            dtpFechaNacimiento.Location = new Point(141, 273);
             dtpFechaNacimiento.Name = "dtpFechaNacimiento";
-            dtpFechaNacimiento.Size = new Size(200, 29);
+            dtpFechaNacimiento.Size = new Size(231, 29);
             dtpFechaNacimiento.TabIndex = 15;
             // 
             // cmbSexo
             // 
             cmbSexo.FormattingEnabled = true;
             cmbSexo.Items.AddRange(new object[] { "F", "M" });
-            cmbSexo.Location = new Point(116, 337);
+            cmbSexo.Location = new Point(99, 326);
             cmbSexo.Name = "cmbSexo";
             cmbSexo.Size = new Size(121, 29);
             cmbSexo.TabIndex = 16;
             // 
             // pbFoto
             // 
-            pbFoto.BackColor = SystemColors.InactiveCaption;
+            pbFoto.BackColor = SystemColors.ActiveCaption;
             pbFoto.BorderStyle = BorderStyle.Fixed3D;
             pbFoto.Location = new Point(403, 12);
             pbFoto.Name = "pbFoto";
@@ -218,7 +218,7 @@
             // 
             // btnCargarFoto
             // 
-            btnCargarFoto.BackColor = SystemColors.ActiveCaption;
+            btnCargarFoto.BackColor = Color.FromArgb(128, 128, 255);
             btnCargarFoto.ForeColor = SystemColors.ButtonHighlight;
             btnCargarFoto.Location = new Point(464, 232);
             btnCargarFoto.Name = "btnCargarFoto";
@@ -231,7 +231,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(392, 297);
+            label10.Location = new Point(391, 281);
             label10.Margin = new Padding(4, 0, 4, 0);
             label10.Name = "label10";
             label10.Size = new Size(65, 21);
@@ -241,7 +241,7 @@
             // rbActivo
             // 
             rbActivo.AutoSize = true;
-            rbActivo.Location = new Point(476, 295);
+            rbActivo.Location = new Point(476, 281);
             rbActivo.Name = "rbActivo";
             rbActivo.Size = new Size(77, 25);
             rbActivo.TabIndex = 20;
@@ -252,7 +252,7 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
-            rbInactivo.Location = new Point(559, 295);
+            rbInactivo.Location = new Point(559, 281);
             rbInactivo.Name = "rbInactivo";
             rbInactivo.Size = new Size(100, 25);
             rbInactivo.TabIndex = 21;
@@ -264,9 +264,9 @@
             // 
             btnGuardar.BackColor = Color.Green;
             btnGuardar.ForeColor = SystemColors.ButtonHighlight;
-            btnGuardar.Location = new Point(302, 337);
+            btnGuardar.Location = new Point(299, 326);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(91, 41);
+            btnGuardar.Size = new Size(99, 41);
             btnGuardar.TabIndex = 22;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
@@ -276,33 +276,33 @@
             // 
             btnEditar.BackColor = Color.OrangeRed;
             btnEditar.ForeColor = SystemColors.ButtonFace;
-            btnEditar.Location = new Point(414, 337);
+            btnEditar.Location = new Point(403, 326);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(97, 41);
+            btnEditar.Size = new Size(106, 41);
             btnEditar.TabIndex = 23;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
             // 
-            // btnInnativa
+            // btnInactivar
             // 
-            btnInnativa.BackColor = SystemColors.Highlight;
-            btnInnativa.ForeColor = SystemColors.ButtonHighlight;
-            btnInnativa.Location = new Point(517, 337);
-            btnInnativa.Name = "btnInnativa";
-            btnInnativa.Size = new Size(97, 41);
-            btnInnativa.TabIndex = 24;
-            btnInnativa.Text = "Innativa";
-            btnInnativa.UseVisualStyleBackColor = false;
-            btnInnativa.Click += btnInactivar_Click;
+            btnInactivar.BackColor = SystemColors.Highlight;
+            btnInactivar.ForeColor = SystemColors.ButtonHighlight;
+            btnInactivar.Location = new Point(515, 326);
+            btnInactivar.Name = "btnInactivar";
+            btnInactivar.Size = new Size(109, 41);
+            btnInactivar.TabIndex = 24;
+            btnInactivar.Text = "Inactivar";
+            btnInactivar.UseVisualStyleBackColor = false;
+            btnInactivar.Click += btnInactivar_Click;
             // 
             // btnLimpia
             // 
             btnLimpia.BackColor = SystemColors.ButtonShadow;
             btnLimpia.ForeColor = SystemColors.ButtonHighlight;
-            btnLimpia.Location = new Point(631, 337);
+            btnLimpia.Location = new Point(630, 326);
             btnLimpia.Name = "btnLimpia";
-            btnLimpia.Size = new Size(97, 41);
+            btnLimpia.Size = new Size(104, 41);
             btnLimpia.TabIndex = 25;
             btnLimpia.Text = "Limpiar";
             btnLimpia.UseVisualStyleBackColor = false;
@@ -311,7 +311,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(23, 392);
+            label11.Location = new Point(12, 377);
             label11.Name = "label11";
             label11.Size = new Size(65, 21);
             label11.TabIndex = 26;
@@ -319,7 +319,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(109, 389);
+            txtBuscar.Location = new Point(99, 377);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(137, 29);
             txtBuscar.TabIndex = 27;
@@ -327,9 +327,9 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.BackColor = SystemColors.ActiveCaption;
+            btnBuscar.BackColor = Color.FromArgb(128, 128, 255);
             btnBuscar.ForeColor = SystemColors.ButtonHighlight;
-            btnBuscar.Location = new Point(276, 389);
+            btnBuscar.Location = new Point(276, 377);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(96, 35);
             btnBuscar.TabIndex = 28;
@@ -342,9 +342,9 @@
             // 
             dgvClientes.BackgroundColor = SystemColors.ActiveCaption;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Location = new Point(5, 432);
+            dgvClientes.Location = new Point(12, 418);
             dgvClientes.Name = "dgvClientes";
-            dgvClientes.Size = new Size(832, 158);
+            dgvClientes.Size = new Size(807, 146);
             dgvClientes.TabIndex = 29;
             dgvClientes.CellClick += dgvClientes_CellClick;
             // 
@@ -352,14 +352,15 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(838, 617);
+            BackColor = SystemColors.InactiveCaption;
+            ClientSize = new Size(838, 588);
             Controls.Add(pbFoto);
             Controls.Add(dgvClientes);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
             Controls.Add(label11);
             Controls.Add(btnLimpia);
-            Controls.Add(btnInnativa);
+            Controls.Add(btnInactivar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
             Controls.Add(rbInactivo);
@@ -386,6 +387,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4);
             Name = "FormClientes";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FormClientes";
             Load += FormClientes_Load_1;
             Click += FormClientes_Load_1;
@@ -419,7 +421,7 @@
         private RadioButton rbInactivo;
         private Button btnGuardar;
         private Button btnEditar;
-        private Button btnInnativa;
+        private Button btnInactivar;
         private Button btnLimpia;
         private Label label11;
         private TextBox txtBuscar;

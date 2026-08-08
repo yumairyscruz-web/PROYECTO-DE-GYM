@@ -55,6 +55,7 @@
             pageSetupDialog1 = new PageSetupDialog();
             notifyIcon1 = new NotifyIcon(components);
             panel7 = new Panel();
+            button10 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -69,7 +70,7 @@
             panel1.Controls.Add(button1);
             panel1.Location = new Point(2, 1);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1021, 92);
+            panel1.Size = new Size(1021, 95);
             panel1.TabIndex = 0;
             // 
             // btnSalir
@@ -122,10 +123,10 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.RoyalBlue;
+            panel2.Controls.Add(button10);
             panel2.Controls.Add(btnUsuario);
             panel2.Controls.Add(button9);
             panel2.Controls.Add(button4);
-            panel2.Controls.Add(panel6);
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(button8);
             panel2.Controls.Add(button7);
@@ -187,7 +188,7 @@
             // panel6
             // 
             panel6.BackColor = Color.Silver;
-            panel6.Location = new Point(3, 361);
+            panel6.Location = new Point(2, 396);
             panel6.Name = "panel6";
             panel6.Size = new Size(220, 2);
             panel6.TabIndex = 12;
@@ -198,7 +199,7 @@
             panel5.BackColor = Color.Silver;
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(11189, 2);
+            panel5.Size = new Size(15130, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -322,7 +323,7 @@
             panel4.Controls.Add(lblTituloHeader);
             panel4.Location = new Point(207, 94);
             panel4.Name = "panel4";
-            panel4.Size = new Size(816, 35);
+            panel4.Size = new Size(816, 38);
             panel4.TabIndex = 2;
             // 
             // lblTituloHeader
@@ -343,24 +344,41 @@
             // panel7
             // 
             panel7.AutoScroll = true;
+            panel7.BackColor = SystemColors.ActiveCaption;
             panel7.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            panel7.Location = new Point(234, 132);
+            panel7.Location = new Point(207, 130);
             panel7.Name = "panel7";
-            panel7.Size = new Size(778, 596);
+            panel7.Size = new Size(816, 582);
             panel7.TabIndex = 3;
+            // 
+            // button10
+            // 
+            button10.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button10.FlatAppearance.BorderSize = 0;
+            button10.FlatStyle = FlatStyle.Flat;
+            button10.ForeColor = Color.White;
+            button10.Location = new Point(31, 363);
+            button10.Name = "button10";
+            button10.Size = new Size(153, 26);
+            button10.TabIndex = 16;
+            button10.Text = "Pases del Día / Visitas";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
             // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(1024, 748);
+            ClientSize = new Size(1024, 728);
             Controls.Add(panel7);
             Controls.Add(panel4);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Controls.Add(panel6);
             Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Name = "Form2";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form2";
             Load += Form2_Load;
             panel1.ResumeLayout(false);
@@ -399,5 +417,6 @@
         private Panel panel7;
         private Label lblTituloHeader;
         private Button btnUsuario;
+        private Button button10;
     }
 }

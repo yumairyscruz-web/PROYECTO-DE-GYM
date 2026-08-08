@@ -46,6 +46,8 @@
             cmbEntrenador = new ComboBox();
             label3 = new Label();
             nudCapacidad = new NumericUpDown();
+            label4 = new Label();
+            txtBuscar = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvHorariosClases).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCapacidad).BeginInit();
             SuspendLayout();
@@ -132,50 +134,60 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(517, 218);
+            btnGuardar.BackColor = Color.DarkGreen;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = SystemColors.ButtonFace;
+            btnGuardar.Location = new Point(96, 226);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(113, 41);
+            btnGuardar.Size = new Size(131, 38);
             btnGuardar.TabIndex = 8;
             btnGuardar.Text = "Guardar Horario";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(517, 318);
+            btnEliminar.BackColor = Color.Red;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = SystemColors.ButtonFace;
+            btnEliminar.Location = new Point(411, 226);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(113, 41);
+            btnEliminar.Size = new Size(131, 38);
             btnEliminar.TabIndex = 9;
             btnEliminar.Text = "Eliminar Horario";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
             // dgvHorariosClases
             // 
             dgvHorariosClases.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvHorariosClases.Location = new Point(25, 230);
+            dgvHorariosClases.Location = new Point(47, 319);
             dgvHorariosClases.Name = "dgvHorariosClases";
             dgvHorariosClases.ReadOnly = true;
             dgvHorariosClases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHorariosClases.Size = new Size(435, 170);
+            dgvHorariosClases.Size = new Size(650, 157);
             dgvHorariosClases.TabIndex = 10;
             dgvHorariosClases.CellClick += dgvHorariosClases_CellClick;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(517, 365);
+            btnLimpiar.BackColor = SystemColors.AppWorkspace;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = SystemColors.ButtonFace;
+            btnLimpiar.Location = new Point(566, 226);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(113, 35);
+            btnLimpiar.Size = new Size(131, 38);
             btnLimpiar.TabIndex = 11;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.ClientSizeChanged += btnLimpiar_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.FromArgb(128, 128, 255);
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(272, 9);
+            label1.Location = new Point(272, 18);
             label1.Name = "label1";
             label1.Size = new Size(224, 21);
             label1.TabIndex = 12;
@@ -183,12 +195,15 @@
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(520, 274);
+            btnEditar.BackColor = Color.OrangeRed;
+            btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditar.ForeColor = SystemColors.ButtonFace;
+            btnEditar.Location = new Point(252, 226);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(110, 38);
+            btnEditar.Size = new Size(128, 38);
             btnEditar.TabIndex = 13;
             btnEditar.Text = "Editar";
-            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
             // 
             // label2
@@ -214,7 +229,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(272, 183);
+            label3.Location = new Point(272, 173);
             label3.Name = "label3";
             label3.Size = new Size(131, 20);
             label3.TabIndex = 16;
@@ -222,18 +237,38 @@
             // 
             // nudCapacidad
             // 
-            nudCapacidad.Location = new Point(422, 181);
+            nudCapacidad.Location = new Point(422, 170);
             nudCapacidad.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudCapacidad.Name = "nudCapacidad";
             nudCapacidad.Size = new Size(120, 23);
             nudCapacidad.TabIndex = 17;
             nudCapacidad.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(47, 283);
+            label4.Name = "label4";
+            label4.Size = new Size(61, 20);
+            label4.TabIndex = 18;
+            label4.Text = "Buscar:";
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(129, 284);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(173, 23);
+            txtBuscar.TabIndex = 19;
+            // 
             // FormHorarioClase
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(800, 501);
+            Controls.Add(txtBuscar);
+            Controls.Add(label4);
             Controls.Add(nudCapacidad);
             Controls.Add(label3);
             Controls.Add(cmbEntrenador);
@@ -254,6 +289,7 @@
             Controls.Add(lblClase);
             Name = "FormHorarioClase";
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FormHorarioClase";
             Load += FormHorarioClase_Load;
             ((System.ComponentModel.ISupportInitialize)dgvHorariosClases).EndInit();
@@ -282,5 +318,7 @@
         private ComboBox cmbEntrenador;
         private Label label3;
         private NumericUpDown nudCapacidad;
+        private Label label4;
+        private TextBox txtBuscar;
     }
 }

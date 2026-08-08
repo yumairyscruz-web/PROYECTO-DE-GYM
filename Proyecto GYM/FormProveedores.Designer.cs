@@ -100,7 +100,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(17, 142);
+            label5.Location = new Point(12, 128);
             label5.Name = "label5";
             label5.Size = new Size(77, 21);
             label5.TabIndex = 4;
@@ -110,7 +110,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(17, 189);
+            label6.Location = new Point(12, 178);
             label6.Name = "label6";
             label6.Size = new Size(53, 21);
             label6.TabIndex = 5;
@@ -120,7 +120,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(19, 235);
+            label7.Location = new Point(11, 227);
             label7.Name = "label7";
             label7.Size = new Size(83, 21);
             label7.TabIndex = 6;
@@ -190,7 +190,7 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.BackColor = SystemColors.ActiveCaption;
+            btnBuscar.BackColor = Color.FromArgb(192, 192, 255);
             btnBuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBuscar.ForeColor = SystemColors.ButtonFace;
             btnBuscar.Location = new Point(308, 321);
@@ -246,15 +246,15 @@
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(119, 180);
+            txtEmail.Location = new Point(71, 178);
             txtEmail.Multiline = true;
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(249, 30);
+            txtEmail.Size = new Size(273, 30);
             txtEmail.TabIndex = 18;
             // 
             // txtDireccion
             // 
-            txtDireccion.Location = new Point(117, 229);
+            txtDireccion.Location = new Point(106, 227);
             txtDireccion.Multiline = true;
             txtDireccion.Name = "txtDireccion";
             txtDireccion.Size = new Size(305, 27);
@@ -286,7 +286,7 @@
             // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(149, 144);
+            txtTelefono.Location = new Point(140, 130);
             txtTelefono.Mask = "(999)000-0000";
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(163, 23);
@@ -297,22 +297,23 @@
             dgvProveedores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProveedores.Location = new Point(29, 375);
             dgvProveedores.Name = "dgvProveedores";
-            dgvProveedores.Size = new Size(673, 150);
+            dgvProveedores.Size = new Size(673, 140);
             dgvProveedores.TabIndex = 23;
             dgvProveedores.CellClick += dgvProveedores_CellClick;
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(129, 329);
+            txtBuscar.Location = new Point(120, 329);
             txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(160, 32);
+            txtBuscar.Size = new Size(169, 32);
             txtBuscar.TabIndex = 24;
             // 
             // FormProveedores
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(743, 527);
             Controls.Add(txtBuscar);
             Controls.Add(dgvProveedores);
@@ -340,6 +341,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormProveedores";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FormProveedores";
             TransparencyKey = Color.Cyan;
             Load += FormProveedores_Load;

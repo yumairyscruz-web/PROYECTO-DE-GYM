@@ -156,5 +156,10 @@ namespace Proyecto_GYM
             AbrirFormularioHijo(new FormProveedores(), "Mantenimiento de Proveedores");
 
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormPasesDiarios(), "Pases del Día / Visitas");
+        }
     }
 }

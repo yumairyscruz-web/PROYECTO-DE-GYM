@@ -53,7 +53,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(37, 40);
+            label1.Location = new Point(12, 39);
             label1.Name = "label1";
             label1.Size = new Size(148, 20);
             label1.TabIndex = 0;
@@ -63,7 +63,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(466, 39);
+            label2.Location = new Point(453, 43);
             label2.Name = "label2";
             label2.Size = new Size(92, 20);
             label2.TabIndex = 1;
@@ -73,7 +73,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(37, 95);
+            label3.Location = new Point(12, 91);
             label3.Name = "label3";
             label3.Size = new Size(110, 20);
             label3.TabIndex = 2;
@@ -83,7 +83,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(485, 95);
+            label4.Location = new Point(453, 95);
             label4.Name = "label4";
             label4.Size = new Size(60, 20);
             label4.TabIndex = 3;
@@ -93,7 +93,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(37, 160);
+            label5.Location = new Point(12, 150);
             label5.Name = "label5";
             label5.Size = new Size(94, 20);
             label5.TabIndex = 4;
@@ -103,7 +103,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(37, 226);
+            label6.Location = new Point(12, 234);
             label6.Name = "label6";
             label6.Size = new Size(61, 20);
             label6.TabIndex = 5;
@@ -111,7 +111,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(201, 40);
+            txtNombre.Location = new Point(173, 39);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(259, 36);
@@ -121,14 +121,14 @@
             // 
             cmbEntrenador.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEntrenador.FormattingEnabled = true;
-            cmbEntrenador.Location = new Point(568, 40);
+            cmbEntrenador.Location = new Point(551, 43);
             cmbEntrenador.Name = "cmbEntrenador";
             cmbEntrenador.Size = new Size(153, 23);
             cmbEntrenador.TabIndex = 7;
             // 
             // nudCupoMaximo
             // 
-            nudCupoMaximo.Location = new Point(174, 97);
+            nudCupoMaximo.Location = new Point(128, 92);
             nudCupoMaximo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudCupoMaximo.Name = "nudCupoMaximo";
             nudCupoMaximo.Size = new Size(120, 23);
@@ -139,14 +139,14 @@
             // 
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FormattingEnabled = true;
-            cmbEstado.Location = new Point(593, 92);
+            cmbEstado.Location = new Point(527, 92);
             cmbEstado.Name = "cmbEstado";
             cmbEstado.Size = new Size(128, 23);
             cmbEstado.TabIndex = 9;
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(154, 150);
+            txtDescripcion.Location = new Point(112, 150);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(543, 54);
@@ -154,7 +154,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(125, 216);
+            txtBuscar.Location = new Point(90, 234);
             txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(169, 30);
@@ -164,42 +164,54 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(361, 210);
+            btnGuardar.BackColor = SystemColors.ActiveBorder;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = Color.Blue;
+            btnGuardar.Location = new Point(279, 226);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(90, 32);
+            btnGuardar.Size = new Size(101, 40);
             btnGuardar.TabIndex = 12;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
             // BtnEditar
             // 
-            BtnEditar.Location = new Point(468, 210);
+            BtnEditar.BackColor = SystemColors.ActiveBorder;
+            BtnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BtnEditar.ForeColor = Color.Blue;
+            BtnEditar.Location = new Point(386, 226);
             BtnEditar.Name = "BtnEditar";
-            BtnEditar.Size = new Size(90, 32);
+            BtnEditar.Size = new Size(101, 40);
             BtnEditar.TabIndex = 13;
             BtnEditar.Text = "Editar";
-            BtnEditar.UseVisualStyleBackColor = true;
+            BtnEditar.UseVisualStyleBackColor = false;
             BtnEditar.Click += btnEditar_Click;
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(568, 210);
+            btnEliminar.BackColor = SystemColors.ActiveBorder;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = Color.Blue;
+            btnEliminar.Location = new Point(593, 226);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(90, 32);
+            btnEliminar.Size = new Size(98, 40);
             btnEliminar.TabIndex = 14;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(664, 210);
+            btnLimpiar.BackColor = SystemColors.ActiveBorder;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = Color.Blue;
+            btnLimpiar.Location = new Point(493, 226);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(90, 32);
+            btnLimpiar.Size = new Size(94, 40);
             btnLimpiar.TabIndex = 15;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
             // dgvClases
@@ -207,7 +219,7 @@
             dgvClases.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvClases.Location = new Point(52, 288);
             dgvClases.Name = "dgvClases";
-            dgvClases.Size = new Size(662, 150);
+            dgvClases.Size = new Size(565, 138);
             dgvClases.TabIndex = 16;
             dgvClases.CellClick += dgvClases_CellClick;
             // 
@@ -215,6 +227,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(765, 450);
             Controls.Add(dgvClases);
             Controls.Add(btnLimpiar);
@@ -234,6 +247,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "Clase_y_Actividades_de_Gym";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Clase_y_Actividades_de_Gym";
             Load += Clase_y_Actividades_de_Gym_Load;
             ((System.ComponentModel.ISupportInitialize)nudCupoMaximo).EndInit();

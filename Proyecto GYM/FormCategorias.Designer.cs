@@ -51,7 +51,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(40, 61);
+            label1.Location = new Point(21, 30);
             label1.Name = "label1";
             label1.Size = new Size(112, 21);
             label1.TabIndex = 0;
@@ -61,7 +61,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(40, 107);
+            label2.Location = new Point(28, 79);
             label2.Name = "label2";
             label2.Size = new Size(77, 21);
             label2.TabIndex = 1;
@@ -71,7 +71,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(40, 155);
+            label3.Location = new Point(29, 155);
             label3.Name = "label3";
             label3.Size = new Size(104, 21);
             label3.TabIndex = 2;
@@ -81,7 +81,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(40, 206);
+            label4.Location = new Point(40, 201);
             label4.Name = "label4";
             label4.Size = new Size(65, 21);
             label4.TabIndex = 3;
@@ -89,38 +89,47 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(385, 201);
+            btnGuardar.BackColor = Color.Green;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = Color.Lavender;
+            btnGuardar.Location = new Point(339, 182);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(87, 33);
+            btnGuardar.Size = new Size(87, 46);
             btnGuardar.TabIndex = 4;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(574, 201);
+            btnLimpiar.BackColor = SystemColors.ActiveBorder;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = Color.Lavender;
+            btnLimpiar.Location = new Point(525, 182);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(87, 33);
+            btnLimpiar.Size = new Size(87, 47);
             btnLimpiar.TabIndex = 5;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(680, 201);
+            btnEliminar.BackColor = Color.Red;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = Color.Lavender;
+            btnEliminar.Location = new Point(618, 182);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(87, 33);
+            btnEliminar.Size = new Size(87, 47);
             btnEliminar.TabIndex = 6;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
             // dgvCategorias
             // 
             dgvCategorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCategorias.Location = new Point(74, 283);
+            dgvCategorias.Location = new Point(74, 274);
             dgvCategorias.Name = "dgvCategorias";
             dgvCategorias.Size = new Size(621, 164);
             dgvCategorias.TabIndex = 7;
@@ -128,7 +137,7 @@
             // 
             // txtIdCategoria
             // 
-            txtIdCategoria.Location = new Point(189, 61);
+            txtIdCategoria.Location = new Point(150, 32);
             txtIdCategoria.Name = "txtIdCategoria";
             txtIdCategoria.ReadOnly = true;
             txtIdCategoria.Size = new Size(133, 23);
@@ -136,7 +145,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(150, 105);
+            txtNombre.Location = new Point(111, 79);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(296, 32);
@@ -144,7 +153,7 @@
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(150, 155);
+            txtDescripcion.Location = new Point(139, 143);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(429, 33);
@@ -154,7 +163,7 @@
             // 
             rbActivo.AutoSize = true;
             rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            rbActivo.Location = new Point(132, 208);
+            rbActivo.Location = new Point(132, 201);
             rbActivo.Name = "rbActivo";
             rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 11;
@@ -166,7 +175,7 @@
             // 
             rbInactivo.AutoSize = true;
             rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            rbInactivo.Location = new Point(222, 208);
+            rbInactivo.Location = new Point(208, 201);
             rbInactivo.Name = "rbInactivo";
             rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 12;
@@ -195,18 +204,22 @@
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(481, 201);
+            btnEditar.BackColor = Color.OrangeRed;
+            btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditar.ForeColor = Color.Lavender;
+            btnEditar.Location = new Point(432, 182);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(87, 33);
+            btnEditar.Size = new Size(87, 47);
             btnEditar.TabIndex = 15;
             btnEditar.Text = "Editar";
-            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
             // 
             // FormCategorias
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(800, 450);
             Controls.Add(btnEditar);
             Controls.Add(txtBuscar);
@@ -225,6 +238,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormCategorias";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FormCategorias";
             Load += FormCategorias_Load;
             ((System.ComponentModel.ISupportInitialize)dgvCategorias).EndInit();

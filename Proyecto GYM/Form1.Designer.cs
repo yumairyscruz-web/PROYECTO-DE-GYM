@@ -43,20 +43,21 @@ namespace Proyecto_GYM
             // 
             // txtusuario
             // 
-            txtusuario.Location = new Point(377, 85);
+            txtusuario.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtusuario.Location = new Point(377, 88);
             txtusuario.MaximumSize = new Size(0, 35);
             txtusuario.Multiline = true;
             txtusuario.Name = "txtusuario";
-            txtusuario.Size = new Size(193, 35);
+            txtusuario.Size = new Size(193, 25);
             txtusuario.TabIndex = 2;
             txtusuario.TextChanged += textusuario_TextChanged;
             // 
             // txtclave
             // 
             txtclave.Location = new Point(377, 158);
-            txtclave.Multiline = true;
             txtclave.Name = "txtclave";
-            txtclave.Size = new Size(193, 37);
+            txtclave.PasswordChar = '*';
+            txtclave.Size = new Size(193, 23);
             txtclave.TabIndex = 3;
             txtclave.UseSystemPasswordChar = true;
             // 
@@ -126,6 +127,7 @@ namespace Proyecto_GYM
             Controls.Add(txtusuario);
             Controls.Add(txtclave);
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

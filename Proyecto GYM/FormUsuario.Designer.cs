@@ -161,9 +161,9 @@
             // txtClave
             // 
             txtClave.Location = new Point(352, 43);
-            txtClave.Multiline = true;
             txtClave.Name = "txtClave";
-            txtClave.Size = new Size(143, 30);
+            txtClave.PasswordChar = '*';
+            txtClave.Size = new Size(143, 23);
             txtClave.TabIndex = 9;
             txtClave.UseSystemPasswordChar = true;
             // 
@@ -246,7 +246,7 @@
             // 
             // btnCargarFoto
             // 
-            btnCargarFoto.BackColor = SystemColors.ActiveCaption;
+            btnCargarFoto.BackColor = Color.FromArgb(192, 192, 255);
             btnCargarFoto.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCargarFoto.ForeColor = SystemColors.ButtonFace;
             btnCargarFoto.Location = new Point(565, 221);
@@ -279,9 +279,9 @@
             // 
             // btnInactivar
             // 
-            btnInactivar.Location = new Point(236, 276);
+            btnInactivar.Location = new Point(225, 276);
             btnInactivar.Name = "btnInactivar";
-            btnInactivar.Size = new Size(99, 32);
+            btnInactivar.Size = new Size(110, 32);
             btnInactivar.TabIndex = 22;
             btnInactivar.Text = "Innactiva";
             btnInactivar.UseVisualStyleBackColor = true;
@@ -350,6 +350,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(767, 542);
             Controls.Add(label10);
             Controls.Add(cmbEntrenador);
@@ -381,6 +382,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormUsuario";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FormUsuario";
             Load += FormUsuario_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();

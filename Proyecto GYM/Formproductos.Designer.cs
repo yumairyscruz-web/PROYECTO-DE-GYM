@@ -133,9 +133,9 @@ namespace Proyecto_GYM
             btnGuardar.BackColor = Color.ForestGreen;
             btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnGuardar.ForeColor = SystemColors.ButtonFace;
-            btnGuardar.Location = new Point(313, 305);
+            btnGuardar.Location = new Point(291, 305);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(88, 37);
+            btnGuardar.Size = new Size(93, 37);
             btnGuardar.TabIndex = 7;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
@@ -146,9 +146,9 @@ namespace Proyecto_GYM
             tnEditar.BackColor = Color.OrangeRed;
             tnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tnEditar.ForeColor = SystemColors.ControlLightLight;
-            tnEditar.Location = new Point(407, 305);
+            tnEditar.Location = new Point(390, 304);
             tnEditar.Name = "tnEditar";
-            tnEditar.Size = new Size(88, 37);
+            tnEditar.Size = new Size(93, 37);
             tnEditar.TabIndex = 8;
             tnEditar.Text = "Editar";
             tnEditar.UseVisualStyleBackColor = false;
@@ -159,9 +159,9 @@ namespace Proyecto_GYM
             btnLimpiar.BackColor = SystemColors.ButtonShadow;
             btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLimpiar.ForeColor = SystemColors.ControlLightLight;
-            btnLimpiar.Location = new Point(500, 305);
+            btnLimpiar.Location = new Point(489, 304);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(88, 37);
+            btnLimpiar.Size = new Size(99, 37);
             btnLimpiar.TabIndex = 9;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = false;
@@ -192,7 +192,7 @@ namespace Proyecto_GYM
             // 
             // btnBuscar
             // 
-            btnBuscar.BackColor = SystemColors.ActiveCaption;
+            btnBuscar.BackColor = Color.FromArgb(192, 192, 255);
             btnBuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBuscar.ForeColor = SystemColors.ControlLightLight;
             btnBuscar.Location = new Point(291, 362);
@@ -357,7 +357,6 @@ namespace Proyecto_GYM
             numPrecioVenta.Name = "numPrecioVenta";
             numPrecioVenta.Size = new Size(120, 23);
             numPrecioVenta.TabIndex = 30;
-            numPrecioVenta.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // numPrecioCompra
             // 
@@ -367,7 +366,6 @@ namespace Proyecto_GYM
             numPrecioCompra.Name = "numPrecioCompra";
             numPrecioCompra.Size = new Size(120, 23);
             numPrecioCompra.TabIndex = 31;
-            numPrecioCompra.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // numStock
             // 
@@ -387,6 +385,7 @@ namespace Proyecto_GYM
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(724, 558);
             Controls.Add(numStockMinimo);
             Controls.Add(numStock);
@@ -422,6 +421,7 @@ namespace Proyecto_GYM
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FormProductos";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Gestión de Productos";
             Load += FormProductos_Load;
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
