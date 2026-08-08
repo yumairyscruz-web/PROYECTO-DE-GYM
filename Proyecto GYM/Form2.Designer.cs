@@ -36,10 +36,10 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
+            button10 = new Button();
             btnUsuario = new Button();
             button9 = new Button();
             button4 = new Button();
-            panel6 = new Panel();
             panel5 = new Panel();
             button8 = new Button();
             button7 = new Button();
@@ -50,15 +50,18 @@
             button2 = new Button();
             btnClientes = new Button();
             panel3 = new Panel();
+            panel6 = new Panel();
             panel4 = new Panel();
             lblTituloHeader = new Label();
             pageSetupDialog1 = new PageSetupDialog();
             notifyIcon1 = new NotifyIcon(components);
             panel7 = new Panel();
-            button10 = new Button();
+            panel8 = new Panel();
+            panel9 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
+            panel5.SuspendLayout();
             panel4.SuspendLayout();
             SuspendLayout();
             // 
@@ -123,6 +126,7 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.RoyalBlue;
+            panel2.Controls.Add(panel9);
             panel2.Controls.Add(button10);
             panel2.Controls.Add(btnUsuario);
             panel2.Controls.Add(button9);
@@ -142,6 +146,20 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(209, 727);
             panel2.TabIndex = 1;
+            // 
+            // button10
+            // 
+            button10.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button10.FlatAppearance.BorderSize = 0;
+            button10.FlatStyle = FlatStyle.Flat;
+            button10.ForeColor = Color.White;
+            button10.Location = new Point(19, 363);
+            button10.Name = "button10";
+            button10.Size = new Size(153, 26);
+            button10.TabIndex = 16;
+            button10.Text = "Pases del Día / Visitas";
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
             // 
             // btnUsuario
             // 
@@ -185,21 +203,14 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
-            // panel6
-            // 
-            panel6.BackColor = Color.Silver;
-            panel6.Location = new Point(2, 396);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(220, 2);
-            panel6.TabIndex = 12;
-            // 
             // panel5
             // 
             panel5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel5.BackColor = Color.Silver;
+            panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(15130, 2);
+            panel5.Size = new Size(15693, 2);
             panel5.TabIndex = 11;
             // 
             // button8
@@ -317,6 +328,14 @@
             panel3.Size = new Size(525, 40);
             panel3.TabIndex = 2;
             // 
+            // panel6
+            // 
+            panel6.BackColor = Color.Silver;
+            panel6.Location = new Point(2, 396);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(220, 2);
+            panel6.TabIndex = 12;
+            // 
             // panel4
             // 
             panel4.BackColor = Color.MidnightBlue;
@@ -351,19 +370,23 @@
             panel7.Size = new Size(816, 582);
             panel7.TabIndex = 3;
             // 
-            // button10
+            // panel8
             // 
-            button10.FlatAppearance.BorderColor = Color.RoyalBlue;
-            button10.FlatAppearance.BorderSize = 0;
-            button10.FlatStyle = FlatStyle.Flat;
-            button10.ForeColor = Color.White;
-            button10.Location = new Point(31, 363);
-            button10.Name = "button10";
-            button10.Size = new Size(153, 26);
-            button10.TabIndex = 16;
-            button10.Text = "Pases del Día / Visitas";
-            button10.UseVisualStyleBackColor = true;
-            button10.Click += button10_Click;
+            panel8.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel8.BackColor = Color.Silver;
+            panel8.Location = new Point(0, 0);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(200, 2);
+            panel8.TabIndex = 12;
+            // 
+            // panel9
+            // 
+            panel9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel9.BackColor = Color.Silver;
+            panel9.Location = new Point(0, 398);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(210, 2);
+            panel9.TabIndex = 13;
             // 
             // Form2
             // 
@@ -385,6 +408,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel5.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             ResumeLayout(false);
@@ -418,5 +442,7 @@
         private Label lblTituloHeader;
         private Button btnUsuario;
         private Button button10;
+        private Panel panel8;
+        private Panel panel9;
     }
 }

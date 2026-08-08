@@ -36,6 +36,7 @@
             label4 = new Label();
             label1 = new Label();
             txtNombreCliente = new TextBox();
+            btnEliminar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvVisitasHoy).BeginInit();
             SuspendLayout();
             // 
@@ -75,13 +76,14 @@
             btnRegistrar.BackColor = Color.Blue;
             btnRegistrar.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegistrar.ForeColor = SystemColors.Control;
-            btnRegistrar.Location = new Point(300, 162);
+            btnRegistrar.Location = new Point(272, 183);
             btnRegistrar.Name = "btnRegistrar";
             btnRegistrar.Size = new Size(105, 42);
             btnRegistrar.TabIndex = 5;
             btnRegistrar.Text = "Registrar";
             btnRegistrar.UseVisualStyleBackColor = false;
             btnRegistrar.AutoSizeChanged += btnRegistrar_Click;
+            btnRegistrar.Click += btnRegistrar_Click;
             // 
             // dgvVisitasHoy
             // 
@@ -122,12 +124,26 @@
             txtNombreCliente.Size = new Size(171, 31);
             txtNombreCliente.TabIndex = 9;
             // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.Red;
+            btnEliminar.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = SystemColors.Control;
+            btnEliminar.Location = new Point(383, 183);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(105, 42);
+            btnEliminar.TabIndex = 10;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
+            // 
             // FormPasesDiarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(618, 450);
+            Controls.Add(btnEliminar);
             Controls.Add(txtNombreCliente);
             Controls.Add(label1);
             Controls.Add(label4);
@@ -154,5 +170,6 @@
         private Label label4;
         private Label label1;
         private TextBox txtNombreCliente;
+        private Button btnEliminar;
     }
 }
