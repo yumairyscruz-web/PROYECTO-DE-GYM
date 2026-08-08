@@ -36,11 +36,13 @@
             button1 = new Button();
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
+            panel9 = new Panel();
             button10 = new Button();
             btnUsuario = new Button();
             button9 = new Button();
             button4 = new Button();
             panel5 = new Panel();
+            panel8 = new Panel();
             button8 = new Button();
             button7 = new Button();
             label1 = new Label();
@@ -56,8 +58,6 @@
             pageSetupDialog1 = new PageSetupDialog();
             notifyIcon1 = new NotifyIcon(components);
             panel7 = new Panel();
-            panel8 = new Panel();
-            panel9 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -147,15 +147,26 @@
             panel2.Size = new Size(209, 727);
             panel2.TabIndex = 1;
             // 
+            // panel9
+            // 
+            panel9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel9.BackColor = Color.Silver;
+            panel9.Location = new Point(0, 398);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(773, 2);
+            panel9.TabIndex = 13;
+            // 
             // button10
             // 
             button10.FlatAppearance.BorderColor = Color.RoyalBlue;
             button10.FlatAppearance.BorderSize = 0;
             button10.FlatStyle = FlatStyle.Flat;
             button10.ForeColor = Color.White;
-            button10.Location = new Point(19, 363);
+            button10.Image = Properties.Resources.marcador_de_posicion;
+            button10.ImageAlign = ContentAlignment.MiddleLeft;
+            button10.Location = new Point(15, 371);
             button10.Name = "button10";
-            button10.Size = new Size(153, 26);
+            button10.Size = new Size(210, 26);
             button10.TabIndex = 16;
             button10.Text = "Pases del Día / Visitas";
             button10.UseVisualStyleBackColor = true;
@@ -167,11 +178,13 @@
             btnUsuario.FlatAppearance.BorderSize = 0;
             btnUsuario.FlatStyle = FlatStyle.Flat;
             btnUsuario.ForeColor = Color.White;
-            btnUsuario.Location = new Point(27, 120);
+            btnUsuario.Image = (Image)resources.GetObject("btnUsuario.Image");
+            btnUsuario.ImageAlign = ContentAlignment.MiddleLeft;
+            btnUsuario.Location = new Point(12, 123);
             btnUsuario.Name = "btnUsuario";
-            btnUsuario.Size = new Size(86, 26);
+            btnUsuario.Size = new Size(108, 26);
             btnUsuario.TabIndex = 15;
-            btnUsuario.Text = "Usuario";
+            btnUsuario.Text = "     Usuario";
             btnUsuario.UseVisualStyleBackColor = true;
             btnUsuario.Click += btnUsuario_Click;
             // 
@@ -181,9 +194,11 @@
             button9.FlatAppearance.BorderSize = 0;
             button9.FlatStyle = FlatStyle.Flat;
             button9.ForeColor = Color.White;
-            button9.Location = new Point(26, 334);
+            button9.Image = Properties.Resources.proveedor;
+            button9.ImageAlign = ContentAlignment.MiddleLeft;
+            button9.Location = new Point(15, 346);
             button9.Name = "button9";
-            button9.Size = new Size(104, 26);
+            button9.Size = new Size(160, 26);
             button9.TabIndex = 14;
             button9.Text = "Proveedores";
             button9.UseVisualStyleBackColor = true;
@@ -195,9 +210,11 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.White;
-            button4.Location = new Point(34, 313);
+            button4.Image = Properties.Resources.agregar_producto;
+            button4.ImageAlign = ContentAlignment.MiddleLeft;
+            button4.Location = new Point(15, 314);
             button4.Name = "button4";
-            button4.Size = new Size(86, 26);
+            button4.Size = new Size(142, 26);
             button4.TabIndex = 13;
             button4.Text = "Productos";
             button4.UseVisualStyleBackColor = true;
@@ -210,8 +227,17 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(15693, 2);
+            panel5.Size = new Size(16256, 2);
             panel5.TabIndex = 11;
+            // 
+            // panel8
+            // 
+            panel8.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel8.BackColor = Color.Silver;
+            panel8.Location = new Point(0, 0);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(763, 2);
+            panel8.TabIndex = 12;
             // 
             // button8
             // 
@@ -232,9 +258,11 @@
             button7.FlatAppearance.BorderSize = 0;
             button7.FlatStyle = FlatStyle.Flat;
             button7.ForeColor = Color.White;
-            button7.Location = new Point(34, 291);
+            button7.Image = (Image)resources.GetObject("button7.Image");
+            button7.ImageAlign = ContentAlignment.MiddleLeft;
+            button7.Location = new Point(19, 292);
             button7.Name = "button7";
-            button7.Size = new Size(86, 26);
+            button7.Size = new Size(138, 26);
             button7.TabIndex = 9;
             button7.Text = "Categorías";
             button7.UseVisualStyleBackColor = true;
@@ -257,9 +285,11 @@
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatStyle = FlatStyle.Flat;
             button6.ForeColor = Color.White;
-            button6.Location = new Point(26, 259);
+            button6.Image = (Image)resources.GetObject("button6.Image");
+            button6.ImageAlign = ContentAlignment.MiddleLeft;
+            button6.Location = new Point(19, 269);
             button6.Name = "button6";
-            button6.Size = new Size(138, 26);
+            button6.Size = new Size(172, 26);
             button6.TabIndex = 8;
             button6.Text = "Horarios de Clases";
             button6.UseVisualStyleBackColor = true;
@@ -271,9 +301,11 @@
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatStyle = FlatStyle.Flat;
             button5.ForeColor = Color.White;
-            button5.Location = new Point(26, 237);
+            button5.Image = (Image)resources.GetObject("button5.Image");
+            button5.ImageAlign = ContentAlignment.MiddleLeft;
+            button5.Location = new Point(15, 237);
             button5.Name = "button5";
-            button5.Size = new Size(149, 26);
+            button5.Size = new Size(194, 26);
             button5.TabIndex = 7;
             button5.Text = "Clases / Actividades";
             button5.UseVisualStyleBackColor = true;
@@ -285,9 +317,11 @@
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
-            button3.Location = new Point(27, 205);
+            button3.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button3.ImageAlign = ContentAlignment.MiddleLeft;
+            button3.Location = new Point(11, 205);
             button3.Name = "button3";
-            button3.Size = new Size(157, 26);
+            button3.Size = new Size(209, 26);
             button3.TabIndex = 6;
             button3.Text = "Tipos de Membresías";
             button3.UseVisualStyleBackColor = true;
@@ -299,9 +333,11 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.ForeColor = Color.White;
-            button2.Location = new Point(34, 173);
+            button2.Image = Properties.Resources.entrenador;
+            button2.ImageAlign = ContentAlignment.MiddleLeft;
+            button2.Location = new Point(12, 182);
             button2.Name = "button2";
-            button2.Size = new Size(101, 26);
+            button2.Size = new Size(173, 26);
             button2.TabIndex = 5;
             button2.Text = "Entrenadores";
             button2.UseVisualStyleBackColor = true;
@@ -313,11 +349,13 @@
             btnClientes.FlatAppearance.BorderSize = 0;
             btnClientes.FlatStyle = FlatStyle.Flat;
             btnClientes.ForeColor = Color.White;
-            btnClientes.Location = new Point(27, 150);
+            btnClientes.Image = (Image)resources.GetObject("btnClientes.Image");
+            btnClientes.ImageAlign = ContentAlignment.MiddleLeft;
+            btnClientes.Location = new Point(10, 150);
             btnClientes.Name = "btnClientes";
-            btnClientes.Size = new Size(86, 26);
+            btnClientes.Size = new Size(103, 26);
             btnClientes.TabIndex = 4;
-            btnClientes.Text = "clientes";
+            btnClientes.Text = "     clientes";
             btnClientes.UseVisualStyleBackColor = true;
             btnClientes.Click += btnClientes_Click;
             // 
@@ -369,24 +407,6 @@
             panel7.Name = "panel7";
             panel7.Size = new Size(816, 582);
             panel7.TabIndex = 3;
-            // 
-            // panel8
-            // 
-            panel8.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel8.BackColor = Color.Silver;
-            panel8.Location = new Point(0, 0);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(200, 2);
-            panel8.TabIndex = 12;
-            // 
-            // panel9
-            // 
-            panel9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel9.BackColor = Color.Silver;
-            panel9.Location = new Point(0, 398);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(210, 2);
-            panel9.TabIndex = 13;
             // 
             // Form2
             // 
