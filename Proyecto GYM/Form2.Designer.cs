@@ -56,6 +56,7 @@
             panel9 = new Panel();
             label2 = new Label();
             panel2 = new Panel();
+            flowLayoutPanel2 = new FlowLayoutPanel();
             label3 = new Label();
             panelMovimientos = new Panel();
             button11 = new Button();
@@ -87,9 +88,9 @@
             btnSalir.FlatAppearance.MouseDownBackColor = Color.White;
             btnSalir.FlatAppearance.MouseOverBackColor = Color.White;
             btnSalir.FlatStyle = FlatStyle.Flat;
-            btnSalir.Location = new Point(818, 34);
+            btnSalir.Location = new Point(804, 16);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(86, 26);
+            btnSalir.Size = new Size(100, 44);
             btnSalir.TabIndex = 3;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
@@ -99,9 +100,9 @@
             // 
             btnCerrarSesion.FlatAppearance.BorderColor = Color.White;
             btnCerrarSesion.FlatStyle = FlatStyle.Flat;
-            btnCerrarSesion.Location = new Point(700, 34);
+            btnCerrarSesion.Location = new Point(686, 16);
             btnCerrarSesion.Name = "btnCerrarSesion";
-            btnCerrarSesion.Size = new Size(98, 26);
+            btnCerrarSesion.Size = new Size(112, 44);
             btnCerrarSesion.TabIndex = 3;
             btnCerrarSesion.Text = "Cerra Sesion";
             btnCerrarSesion.UseVisualStyleBackColor = true;
@@ -111,9 +112,9 @@
             // 
             button1.FlatAppearance.BorderColor = Color.White;
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(583, 34);
+            button1.Location = new Point(583, 16);
             button1.Name = "button1";
-            button1.Size = new Size(86, 26);
+            button1.Size = new Size(97, 44);
             button1.TabIndex = 1;
             button1.Text = "Inicio";
             button1.UseVisualStyleBackColor = true;
@@ -130,9 +131,9 @@
             // 
             panel4.BackColor = Color.MidnightBlue;
             panel4.Controls.Add(lblTituloHeader);
-            panel4.Location = new Point(207, 94);
+            panel4.Location = new Point(207, 81);
             panel4.Name = "panel4";
-            panel4.Size = new Size(816, 38);
+            panel4.Size = new Size(816, 51);
             panel4.TabIndex = 2;
             // 
             // lblTituloHeader
@@ -171,7 +172,7 @@
             panel10.Controls.Add(button4);
             panel10.Location = new Point(12, 121);
             panel10.Name = "panel10";
-            panel10.Size = new Size(186, 277);
+            panel10.Size = new Size(179, 277);
             panel10.TabIndex = 1;
             panel10.Visible = false;
             // 
@@ -370,7 +371,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(28080, 2);
+            panel5.Size = new Size(31632, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -379,7 +380,7 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(12587, 2);
+            panel8.Size = new Size(16139, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
@@ -388,7 +389,7 @@
             panel9.BackColor = Color.Silver;
             panel9.Location = new Point(0, 398);
             panel9.Name = "panel9";
-            panel9.Size = new Size(12597, 2);
+            panel9.Size = new Size(16149, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -407,6 +408,7 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.RoyalBlue;
+            panel2.Controls.Add(flowLayoutPanel2);
             panel2.Controls.Add(panel10);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(panelMovimientos);
@@ -422,6 +424,17 @@
             panel2.Size = new Size(222, 749);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
+            // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.AutoScroll = true;
+            flowLayoutPanel2.AutoSize = true;
+            flowLayoutPanel2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flowLayoutPanel2.Location = new Point(-11, 0);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(0, 0);
+            flowLayoutPanel2.TabIndex = 0;
+            flowLayoutPanel2.Visible = false;
             // 
             // label3
             // 
@@ -478,9 +491,11 @@
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             flowLayoutPanel1.Location = new Point(0, 93);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(209, 636);
+            flowLayoutPanel1.Size = new Size(0, 0);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // Form2
@@ -545,5 +560,6 @@
         private Panel panel10;
         private Label label3;
         private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flowLayoutPanel2;
     }
 }

@@ -12,6 +12,7 @@ namespace Proyecto_GYM
     {
         private string nombreUsuarioSesion;
         private Form? formularioActivo = null;
+
         public Form2(string nombreUsuario)
         {
             InitializeComponent();
@@ -28,6 +29,14 @@ namespace Proyecto_GYM
         {
             lblTituloHeader.Text = "Inicio";
             MostrarBienvenidaInicial();
+
+            // Arrancan ocultos de forma limpia
+            panel10.Visible = false;
+            panelMovimientos.Visible = false;
+
+            // Orden inicial de las etiquetas y paneles en el menú
+            label2.Top = label1.Bottom + 10;
+            panelMovimientos.Top = label2.Bottom + 5;
         }
 
         private void MostrarBienvenidaInicial()
@@ -37,8 +46,6 @@ namespace Proyecto_GYM
             Label lblBienvenida = new Label();
             lblBienvenida.Text = "¡Bienvenido/@, " + nombreUsuarioSesion + "!";
             lblBienvenida.Font = new Font("Segoe UI", 20, FontStyle.Bold);
-
-            // Texto en color blanco para resaltar sobre tu imagen de fondo
             lblBienvenida.ForeColor = Color.White;
             lblBienvenida.BackColor = Color.Transparent;
             lblBienvenida.AutoSize = true;
@@ -151,28 +158,46 @@ namespace Proyecto_GYM
 
         private void panel2_Paint(object sender, PaintEventArgs e) { }
 
-        // --- ACORDEÓN: MANTENIMIENTO ---
+        // --- ACORDEÓN DE MANTENIMIENTO ---
+        // --- ACORDEÓN DE MANTENIMIENTO ---
         private void label1_Click(object sender, EventArgs e)
         {
-            panel10.Visible = !panel10.Visible;
+            bool mostrarMantenimiento = !panel10.Visible;
+            panel10.Visible = mostrarMantenimiento;
 
-            if (panel10.Visible)
+            if (mostrarMantenimiento)
             {
                 panelMovimientos.Visible = false;
+                // Distancia cuando Mantenimiento está abierto
+                label2.Top = panel10.Bottom + 15;
             }
+            else
+            {
+                // Distancia cuando Mantenimiento está cerrado (sube con buen respiro)
+                label2.Top = label1.Bottom + 25;
+            }
+
+            panelMovimientos.Top = label2.Bottom + 8;
         }
 
-        // --- ACORDEÓN: MOVIMIENTOS ---
+        // --- ACORDEÓN DE MOVIMIENTOS ---
         private void label2_Click(object sender, EventArgs e)
         {
-            panelMovimientos.Visible = !panelMovimientos.Visible;
+            bool mostrarMovimientos = !panelMovimientos.Visible;
+            panelMovimientos.Visible = mostrarMovimientos;
 
-            if (panelMovimientos.Visible)
+            if (mostrarMovimientos)
             {
                 panel10.Visible = false;
+                label2.Top = label1.Bottom + 25;
             }
-        }
+            else
+            {
+                label2.Top = label1.Bottom + 25;
+            }
 
+            panelMovimientos.Top = label2.Bottom + 8;
+        }
         private void button11_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FrmRenovarMembresia(), "Renovacion / Membresia");
