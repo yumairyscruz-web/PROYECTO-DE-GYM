@@ -63,6 +63,36 @@ namespace Proyecto_GYM.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _483574078763932931 {
+            get {
+                object obj = ResourceManager.GetObject("483574078763932931", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _4835740787639329311 {
+            get {
+                object obj = ResourceManager.GetObject("4835740787639329311", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _4835740787639329312 {
+            get {
+                object obj = ResourceManager.GetObject("4835740787639329312", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap agregar_producto {
             get {
                 object obj = ResourceManager.GetObject("agregar-producto", resourceCulture);
@@ -96,6 +126,16 @@ namespace Proyecto_GYM.Properties {
         internal static System.Drawing.Bitmap corre {
             get {
                 object obj = ResourceManager.GetObject("corre", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap descarga {
+            get {
+                object obj = ResourceManager.GetObject("descarga", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

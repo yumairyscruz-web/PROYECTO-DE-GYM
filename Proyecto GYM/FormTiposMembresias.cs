@@ -18,15 +18,7 @@ namespace Proyecto_GYM
         {
             InitializeComponent();
 
-            this.Load += FormTiposMembresias_Load;
-            btnGuardar.Click += btnGuardar_Click;
-            btnEditar.Click += btnEditar_Click;
-            btnEliminar.Click += btnEliminar_Click;
-            btnLimpiar.Click += btnLimpiar_Click;
-            button1.Click += btnAsignarMembresia_Click;
-            button2.Click += btnRenovarMembresia_Click;
-            txtBuscar.TextChanged += txtBuscar_TextChanged;
-            dgvMembresias.CellClick += dgvMembresias_CellClick;
+           
         }
 
         private void FormTiposMembresias_Load(object sender, EventArgs e)
@@ -285,8 +277,13 @@ namespace Proyecto_GYM
             Form2 formPrincipal = Application.OpenForms["Form2"] as Form2;
             if (formPrincipal != null)
             {
-                formPrincipal.AbrirRenovacionMembresia();
+                formPrincipal.AbrirFormularioHijo(new FrmRenovarMembresia(), "Renovacion / Membresia");
             }
+        }
+
+        private void FormTiposMembresias_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

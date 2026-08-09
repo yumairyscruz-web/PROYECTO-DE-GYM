@@ -147,6 +147,7 @@
             txtBuscar.Size = new Size(213, 23);
             txtBuscar.TabIndex = 10;
             txtBuscar.Click += txtBuscar_TextChanged;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // label5
             // 
@@ -169,6 +170,7 @@
             btnGuardar.TabIndex = 12;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnEditar
             // 
@@ -181,6 +183,7 @@
             btnEditar.TabIndex = 13;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
             // btnEliminar
             // 
@@ -193,6 +196,7 @@
             btnEliminar.TabIndex = 14;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnLimpiar
             // 
@@ -205,6 +209,7 @@
             btnLimpiar.TabIndex = 15;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // dgvMembresias
             // 
@@ -213,6 +218,7 @@
             dgvMembresias.Name = "dgvMembresias";
             dgvMembresias.Size = new Size(451, 162);
             dgvMembresias.TabIndex = 16;
+            dgvMembresias.CellClick += dgvMembresias_CellClick;
             // 
             // button1
             // 
@@ -225,6 +231,7 @@
             button1.TabIndex = 17;
             button1.Text = "Asignar Membresía";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += btnAsignarMembresia_Click;
             // 
             // button2
             // 
@@ -237,6 +244,7 @@
             button2.TabIndex = 18;
             button2.Text = "Renovar Membresía";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += btnRenovarMembresia_Click;
             // 
             // label6
             // 
@@ -311,6 +319,7 @@
             Name = "FormTiposMembresias";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormTiposMembresias";
+            Load += FormTiposMembresias_Load_1;
             ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudDuracionmeses).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvMembresias).EndInit();

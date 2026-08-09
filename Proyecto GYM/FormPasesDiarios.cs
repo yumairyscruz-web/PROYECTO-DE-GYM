@@ -28,7 +28,7 @@ namespace Proyecto_GYM
             // Permite que al presionar la tecla ENTER se active el botón de registrar de inmediato
             this.AcceptButton = btnRegistrar;
 
-            // Cargar los registros de pases diarios de hoy al abrir el formulario
+            // Cargar los registros de pases diarios al abrir el formulario
             CargarVisitasHoy();
         }
 
@@ -135,13 +135,12 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
 
-                    // Incluimos id_pase en la consulta
+                    // Consulta sin el filtro de la fecha de hoy para que mantenga el historial completo
                     string query = @"SELECT id_pase, 
                                             nombre_cliente AS [Cliente], 
                                             monto AS [Monto], 
                                             CONVERT(VARCHAR(8), fecha_pago, 108) AS [Hora] 
                                      FROM pases_diarios 
-                                     WHERE CONVERT(DATE, fecha_pago) = CONVERT(DATE, GETDATE()) 
                                      ORDER BY fecha_pago DESC";
 
                     SqlDataAdapter da = new SqlDataAdapter(query, con);

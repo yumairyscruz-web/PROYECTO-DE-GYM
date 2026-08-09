@@ -258,6 +258,7 @@
             dgvRenovaciones.Name = "dgvRenovaciones";
             dgvRenovaciones.Size = new Size(665, 141);
             dgvRenovaciones.TabIndex = 20;
+            dgvRenovaciones.CellClick += dgvRenovaciones_CellClick;
             // 
             // btnEliminar
             // 

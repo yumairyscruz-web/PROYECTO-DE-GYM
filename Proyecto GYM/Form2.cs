@@ -11,8 +11,7 @@ namespace Proyecto_GYM
     public partial class Form2 : Form
     {
         private string nombreUsuarioSesion;
-        private Form formularioActivo = null;
-
+        private Form? formularioActivo = null;
         public Form2(string nombreUsuario)
         {
             InitializeComponent();
@@ -38,7 +37,10 @@ namespace Proyecto_GYM
             Label lblBienvenida = new Label();
             lblBienvenida.Text = "¡Bienvenido/@, " + nombreUsuarioSesion + "!";
             lblBienvenida.Font = new Font("Segoe UI", 20, FontStyle.Bold);
-            lblBienvenida.ForeColor = Color.FromArgb(28, 40, 51);
+
+            // Texto en color blanco para resaltar sobre tu imagen de fondo
+            lblBienvenida.ForeColor = Color.White;
+            lblBienvenida.BackColor = Color.Transparent;
             lblBienvenida.AutoSize = true;
 
             lblBienvenida.Location = new Point(
@@ -74,7 +76,6 @@ namespace Proyecto_GYM
             MostrarBienvenidaInicial();
         }
 
-        // Método público para incrustar cualquier formulario dentro del panel7 contenedor
         public void AbrirFormularioHijo(Form formularioHijo, string titulo)
         {
             if (formularioActivo != null)
@@ -128,18 +129,6 @@ namespace Proyecto_GYM
             AbrirFormularioHijo(new FormTiposMembresias(), "  GESTIÓN DE TIPOS DE MEMBRESÍAS");
         }
 
-        // Evento para abrir el formulario de renovación directamente dentro de panel7
-        public void AbrirRenovacionMembresia()
-        {
-            AbrirFormularioHijo(new FrmRenovarMembresia(), "RENOVACIÓN DE MEMBRESÍA");
-        }
-
-        // Asigna este método al evento Click del botón de Renovar Membresía de tu menú
-        private void btnRenovarMembresia_Click(object sender, EventArgs e)
-        {
-            AbrirRenovacionMembresia();
-        }
-
         private void button7_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FormCategorias(), "Mantenimiento de Categorías de Productos");
@@ -148,18 +137,50 @@ namespace Proyecto_GYM
         private void button4_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FormProductos(), "GESTIÓN DE PRODUCTOS");
-
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FormProveedores(), "Mantenimiento de Proveedores");
-
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FormPasesDiarios(), "Pases del Día / Visitas");
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e) { }
+
+        // --- ACORDEÓN: MANTENIMIENTO ---
+        private void label1_Click(object sender, EventArgs e)
+        {
+            panel10.Visible = !panel10.Visible;
+
+            if (panel10.Visible)
+            {
+                panelMovimientos.Visible = false;
+            }
+        }
+
+        // --- ACORDEÓN: MOVIMIENTOS ---
+        private void label2_Click(object sender, EventArgs e)
+        {
+            panelMovimientos.Visible = !panelMovimientos.Visible;
+
+            if (panelMovimientos.Visible)
+            {
+                panel10.Visible = false;
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmRenovarMembresia(), "Renovacion / Membresia");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FrmAsignarMembresia(), "Asignaciones / Membresia");
         }
     }
 }
