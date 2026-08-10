@@ -19,9 +19,6 @@ namespace Proyecto_GYM
         {
             this.Dock = DockStyle.Fill;
 
-
-
-            // Carga inicial
             cargandoDatos = true;
             CargarClientesCombo();
             CargarMembresiasCombo();
@@ -182,12 +179,12 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
                     string query = @"UPDATE cliente_membresia 
-                                     SET id_cliente = @id_cliente, 
-                                         id_membresia = @id_membresia, 
-                                         fecha_inicio = @fecha_inicio, 
-                                         fecha_fin = @fecha_fin, 
-                                         estado = @estado 
-                                     WHERE id_cliente_membresia = @id";
+                                   SET id_cliente = @id_cliente, 
+                                       id_membresia = @id_membresia, 
+                                       fecha_inicio = @fecha_inicio, 
+                                       fecha_fin = @fecha_fin, 
+                                       estado = @estado 
+                                   WHERE id_cliente_membresia = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -236,56 +233,62 @@ namespace Proyecto_GYM
             {
                 DataGridViewRow fila = dgvAsignaciones.Rows[e.RowIndex];
 
-                // Extraemos por posiciones (índices de columna) para evitar errores de nombres
-                // 0: Código, 1: Cliente, 2: Cédula, 3: Membresía, 4: Fecha Inicio, 5: Fecha Fin, 6: Precio, 7: Estado
-                idAsignacionSeleccionada = Convert.ToInt32(fila.Cells[0].Value ?? 0);
-                string cedulaCliente = fila.Cells[2].Value?.ToString() ?? "";
-                txtCedula.Text = cedulaCliente;
-
-                // Seleccionar en combo de clientes por cédula
-                if (cmbCliente.DataSource is DataTable dtClientes)
+                // 1. Obtener ID de la asignación
+                if (dgvAsignaciones.Columns["id_cliente_membresia"] != null && fila.Cells["id_cliente_membresia"].Value != DBNull.Value)
                 {
-                    DataRow[] rows = dtClientes.Select($"cedula = '{cedulaCliente}'");
-                    if (rows.Length > 0)
+                    idAsignacionSeleccionada = Convert.ToInt32(fila.Cells["id_cliente_membresia"].Value);
+                }
+
+                // 2. Seleccionar Cliente y extraer su teléfono de la fuente de datos
+                if (dgvAsignaciones.Columns["id_cliente"] != null && fila.Cells["id_cliente"].Value != DBNull.Value)
+                {
+                    int idCliente = Convert.ToInt32(fila.Cells["id_cliente"].Value);
+                    cmbCliente.SelectedValue = idCliente;
+
+                    if (cmbCliente.SelectedItem is DataRowView drvClient)
                     {
-                        cmbCliente.SelectedValue = rows[0]["id_cliente"];
-                        txtTelefono.Text = rows[0]["telefono"]?.ToString() ?? "";
+                        txtCedula.Text = drvClient["cedula"]?.ToString() ?? "";
+                        txtTelefono.Text = drvClient["telefono"]?.ToString() ?? "";
                     }
                 }
 
-                // Seleccionar en combo de membresías por texto de la celda
-                string nombreMembresia = fila.Cells[3].Value?.ToString() ?? "";
-                if (cmbMembresia.DataSource is DataTable dtMembresias)
+                // 3. Seleccionar Membresía y extraer su precio y duración de la fuente de datos
+                if (dgvAsignaciones.Columns["id_membresia"] != null && fila.Cells["id_membresia"].Value != DBNull.Value)
                 {
-                    DataRow[] rowsM = dtMembresias.Select($"nombre = '{nombreMembresia}'");
-                    if (rowsM.Length > 0)
+                    int idMembresia = Convert.ToInt32(fila.Cells["id_membresia"].Value);
+                    cmbMembresia.SelectedValue = idMembresia;
+
+                    if (cmbMembresia.SelectedItem is DataRowView drvMemb)
                     {
-                        cmbMembresia.SelectedValue = rowsM[0]["id_membresia"];
-                        txtPrecio.Text = rowsM[0]["precio"]?.ToString() ?? "";
-                        nudDuracion.Value = Convert.ToInt32(rowsM[0]["duracion_dias"]);
+                        txtPrecio.Text = drvMemb["precio"]?.ToString() ?? "";
+                        int duracion = Convert.ToInt32(drvMemb["duracion_dias"]);
+                        nudDuracion.Value = duracion > 0 ? duracion : 1;
                     }
                 }
 
-                // Fechas
-                if (DateTime.TryParse(fila.Cells[4].Value?.ToString(), out DateTime fInicio))
+                // 4. Fechas
+                if (dgvAsignaciones.Columns["Fecha Inicio"] != null && fila.Cells["Fecha Inicio"].Value != DBNull.Value && DateTime.TryParse(fila.Cells["Fecha Inicio"].Value.ToString(), out DateTime fInicio))
                 {
                     dtpInicio.Value = fInicio;
                 }
 
-                if (DateTime.TryParse(fila.Cells[5].Value?.ToString(), out DateTime fFin))
+                if (dgvAsignaciones.Columns["Fecha Vencimiento"] != null && fila.Cells["Fecha Vencimiento"].Value != DBNull.Value && DateTime.TryParse(fila.Cells["Fecha Vencimiento"].Value.ToString(), out DateTime fFin))
                 {
                     dtpVencimiento.Value = fFin;
                 }
 
-                // Estado
-                string estado = fila.Cells[7].Value?.ToString() ?? "Activo";
-                if (estado.Equals("Activo", StringComparison.OrdinalIgnoreCase) || estado == "1" || estado == "True")
+                // 5. Estado
+                if (dgvAsignaciones.Columns["Estado"] != null)
                 {
-                    rbActivo.Checked = true;
-                }
-                else
-                {
-                    rbInactivo.Checked = true;
+                    string estado = fila.Cells["Estado"].Value?.ToString() ?? "Activo";
+                    if (estado.Equals("Activo", StringComparison.OrdinalIgnoreCase) || estado == "1" || estado == "True")
+                    {
+                        rbActivo.Checked = true;
+                    }
+                    else
+                    {
+                        rbInactivo.Checked = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -316,6 +319,15 @@ namespace Proyecto_GYM
 
                         dgvAsignaciones.DataSource = dt;
                         dgvAsignaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                        if (dgvAsignaciones.Columns["id_cliente_membresia"] != null)
+                            dgvAsignaciones.Columns["id_cliente_membresia"].Visible = false;
+
+                        if (dgvAsignaciones.Columns["id_cliente"] != null)
+                            dgvAsignaciones.Columns["id_cliente"].Visible = false;
+
+                        if (dgvAsignaciones.Columns["id_membresia"] != null)
+                            dgvAsignaciones.Columns["id_membresia"].Visible = false;
                     }
                 }
             }
@@ -353,14 +365,12 @@ namespace Proyecto_GYM
 
         private void btnInactivo_Click(object sender, EventArgs e)
         {
-            // Verificamos si hay algo seleccionado
             if (idAsignacionSeleccionada == 0)
             {
                 MessageBox.Show("Por favor, seleccione una membresía de la tabla para inactivar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Pedimos confirmación
             DialogResult resultado = MessageBox.Show(
                 "¿Está seguro de que desea inactivar esta membresía?",
                 "Confirmar Inactivación",
@@ -376,7 +386,6 @@ namespace Proyecto_GYM
                     {
                         if (con.State == ConnectionState.Closed) con.Open();
 
-                        // Actualizamos el estado a 0 (Inactivo)
                         string query = "UPDATE cliente_membresia SET estado = 0 WHERE id_cliente_membresia = @id";
 
                         using (SqlCommand cmd = new SqlCommand(query, con))
@@ -387,8 +396,6 @@ namespace Proyecto_GYM
                     }
 
                     MessageBox.Show("Membresía inactivada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Refrescamos la tabla y limpiamos los campos
                     CargarTablaAsignaciones();
                     LimpiarCampos();
                 }

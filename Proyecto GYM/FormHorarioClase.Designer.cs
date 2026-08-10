@@ -181,6 +181,7 @@
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.ClientSizeChanged += btnLimpiar_Click;
+            btnLimpiar.Click += btnLimpiar_Click;
             // 
             // label1
             // 

@@ -196,7 +196,7 @@ namespace Proyecto_GYM
             }
         }
 
-        // Editar entrenador seleccionado
+        // Editar entrenador seleccionado de forma completa protegiendo la cédula
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (dgvEntrenadores.CurrentRow == null || string.IsNullOrWhiteSpace(txtCedula.Text))
@@ -225,17 +225,22 @@ namespace Proyecto_GYM
                         con.Open();
                     }
 
+                    // Se actualizan todos los campos necesarios excepto la cédula para proteger la integridad
                     string query = @"UPDATE entrenadores 
-                                    SET cedula = @cedula, nombre = @nombre, apellido = @apellido, 
-                                        telefono = @telefono, correo = @correo, especialidad = @especialidad, 
-                                        hora_entrada = @hora_entrada, hora_salida = @hora_salida, 
-                                        foto = @foto, estado = @estado 
+                                    SET nombre = @nombre, 
+                                        apellido = @apellido, 
+                                        telefono = @telefono, 
+                                        correo = @correo, 
+                                        especialidad = @especialidad, 
+                                        hora_entrada = @hora_entrada, 
+                                        hora_salida = @hora_salida, 
+                                        foto = @foto, 
+                                        estado = @estado 
                                     WHERE id_entrenador = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id", idEntrenador);
-                        cmd.Parameters.AddWithValue("@cedula", txtCedula.Text.Trim());
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
                         cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text.Trim());
@@ -270,7 +275,7 @@ namespace Proyecto_GYM
             }
 
             DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea inactivar este entrenador?",
-                                                     "Confirmar Inactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                                   "Confirmar Inactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
             {
@@ -304,7 +309,7 @@ namespace Proyecto_GYM
             }
         }
 
-        // Pasar datos de la fila seleccionada a los controles del formulario
+        // Pasar datos de la fila seleccionada y bloquear la cédula
         private void dgvEntrenadores_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -312,6 +317,9 @@ namespace Proyecto_GYM
                 DataGridViewRow fila = dgvEntrenadores.Rows[e.RowIndex];
 
                 txtCedula.Text = fila.Cells["cedula"]?.Value?.ToString() ?? "";
+                txtCedula.ReadOnly = true; // Bloquea la cédula para que no pueda ser alterada al editar
+                txtCedula.BackColor = Color.LightGray; // Indicador visual de campo bloqueado
+
                 txtNombre.Text = fila.Cells["nombre"]?.Value?.ToString() ?? "";
                 txtApellido.Text = fila.Cells["apellido"]?.Value?.ToString() ?? "";
                 txtTelefono.Text = fila.Cells["telefono"]?.Value?.ToString() ?? "";
@@ -334,7 +342,7 @@ namespace Proyecto_GYM
                     dtpHoraSalida.Value = DateTime.Today.Add(hSalida);
                 }
 
-                // Cargar Fotografía desde el arreglo de bytes usando Bitmap para evitar bloqueos
+                // Cargar Fotografía desde el arreglo de bytes
                 if (fila.Cells["foto"]?.Value != DBNull.Value && fila.Cells["foto"]?.Value is byte[] bytesFoto && bytesFoto.Length > 0)
                 {
                     using (MemoryStream ms = new MemoryStream(bytesFoto))
@@ -368,7 +376,7 @@ namespace Proyecto_GYM
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // Desactiva el sonido "beep" de Windows al dar Enter
+                e.SuppressKeyPress = true; // Desactiva el sonido "beep"
 
                 if (dgvEntrenadores.DataSource is DataTable dt)
                 {
@@ -401,6 +409,9 @@ namespace Proyecto_GYM
         private void LimpiarFormulario()
         {
             txtCedula.Clear();
+            txtCedula.ReadOnly = false; // Vuelve a habilitar la cédula para nuevos registros
+            txtCedula.BackColor = SystemColors.Window; // Restaura el color normal
+
             txtNombre.Clear();
             txtApellido.Clear();
             txtTelefono.Clear();

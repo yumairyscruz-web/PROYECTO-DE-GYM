@@ -8,7 +8,7 @@ namespace Proyecto_GYM
     public partial class FrmRenovarMembresia : Form
     {
         private bool cargandoCombo = false;
-        private int idAsignacionSeleccionada = 0; // Controla el registro seleccionado para Editar/Eliminar
+        private int idAsignacionSeleccionada = 0;
 
         public FrmRenovarMembresia()
         {
@@ -19,19 +19,14 @@ namespace Proyecto_GYM
         {
             cargandoCombo = true;
 
-          
-          
-
-            // Cargar combos y DataGridView
             CargarClientesCombo();
             CargarTiposMembresiasCombo();
             CargarTablaRenovaciones("");
 
             cargandoCombo = false;
-            rbActiva.Checked = true;
+            if (rbActiva != null) rbActiva.Checked = true;
         }
 
-        // BÚSQUEDA EN TIEMPO REAL
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
             CargarTablaRenovaciones(txtBuscar.Text.Trim());
@@ -105,19 +100,9 @@ namespace Proyecto_GYM
                 return;
 
             int idCliente = 0;
-
-            if (cmbCliente.SelectedValue is int id)
-            {
-                idCliente = id;
-            }
-            else if (cmbCliente.SelectedValue is DataRowView drv)
-            {
-                idCliente = Convert.ToInt32(drv["id_cliente"]);
-            }
-            else if (int.TryParse(cmbCliente.SelectedValue.ToString(), out int parsedId))
-            {
-                idCliente = parsedId;
-            }
+            if (cmbCliente.SelectedValue is int id) idCliente = id;
+            else if (cmbCliente.SelectedValue is DataRowView drv) idCliente = Convert.ToInt32(drv["id_cliente"]);
+            else int.TryParse(cmbCliente.SelectedValue.ToString(), out idCliente);
 
             if (idCliente <= 0) return;
 
@@ -141,16 +126,13 @@ namespace Proyecto_GYM
                             if (dr.Read())
                             {
                                 cmbMembresiaActual.SelectedValue = Convert.ToInt32(dr["id_membresia"]);
-                                dtpFechaInicio.Value = Convert.ToDateTime(dr["fecha_inicio"]);
-                                dtpFechaVencimiento.Value = Convert.ToDateTime(dr["fecha_fin"]);
-                                dateTimePicker1.Value = dtpFechaVencimiento.Value;
-                            }
-                            else
-                            {
-                                cmbMembresiaActual.SelectedIndex = -1;
-                                dtpFechaInicio.Value = DateTime.Now;
-                                dtpFechaVencimiento.Value = DateTime.Now;
-                                dateTimePicker1.Value = DateTime.Now;
+
+                                DateTime fechaInicioAnt = Convert.ToDateTime(dr["fecha_inicio"]);
+                                DateTime fechaFinAnt = Convert.ToDateTime(dr["fecha_fin"]);
+
+                                dtpFechaInicio.Value = fechaInicioAnt;
+                                dtpFechaVencimiento.Value = fechaFinAnt;
+                                dateTimePicker1.Value = fechaFinAnt;
                             }
                         }
                     }
@@ -171,6 +153,8 @@ namespace Proyecto_GYM
 
         private void CalcularRenovacion()
         {
+            if (cargandoCombo) return;
+
             if (cmbNuevaMembresia.SelectedItem is DataRowView drv)
             {
                 txtPrecio.Text = drv["precio"].ToString();
@@ -224,7 +208,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // EDITAR REGISTRO SELECCIONADO
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (idAsignacionSeleccionada == 0)
@@ -240,10 +223,10 @@ namespace Proyecto_GYM
                     if (con.State == ConnectionState.Closed) con.Open();
 
                     string query = @"UPDATE cliente_membresia 
-                                     SET fecha_inicio = @inicio, 
-                                         fecha_fin = @fin, 
-                                         estado = @estado 
-                                     WHERE id_cliente_membresia = @id";
+                                   SET fecha_inicio = @inicio, 
+                                       fecha_fin = @fin, 
+                                       estado = @estado 
+                                   WHERE id_cliente_membresia = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -266,7 +249,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // ELIMINAR REGISTRO SELECCIONADO
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (idAsignacionSeleccionada == 0 && (dgvRenovaciones.CurrentRow == null || dgvRenovaciones.CurrentRow.Index < 0))
@@ -306,7 +288,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // SELECCIONAR FILA DE LA TABLA
         private void dgvRenovaciones_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || dgvRenovaciones == null) return;
@@ -316,20 +297,45 @@ namespace Proyecto_GYM
             {
                 DataGridViewRow fila = dgvRenovaciones.Rows[e.RowIndex];
 
-                // Ajusta el nombre de la columna del ID según devuelva tu procedimiento almacenado
                 if (dgvRenovaciones.Columns["id_cliente_membresia"] != null && fila.Cells["id_cliente_membresia"].Value != DBNull.Value)
                 {
                     idAsignacionSeleccionada = Convert.ToInt32(fila.Cells["id_cliente_membresia"].Value);
                 }
 
-                if (fila.Cells["id_cliente"].Value != DBNull.Value)
+                if (dgvRenovaciones.Columns["id_cliente"] != null && fila.Cells["id_cliente"].Value != DBNull.Value)
                 {
                     cmbCliente.SelectedValue = Convert.ToInt32(fila.Cells["id_cliente"].Value);
                 }
 
-                if (fila.Cells["id_membresia"].Value != DBNull.Value)
+                if (dgvRenovaciones.Columns["id_membresia"] != null && fila.Cells["id_membresia"].Value != DBNull.Value)
                 {
-                    cmbNuevaMembresia.SelectedValue = Convert.ToInt32(fila.Cells["id_membresia"].Value);
+                    int idMembresia = Convert.ToInt32(fila.Cells["id_membresia"].Value);
+                    cmbMembresiaActual.SelectedValue = idMembresia;
+                    cmbNuevaMembresia.SelectedValue = idMembresia;
+                }
+
+                if (dgvRenovaciones.Columns["Fecha Inicio"] != null && fila.Cells["Fecha Inicio"].Value != DBNull.Value && DateTime.TryParse(fila.Cells["Fecha Inicio"].Value.ToString(), out DateTime fInicio))
+                {
+                    dtpFechaInicio.Value = fInicio;
+                }
+
+                if (dgvRenovaciones.Columns["Fecha Vencimiento"] != null && fila.Cells["Fecha Vencimiento"].Value != DBNull.Value && DateTime.TryParse(fila.Cells["Fecha Vencimiento"].Value.ToString(), out DateTime fFin))
+                {
+                    dtpFechaVencimiento.Value = fFin;
+                    dateTimePicker1.Value = fFin.AddMonths(1);
+                }
+
+                if (dgvRenovaciones.Columns["Estado"] != null)
+                {
+                    string estado = fila.Cells["Estado"].Value?.ToString() ?? "Activo";
+                    if (estado.Equals("Activo", StringComparison.OrdinalIgnoreCase) || estado == "1" || estado == "True")
+                    {
+                        if (rbActiva != null) rbActiva.Checked = true;
+                    }
+                    else
+                    {
+                        if (rbInactiva != null) rbInactiva.Checked = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -339,6 +345,7 @@ namespace Proyecto_GYM
             finally
             {
                 cargandoCombo = false;
+                CalcularRenovacion();
             }
         }
 
@@ -361,10 +368,13 @@ namespace Proyecto_GYM
                         dgvRenovaciones.DataSource = dt;
                         dgvRenovaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                        // Ocultar columnas de IDs internos si existen en el DataTable
-                        if (dgvRenovaciones.Columns["id_cliente_membresia"] != null) dgvRenovaciones.Columns["id_cliente_membresia"].Visible = false;
-                        if (dgvRenovaciones.Columns["id_cliente"] != null) dgvRenovaciones.Columns["id_cliente"].Visible = false;
-                        if (dgvRenovaciones.Columns["id_membresia"] != null) dgvRenovaciones.Columns["id_membresia"].Visible = false;
+                        foreach (DataGridViewColumn col in dgvRenovaciones.Columns)
+                        {
+                            if (col.Name == "id_cliente_membresia" || col.Name == "id_cliente" || col.Name == "id_membresia")
+                            {
+                                col.Visible = false;
+                            }
+                        }
                     }
                 }
             }
@@ -384,14 +394,14 @@ namespace Proyecto_GYM
             cargandoCombo = true;
             idAsignacionSeleccionada = 0;
             if (txtBuscar != null) txtBuscar.Clear();
-            cmbCliente.SelectedIndex = -1;
-            cmbMembresiaActual.SelectedIndex = -1;
-            cmbNuevaMembresia.SelectedIndex = -1;
-            txtPrecio.Clear();
-            dtpFechaInicio.Value = DateTime.Now;
-            dtpFechaVencimiento.Value = DateTime.Now;
-            dateTimePicker1.Value = DateTime.Now;
-            rbActiva.Checked = true;
+            if (cmbCliente != null) cmbCliente.SelectedIndex = -1;
+            if (cmbMembresiaActual != null) cmbMembresiaActual.SelectedIndex = -1;
+            if (cmbNuevaMembresia != null) cmbNuevaMembresia.SelectedIndex = -1;
+            if (txtPrecio != null) txtPrecio.Clear();
+            if (dtpFechaInicio != null) dtpFechaInicio.Value = DateTime.Now;
+            if (dtpFechaVencimiento != null) dtpFechaVencimiento.Value = DateTime.Now;
+            if (dateTimePicker1 != null) dateTimePicker1.Value = DateTime.Now;
+            if (rbActiva != null) rbActiva.Checked = true;
             if (dgvRenovaciones != null) dgvRenovaciones.ClearSelection();
             cargandoCombo = false;
         }

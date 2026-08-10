@@ -220,7 +220,7 @@
             cmbCliente.FormattingEnabled = true;
             cmbCliente.Location = new Point(124, 55);
             cmbCliente.Name = "cmbCliente";
-            cmbCliente.Size = new Size(167, 23);
+            cmbCliente.Size = new Size(189, 23);
             cmbCliente.TabIndex = 14;
             cmbCliente.SelectedIndexChanged += cmbCliente_SelectedIndexChanged;
             // 
@@ -244,7 +244,7 @@
             cmbMembresia.FormattingEnabled = true;
             cmbMembresia.Location = new Point(521, 97);
             cmbMembresia.Name = "cmbMembresia";
-            cmbMembresia.Size = new Size(135, 23);
+            cmbMembresia.Size = new Size(204, 23);
             cmbMembresia.TabIndex = 17;
             cmbMembresia.SelectedIndexChanged += cmbMembresia_SelectedIndexChanged;
             // 
@@ -266,7 +266,7 @@
             // 
             dtpInicio.Location = new Point(134, 227);
             dtpInicio.Name = "dtpInicio";
-            dtpInicio.Size = new Size(219, 23);
+            dtpInicio.Size = new Size(227, 23);
             dtpInicio.TabIndex = 20;
             dtpInicio.ValueChanged += dtpInicio_ValueChanged;
             // 
@@ -274,7 +274,7 @@
             // 
             dtpVencimiento.Location = new Point(521, 227);
             dtpVencimiento.Name = "dtpVencimiento";
-            dtpVencimiento.Size = new Size(211, 23);
+            dtpVencimiento.Size = new Size(231, 23);
             dtpVencimiento.TabIndex = 21;
             // 
             // rbActivo

@@ -26,7 +26,7 @@ namespace Proyecto_GYM
             label6 = new Label();
             label7 = new Label();
             btnGuardar = new Button();
-            tnEditar = new Button();
+            btnEditar = new Button();
             btnLimpiar = new Button();
             btnEliminar = new Button();
             label8 = new Label();
@@ -141,18 +141,18 @@ namespace Proyecto_GYM
             btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
-            // tnEditar
+            // btnEditar
             // 
-            tnEditar.BackColor = Color.OrangeRed;
-            tnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            tnEditar.ForeColor = SystemColors.ControlLightLight;
-            tnEditar.Location = new Point(390, 304);
-            tnEditar.Name = "tnEditar";
-            tnEditar.Size = new Size(93, 37);
-            tnEditar.TabIndex = 8;
-            tnEditar.Text = "Editar";
-            tnEditar.UseVisualStyleBackColor = false;
-            tnEditar.Click += btnEditar_Click;
+            btnEditar.BackColor = Color.OrangeRed;
+            btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditar.ForeColor = SystemColors.ControlLightLight;
+            btnEditar.Location = new Point(390, 304);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(93, 37);
+            btnEditar.TabIndex = 8;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = false;
+            btnEditar.Click += btnEditar_Click;
             // 
             // btnLimpiar
             // 
@@ -353,7 +353,7 @@ namespace Proyecto_GYM
             // 
             numPrecioVenta.DecimalPlaces = 2;
             numPrecioVenta.Location = new Point(459, 183);
-            numPrecioVenta.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numPrecioVenta.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             numPrecioVenta.Name = "numPrecioVenta";
             numPrecioVenta.Size = new Size(120, 23);
             numPrecioVenta.TabIndex = 30;
@@ -362,7 +362,7 @@ namespace Proyecto_GYM
             // 
             numPrecioCompra.DecimalPlaces = 2;
             numPrecioCompra.Location = new Point(163, 188);
-            numPrecioCompra.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numPrecioCompra.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             numPrecioCompra.Name = "numPrecioCompra";
             numPrecioCompra.Size = new Size(120, 23);
             numPrecioCompra.TabIndex = 31;
@@ -411,7 +411,7 @@ namespace Proyecto_GYM
             Controls.Add(label8);
             Controls.Add(btnEliminar);
             Controls.Add(btnLimpiar);
-            Controls.Add(tnEditar);
+            Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
             Controls.Add(label7);
             Controls.Add(label6);
@@ -443,7 +443,7 @@ namespace Proyecto_GYM
         private Label label6;
         private Label label7;
         private Button btnGuardar;
-        private Button tnEditar;
+        private Button btnEditar;
         private Button btnLimpiar;
         private Button btnEliminar;
         private Label label8;

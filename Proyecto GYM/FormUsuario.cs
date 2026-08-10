@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
 
 namespace Proyecto_GYM
 {
@@ -100,9 +100,15 @@ namespace Proyecto_GYM
 
             if (esEntrenador)
             {
+                // Bloquear campos heredados del entrenador
                 txtCedula.ReadOnly = true;
+                txtCedula.BackColor = Color.LightGray;
                 txtNombre.ReadOnly = true;
+                txtNombre.BackColor = Color.LightGray;
                 txtApellido.ReadOnly = true;
+                txtApellido.BackColor = Color.LightGray;
+                txtCorreo.ReadOnly = true;
+                txtCorreo.BackColor = Color.LightGray;
             }
             else
             {
@@ -110,9 +116,15 @@ namespace Proyecto_GYM
                 cmbEntrenador.SelectedIndex = -1;
                 cargandoDatos = false;
 
+                // Habilitar campos si no es entrenador
                 txtCedula.ReadOnly = false;
+                txtCedula.BackColor = SystemColors.Window;
                 txtNombre.ReadOnly = false;
+                txtNombre.BackColor = SystemColors.Window;
                 txtApellido.ReadOnly = false;
+                txtApellido.BackColor = SystemColors.Window;
+                txtCorreo.ReadOnly = false;
+                txtCorreo.BackColor = SystemColors.Window;
             }
         }
 
@@ -164,6 +176,16 @@ namespace Proyecto_GYM
                                 txtNombre.Text = reader["nombre"]?.ToString() ?? "";
                                 txtApellido.Text = reader["apellido"]?.ToString() ?? "";
                                 txtCorreo.Text = reader["correo"]?.ToString() ?? "";
+
+                                // Mantener bloqueados los datos del entrenador seleccionado
+                                txtCedula.ReadOnly = true;
+                                txtCedula.BackColor = Color.LightGray;
+                                txtNombre.ReadOnly = true;
+                                txtNombre.BackColor = Color.LightGray;
+                                txtApellido.ReadOnly = true;
+                                txtApellido.BackColor = Color.LightGray;
+                                txtCorreo.ReadOnly = true;
+                                txtCorreo.BackColor = Color.LightGray;
 
                                 DirectLimpiarImagenPerfil();
 
@@ -341,7 +363,7 @@ namespace Proyecto_GYM
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
-                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim()); // Guardando la contraseña correctamente
+                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim());
                         cmd.Parameters.AddWithValue("@cedula", txtCedula.Text.Trim());
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
@@ -428,7 +450,7 @@ namespace Proyecto_GYM
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
-                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim()); // Actualizando la contraseña
+                        cmd.Parameters.AddWithValue("@clave", txtClave.Text.Trim());
                         cmd.Parameters.AddWithValue("@cedula", txtCedula.Text.Trim());
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@apellido", txtApellido.Text.Trim());
@@ -536,6 +558,16 @@ namespace Proyecto_GYM
                 txtNombre.Text = dgvUsuarios.Columns.Contains("nombre") ? fila.Cells["nombre"].Value?.ToString() ?? "" : "";
                 txtApellido.Text = dgvUsuarios.Columns.Contains("apellido") ? fila.Cells["apellido"].Value?.ToString() ?? "" : "";
                 txtCorreo.Text = dgvUsuarios.Columns.Contains("correo") ? fila.Cells["correo"].Value?.ToString() ?? "" : "";
+
+                // Bloquear los campos provenientes del entrenador al seleccionar de la tabla
+                txtCedula.ReadOnly = true;
+                txtCedula.BackColor = Color.LightGray;
+                txtNombre.ReadOnly = true;
+                txtNombre.BackColor = Color.LightGray;
+                txtApellido.ReadOnly = true;
+                txtApellido.BackColor = Color.LightGray;
+                txtCorreo.ReadOnly = true;
+                txtCorreo.BackColor = Color.LightGray;
 
                 // Mapeo seguro de la clave si la columna existe en el grid
                 if (dgvUsuarios.Columns.Contains("clave_hash"))
@@ -692,9 +724,15 @@ namespace Proyecto_GYM
                 cmbEntrenador.Enabled = false;
             }
 
+            // Habilitar campos al limpiar para nuevos ingresos si se requiere
             txtCedula.ReadOnly = false;
+            txtCedula.BackColor = SystemColors.Window;
             txtNombre.ReadOnly = false;
+            txtNombre.BackColor = SystemColors.Window;
             txtApellido.ReadOnly = false;
+            txtApellido.BackColor = SystemColors.Window;
+            txtCorreo.ReadOnly = false;
+            txtCorreo.BackColor = SystemColors.Window;
 
             DirectLimpiarImagenPerfil();
         }

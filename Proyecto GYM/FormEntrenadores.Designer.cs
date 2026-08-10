@@ -284,6 +284,7 @@
             dgvEntrenadores.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvEntrenadores.Size = new Size(781, 112);
             dgvEntrenadores.TabIndex = 23;
+            dgvEntrenadores.CellClick += dgvEntrenadores_CellClick;
             // 
             // label10
             // 

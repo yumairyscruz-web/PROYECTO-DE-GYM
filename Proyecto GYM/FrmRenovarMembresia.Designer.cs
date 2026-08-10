@@ -179,7 +179,7 @@
             cmbCliente.FormattingEnabled = true;
             cmbCliente.Location = new Point(131, 68);
             cmbCliente.Name = "cmbCliente";
-            cmbCliente.Size = new Size(147, 23);
+            cmbCliente.Size = new Size(185, 23);
             cmbCliente.TabIndex = 11;
             // 
             // cmbMembresiaActual
@@ -187,7 +187,7 @@
             cmbMembresiaActual.FormattingEnabled = true;
             cmbMembresiaActual.Location = new Point(529, 68);
             cmbMembresiaActual.Name = "cmbMembresiaActual";
-            cmbMembresiaActual.Size = new Size(150, 23);
+            cmbMembresiaActual.Size = new Size(189, 23);
             cmbMembresiaActual.TabIndex = 12;
             // 
             // cmbNuevaMembresia
@@ -203,14 +203,14 @@
             // 
             dtpFechaInicio.Location = new Point(131, 119);
             dtpFechaInicio.Name = "dtpFechaInicio";
-            dtpFechaInicio.Size = new Size(200, 23);
+            dtpFechaInicio.Size = new Size(214, 23);
             dtpFechaInicio.TabIndex = 14;
             // 
             // dtpFechaVencimiento
             // 
             dtpFechaVencimiento.Location = new Point(499, 113);
             dtpFechaVencimiento.Name = "dtpFechaVencimiento";
-            dtpFechaVencimiento.Size = new Size(200, 23);
+            dtpFechaVencimiento.Size = new Size(219, 23);
             dtpFechaVencimiento.TabIndex = 15;
             // 
             // txtPrecio
@@ -224,7 +224,7 @@
             // 
             dateTimePicker1.Location = new Point(518, 175);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.Size = new Size(211, 23);
             dateTimePicker1.TabIndex = 17;
             // 
             // rbActiva

@@ -160,6 +160,7 @@ namespace Proyecto_GYM
 
         // --- ACORDEÓN DE MANTENIMIENTO ---
         // --- ACORDEÓN DE MANTENIMIENTO ---
+        // --- ACORDEÓN DE MANTENIMIENTO ---
         private void label1_Click(object sender, EventArgs e)
         {
             bool mostrarMantenimiento = !panel10.Visible;
@@ -168,13 +169,12 @@ namespace Proyecto_GYM
             if (mostrarMantenimiento)
             {
                 panelMovimientos.Visible = false;
-                // Distancia cuando Mantenimiento está abierto
-                label2.Top = panel10.Bottom + 15;
+                label2.Top = panel10.Bottom + 12;
             }
             else
             {
-                // Distancia cuando Mantenimiento está cerrado (sube con buen respiro)
-                label2.Top = label1.Bottom + 25;
+                // Si ambos están cerrados, subimos Movimientos más arriba para que Consultas no quede tan abajo
+                label2.Top = label1.Bottom + 40;
             }
 
             panelMovimientos.Top = label2.Bottom + 8;
@@ -189,11 +189,11 @@ namespace Proyecto_GYM
             if (mostrarMovimientos)
             {
                 panel10.Visible = false;
-                label2.Top = label1.Bottom + 25;
+                label2.Top = label1.Bottom + 40;
             }
             else
             {
-                label2.Top = label1.Bottom + 25;
+                label2.Top = label1.Bottom + 40;
             }
 
             panelMovimientos.Top = label2.Bottom + 8;
@@ -206,6 +206,11 @@ namespace Proyecto_GYM
         private void button8_Click(object sender, EventArgs e)
         {
             AbrirFormularioHijo(new FrmAsignarMembresia(), "Asignaciones / Membresia");
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

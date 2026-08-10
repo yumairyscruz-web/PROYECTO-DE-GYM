@@ -135,6 +135,7 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(816, 51);
             panel4.TabIndex = 2;
+            panel4.Paint += panel4_Paint;
             // 
             // lblTituloHeader
             // 
@@ -371,7 +372,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(31632, 2);
+            panel5.Size = new Size(33408, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -380,7 +381,7 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(16139, 2);
+            panel8.Size = new Size(17915, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
@@ -389,7 +390,7 @@
             panel9.BackColor = Color.Silver;
             panel9.Location = new Point(0, 398);
             panel9.Name = "panel9";
-            panel9.Size = new Size(16149, 2);
+            panel9.Size = new Size(17925, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -504,8 +505,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1024, 749);
-            Controls.Add(panel7);
             Controls.Add(panel4);
+            Controls.Add(panel7);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(panel6);

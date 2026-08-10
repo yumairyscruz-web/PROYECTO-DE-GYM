@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 
@@ -17,18 +17,22 @@ namespace Proyecto_GYM
         {
             ConfigurarLimitesNumericos();
             CargarComboCategorias();
-            CargarComboMarcas(); // Carga dinámica de marcas desde la BD
+            CargarComboMarcas();
             CargarTablaProductos();
             LimpiarCampos();
         }
 
         private void ConfigurarLimitesNumericos()
         {
+            decimal maximo = 100000000m; // 100 millones
+
             numPrecioCompra.Minimum = 0m;
-            numPrecioCompra.Maximum = 1000000m;
+            numPrecioCompra.Maximum = maximo;
+            numPrecioCompra.DecimalPlaces = 2;
 
             numPrecioVenta.Minimum = 0m;
-            numPrecioVenta.Maximum = 1000000m;
+            numPrecioVenta.Maximum = maximo;
+            numPrecioVenta.DecimalPlaces = 2;
 
             numStock.Minimum = 0m;
             numStock.Maximum = 100000m;
@@ -36,7 +40,6 @@ namespace Proyecto_GYM
             numStockMinimo.Minimum = 0m;
             numStockMinimo.Maximum = 100000m;
         }
-
         private void CargarComboCategorias()
         {
             try
@@ -129,12 +132,17 @@ namespace Proyecto_GYM
                         DataTable dt = new DataTable();
                         da.Fill(dt);
 
+                        dgvProductos.DataSource = null;
                         dgvProductos.DataSource = dt;
 
-                        // Ocultar IDs que solo sirven para la lógica interna
-                        if (dgvProductos.Columns["id_categoria"] != null) dgvProductos.Columns["id_categoria"].Visible = false;
-                        if (dgvProductos.Columns["id_marca"] != null) dgvProductos.Columns["id_marca"].Visible = false;
-                        if (dgvProductos.Columns["descripcion"] != null) dgvProductos.Columns["descripcion"].Visible = false;
+                        DataGridViewColumn? colCategoria = dgvProductos.Columns["id_categoria"];
+                        if (colCategoria != null) colCategoria.Visible = false;
+
+                        DataGridViewColumn? colMarca = dgvProductos.Columns["id_marca"];
+                        if (colMarca != null) colMarca.Visible = false;
+
+                        DataGridViewColumn? colDesc = dgvProductos.Columns["descripcion"];
+                        if (colDesc != null) colDesc.Visible = false;
 
                         FormatearTabla();
                     }
@@ -156,10 +164,13 @@ namespace Proyecto_GYM
                 dgvProductos.AllowUserToAddRows = false;
                 dgvProductos.ReadOnly = true;
 
-                if (dgvProductos.Columns["P. Compra"] != null)
-                    dgvProductos.Columns["P. Compra"].DefaultCellStyle.Format = "N2";
-                if (dgvProductos.Columns["P. Venta"] != null)
-                    dgvProductos.Columns["P. Venta"].DefaultCellStyle.Format = "N2";
+                DataGridViewColumn? colCompra = dgvProductos.Columns["P. Compra"];
+                if (colCompra != null)
+                    colCompra.DefaultCellStyle.Format = "N2";
+
+                DataGridViewColumn? colVenta = dgvProductos.Columns["P. Venta"];
+                if (colVenta != null)
+                    colVenta.DefaultCellStyle.Format = "N2";
             }
         }
 
@@ -168,8 +179,15 @@ namespace Proyecto_GYM
             CargarTablaProductos(txtBuscar.Text);
         }
 
+        // --- BOTÓN GUARDAR (SOLO PARA NUEVOS REGISTROS) ---
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(txtIdProducto.Text))
+            {
+                MessageBox.Show("Estás seleccionando un producto existente. Utiliza el botón 'Editar' para guardar los cambios.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
                 MessageBox.Show("Ingrese el nombre del producto.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -177,17 +195,9 @@ namespace Proyecto_GYM
                 return;
             }
 
-            if (cmbCategoria.SelectedValue == null)
+            if (cmbCategoria.SelectedValue == null || cmbMarca.SelectedValue == null)
             {
-                MessageBox.Show("Seleccione una categoría válida.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbCategoria.Focus();
-                return;
-            }
-
-            if (cmbMarca.SelectedValue == null)
-            {
-                MessageBox.Show("Seleccione una marca válida.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbMarca.Focus();
+                MessageBox.Show("Seleccione una categoría y una marca válidas.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -199,68 +209,31 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
 
-                    if (string.IsNullOrEmpty(txtIdProducto.Text))
+                    string queryInsert = @"INSERT INTO productos 
+                                          (codigo, codigo_barras, nombre, descripcion, id_categoria, id_marca, precio_compra, precio_venta, stock, stock_minimo, estado) 
+                                          VALUES 
+                                          (@codigo, @codigo_barras, @nombre, @descripcion, @id_categoria, @id_marca, @precio_compra, @precio_venta, @stock, @stock_minimo, @estado)";
+
+                    using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                     {
-                        string queryInsert = @"INSERT INTO productos 
-                                              (codigo, codigo_barras, nombre, descripcion, id_categoria, id_marca, precio_compra, precio_venta, stock, stock_minimo, estado) 
-                                               VALUES 
-                                              (@codigo, @codigo_barras, @nombre, @descripcion, @id_categoria, @id_marca, @precio_compra, @precio_venta, @stock, @stock_minimo, @estado)";
+                        cmd.Parameters.AddWithValue("@codigo", string.IsNullOrWhiteSpace(txtCodigo.Text) ? DBNull.Value : (object)txtCodigo.Text.Trim());
+                        cmd.Parameters.AddWithValue("@codigo_barras", string.IsNullOrWhiteSpace(txtCodigoBarras.Text) ? DBNull.Value : (object)txtCodigoBarras.Text.Trim());
+                        cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
+                        cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
+                        cmd.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(cmbCategoria.SelectedValue));
+                        cmd.Parameters.AddWithValue("@id_marca", Convert.ToInt32(cmbMarca.SelectedValue));
+                        cmd.Parameters.AddWithValue("@precio_compra", numPrecioCompra.Value);
+                        cmd.Parameters.AddWithValue("@precio_venta", numPrecioVenta.Value);
+                        cmd.Parameters.AddWithValue("@stock", Convert.ToInt32(numStock.Value));
+                        cmd.Parameters.AddWithValue("@stock_minimo", Convert.ToInt32(numStockMinimo.Value));
+                        cmd.Parameters.AddWithValue("@estado", estadoVal);
 
-                        using (SqlCommand cmd = new SqlCommand(queryInsert, con))
-                        {
-                            cmd.Parameters.AddWithValue("@codigo", string.IsNullOrWhiteSpace(txtCodigo.Text) ? DBNull.Value : (object)txtCodigo.Text.Trim());
-                            cmd.Parameters.AddWithValue("@codigo_barras", string.IsNullOrWhiteSpace(txtCodigoBarras.Text) ? DBNull.Value : (object)txtCodigoBarras.Text.Trim());
-                            cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
-                            cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
-                            cmd.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(cmbCategoria.SelectedValue));
-                            cmd.Parameters.AddWithValue("@id_marca", Convert.ToInt32(cmbMarca.SelectedValue));
-                            cmd.Parameters.AddWithValue("@precio_compra", numPrecioCompra.Value);
-                            cmd.Parameters.AddWithValue("@precio_venta", numPrecioVenta.Value);
-                            cmd.Parameters.AddWithValue("@stock", Convert.ToInt32(numStock.Value));
-                            cmd.Parameters.AddWithValue("@stock_minimo", Convert.ToInt32(numStockMinimo.Value));
-                            cmd.Parameters.AddWithValue("@estado", estadoVal);
-
-                            cmd.ExecuteNonQuery();
-                        }
-                        MessageBox.Show("Producto registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        string queryUpdate = @"UPDATE productos SET 
-                                                codigo = @codigo,
-                                                codigo_barras = @codigo_barras,
-                                                nombre = @nombre,
-                                                descripcion = @descripcion,
-                                                id_categoria = @id_categoria,
-                                                id_marca = @id_marca,
-                                                precio_compra = @precio_compra,
-                                                precio_venta = @precio_venta,
-                                                stock = @stock,
-                                                stock_minimo = @stock_minimo,
-                                                estado = @estado
-                                               WHERE id_producto = @id";
-
-                        using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
-                        {
-                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtIdProducto.Text));
-                            cmd.Parameters.AddWithValue("@codigo", string.IsNullOrWhiteSpace(txtCodigo.Text) ? DBNull.Value : (object)txtCodigo.Text.Trim());
-                            cmd.Parameters.AddWithValue("@codigo_barras", string.IsNullOrWhiteSpace(txtCodigoBarras.Text) ? DBNull.Value : (object)txtCodigoBarras.Text.Trim());
-                            cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
-                            cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
-                            cmd.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(cmbCategoria.SelectedValue));
-                            cmd.Parameters.AddWithValue("@id_marca", Convert.ToInt32(cmbMarca.SelectedValue));
-                            cmd.Parameters.AddWithValue("@precio_compra", numPrecioCompra.Value);
-                            cmd.Parameters.AddWithValue("@precio_venta", numPrecioVenta.Value);
-                            cmd.Parameters.AddWithValue("@stock", Convert.ToInt32(numStock.Value));
-                            cmd.Parameters.AddWithValue("@stock_minimo", Convert.ToInt32(numStockMinimo.Value));
-                            cmd.Parameters.AddWithValue("@estado", estadoVal);
-
-                            cmd.ExecuteNonQuery();
-                        }
-                        MessageBox.Show("Producto actualizado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        cmd.ExecuteNonQuery();
                     }
                 }
 
+                MessageBox.Show("Producto registrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtBuscar.Clear();
                 CargarTablaProductos();
                 LimpiarCampos();
             }
@@ -270,6 +243,7 @@ namespace Proyecto_GYM
             }
         }
 
+        // --- BOTÓN EDITAR DIRECTO ---
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtIdProducto.Text))
@@ -278,7 +252,69 @@ namespace Proyecto_GYM
                 return;
             }
 
-            txtNombre.Focus();
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                MessageBox.Show("Ingrese el nombre del producto.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            if (cmbCategoria.SelectedValue == null || cmbMarca.SelectedValue == null)
+            {
+                MessageBox.Show("Seleccione una categoría y una marca válidas.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            byte estadoVal = (byte)(rbActivo.Checked ? 1 : 0);
+
+            try
+            {
+                using (SqlConnection con = Conexion.ObtenerConexion())
+                {
+                    if (con.State == ConnectionState.Closed) con.Open();
+
+                    string queryUpdate = @"UPDATE productos SET 
+                                             codigo = @codigo,
+                                             codigo_barras = @codigo_barras,
+                                             nombre = @nombre,
+                                             descripcion = @descripcion,
+                                             id_categoria = @id_categoria,
+                                             id_marca = @id_marca,
+                                             precio_compra = @precio_compra,
+                                             precio_venta = @precio_venta,
+                                             stock = @stock,
+                                             stock_minimo = @stock_minimo,
+                                             estado = @estado
+                                           WHERE id_producto = @id";
+
+                    using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtIdProducto.Text));
+                        cmd.Parameters.AddWithValue("@codigo", string.IsNullOrWhiteSpace(txtCodigo.Text) ? DBNull.Value : (object)txtCodigo.Text.Trim());
+                        cmd.Parameters.AddWithValue("@codigo_barras", string.IsNullOrWhiteSpace(txtCodigoBarras.Text) ? DBNull.Value : (object)txtCodigoBarras.Text.Trim());
+                        cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
+                        cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
+                        cmd.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(cmbCategoria.SelectedValue));
+                        cmd.Parameters.AddWithValue("@id_marca", Convert.ToInt32(cmbMarca.SelectedValue));
+                        cmd.Parameters.AddWithValue("@precio_compra", numPrecioCompra.Value);
+                        cmd.Parameters.AddWithValue("@precio_venta", numPrecioVenta.Value);
+                        cmd.Parameters.AddWithValue("@stock", Convert.ToInt32(numStock.Value));
+                        cmd.Parameters.AddWithValue("@stock_minimo", Convert.ToInt32(numStockMinimo.Value));
+                        cmd.Parameters.AddWithValue("@estado", estadoVal);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Producto actualizado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtBuscar.Clear();
+                CargarTablaProductos();
+                LimpiarCampos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el producto: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -302,8 +338,22 @@ namespace Proyecto_GYM
                 else
                     cmbMarca.SelectedIndex = -1;
 
-                numPrecioCompra.Value = decimal.TryParse(row.Cells["P. Compra"].Value?.ToString(), out decimal pc) ? pc : 0m;
-                numPrecioVenta.Value = decimal.TryParse(row.Cells["P. Venta"].Value?.ToString(), out decimal pv) ? pv : 0m;
+                // --- LECTURA LIMPIA Y CORRECCIÓN DE PRECIOS CON CEROS EXTRA ---
+                string rawCompra = row.Cells["P. Compra"].Value?.ToString() ?? "0";
+                string rawVenta = row.Cells["P. Venta"].Value?.ToString() ?? "0";
+
+                if (decimal.TryParse(rawCompra, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal pc))
+                {
+                    if (pc > 1000000) pc = pc / 100m;
+                    numPrecioCompra.Value = pc > numPrecioCompra.Maximum ? numPrecioCompra.Maximum : pc;
+                }
+
+                if (decimal.TryParse(rawVenta, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal pv))
+                {
+                    if (pv > 1000000) pv = pv / 100m;
+                    numPrecioVenta.Value = pv > numPrecioVenta.Maximum ? numPrecioVenta.Maximum : pv;
+                }
+
                 numStock.Value = decimal.TryParse(row.Cells["Stock"].Value?.ToString(), out decimal st) ? st : 0m;
                 numStockMinimo.Value = decimal.TryParse(row.Cells["Stock Min."].Value?.ToString(), out decimal sm) ? sm : 5m;
 
@@ -361,6 +411,7 @@ namespace Proyecto_GYM
                     }
 
                     MessageBox.Show("Producto inactivado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtBuscar.Clear();
                     CargarTablaProductos();
                     LimpiarCampos();
                 }
