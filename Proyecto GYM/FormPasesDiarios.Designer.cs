@@ -73,10 +73,10 @@
             // 
             // btnRegistrar
             // 
-            btnRegistrar.BackColor = Color.Blue;
+            btnRegistrar.BackColor = Color.Gray;
             btnRegistrar.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegistrar.ForeColor = SystemColors.Control;
-            btnRegistrar.Location = new Point(272, 183);
+            btnRegistrar.Location = new Point(326, 172);
             btnRegistrar.Name = "btnRegistrar";
             btnRegistrar.Size = new Size(105, 42);
             btnRegistrar.TabIndex = 5;
@@ -88,7 +88,7 @@
             // dgvVisitasHoy
             // 
             dgvVisitasHoy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVisitasHoy.Location = new Point(39, 231);
+            dgvVisitasHoy.Location = new Point(27, 242);
             dgvVisitasHoy.Name = "dgvVisitasHoy";
             dgvVisitasHoy.Size = new Size(338, 150);
             dgvVisitasHoy.TabIndex = 6;
@@ -126,10 +126,10 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.BackColor = Color.Red;
+            btnEliminar.BackColor = Color.Gray;
             btnEliminar.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnEliminar.ForeColor = SystemColors.Control;
-            btnEliminar.Location = new Point(383, 183);
+            btnEliminar.Location = new Point(451, 172);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(105, 42);
             btnEliminar.TabIndex = 10;

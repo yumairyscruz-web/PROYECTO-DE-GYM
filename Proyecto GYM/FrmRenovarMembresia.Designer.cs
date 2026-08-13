@@ -152,8 +152,8 @@
             // 
             btnRenovar.BackColor = SystemColors.ActiveBorder;
             btnRenovar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRenovar.ForeColor = Color.Blue;
-            btnRenovar.Location = new Point(343, 260);
+            btnRenovar.ForeColor = Color.White;
+            btnRenovar.Location = new Point(379, 278);
             btnRenovar.Name = "btnRenovar";
             btnRenovar.Size = new Size(87, 37);
             btnRenovar.TabIndex = 9;
@@ -165,8 +165,8 @@
             // 
             btnEditar.BackColor = SystemColors.ActiveBorder;
             btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEditar.ForeColor = Color.Blue;
-            btnEditar.Location = new Point(445, 260);
+            btnEditar.ForeColor = Color.White;
+            btnEditar.Location = new Point(482, 278);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(87, 37);
             btnEditar.TabIndex = 10;
@@ -187,7 +187,7 @@
             cmbMembresiaActual.FormattingEnabled = true;
             cmbMembresiaActual.Location = new Point(529, 68);
             cmbMembresiaActual.Name = "cmbMembresiaActual";
-            cmbMembresiaActual.Size = new Size(189, 23);
+            cmbMembresiaActual.Size = new Size(246, 23);
             cmbMembresiaActual.TabIndex = 12;
             // 
             // cmbNuevaMembresia
@@ -210,7 +210,7 @@
             // 
             dtpFechaVencimiento.Location = new Point(499, 113);
             dtpFechaVencimiento.Name = "dtpFechaVencimiento";
-            dtpFechaVencimiento.Size = new Size(219, 23);
+            dtpFechaVencimiento.Size = new Size(234, 23);
             dtpFechaVencimiento.TabIndex = 15;
             // 
             // txtPrecio
@@ -224,7 +224,7 @@
             // 
             dateTimePicker1.Location = new Point(518, 175);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(211, 23);
+            dateTimePicker1.Size = new Size(229, 23);
             dateTimePicker1.TabIndex = 17;
             // 
             // rbActiva
@@ -264,8 +264,8 @@
             // 
             btnEliminar.BackColor = SystemColors.ActiveBorder;
             btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.ForeColor = Color.Blue;
-            btnEliminar.Location = new Point(642, 260);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(677, 278);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(87, 37);
             btnEliminar.TabIndex = 21;
@@ -277,8 +277,8 @@
             // 
             btnLimpiar.BackColor = SystemColors.ActiveBorder;
             btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLimpiar.ForeColor = Color.Blue;
-            btnLimpiar.Location = new Point(538, 260);
+            btnLimpiar.ForeColor = Color.White;
+            btnLimpiar.Location = new Point(575, 278);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(87, 37);
             btnLimpiar.TabIndex = 22;
@@ -290,7 +290,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(22, 276);
+            label10.Location = new Point(22, 294);
             label10.Name = "label10";
             label10.Size = new Size(65, 21);
             label10.TabIndex = 23;
@@ -298,7 +298,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(93, 278);
+            txtBuscar.Location = new Point(93, 292);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(185, 23);
             txtBuscar.TabIndex = 24;

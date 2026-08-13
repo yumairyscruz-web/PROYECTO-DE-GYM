@@ -17,8 +17,6 @@ namespace Proyecto_GYM
         public FormTiposMembresias()
         {
             InitializeComponent();
-
-           
         }
 
         private void FormTiposMembresias_Load(object sender, EventArgs e)
@@ -29,8 +27,16 @@ namespace Proyecto_GYM
 
         private void ConfigurarControles()
         {
-            txtCodigo.ReadOnly = true;
-            cmbActivo.Checked = true;
+            // Forzar que el radio button de activo esté seleccionado desde el inicio
+            rbActivo.Checked = true;
+            rbInactivo.Checked = false;
+
+            // Asegurar la asociación de los eventos KeyPress para bloquear números y símbolos
+            txtNombre.KeyPress -= txtSoloLetras_KeyPress;
+            txtNombre.KeyPress += txtSoloLetras_KeyPress;
+
+            txtDescripcion.KeyPress -= txtSoloLetras_KeyPress;
+            txtDescripcion.KeyPress += txtSoloLetras_KeyPress;
 
             nudDuracionmeses.Minimum = 1;
             nudDuracionmeses.Maximum = 120;
@@ -59,13 +65,8 @@ namespace Proyecto_GYM
                         DataTable dt = new DataTable();
                         da.Fill(dt);
 
-                        // Limpia cualquier columna previa creada en el Designer
                         dgvMembresias.Columns.Clear();
-
-                        // Asigna la fuente de datos
                         dgvMembresias.DataSource = dt;
-
-                        // Ajusta el ancho para que la tabla ocupe todo el espacio
                         dgvMembresias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     }
                 }
@@ -98,7 +99,7 @@ namespace Proyecto_GYM
                         cmd.Parameters.AddWithValue("@duracion_meses", Convert.ToInt32(nudDuracionmeses.Value));
                         cmd.Parameters.AddWithValue("@precio", nudPrecio.Value);
                         cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? (object)DBNull.Value : txtDescripcion.Text.Trim());
-                        cmd.Parameters.AddWithValue("@estado", cmbActivo.Checked ? 1 : 0);
+                        cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -143,7 +144,7 @@ namespace Proyecto_GYM
                         cmd.Parameters.AddWithValue("@duracion_meses", Convert.ToInt32(nudDuracionmeses.Value));
                         cmd.Parameters.AddWithValue("@precio", nudPrecio.Value);
                         cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? (object)DBNull.Value : txtDescripcion.Text.Trim());
-                        cmd.Parameters.AddWithValue("@estado", cmbActivo.Checked ? 1 : 0);
+                        cmd.Parameters.AddWithValue("@estado", rbActivo.Checked ? 1 : 0);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -207,7 +208,6 @@ namespace Proyecto_GYM
                 if (dgvMembresias.Columns.Contains("Código") && fila.Cells["Código"].Value != DBNull.Value)
                 {
                     idMembresiaSeleccionada = Convert.ToInt32(fila.Cells["Código"].Value);
-                    txtCodigo.Text = idMembresiaSeleccionada.ToString();
                 }
 
                 txtNombre.Text = fila.Cells["Nombre"].Value?.ToString() ?? "";
@@ -224,10 +224,14 @@ namespace Proyecto_GYM
                 }
 
                 string estadoStr = fila.Cells["Estado"].Value?.ToString() ?? "";
-                if (estadoStr.Equals("Activo", StringComparison.OrdinalIgnoreCase))
-                    cmbActivo.Checked = true;
+                if (estadoStr.Equals("Activo", StringComparison.OrdinalIgnoreCase) || estadoStr == "1")
+                {
+                    rbActivo.Checked = true;
+                }
                 else
-                    cmbiInactivo.Checked = true;
+                {
+                    rbInactivo.Checked = true;
+                }
             }
             finally
             {
@@ -250,18 +254,16 @@ namespace Proyecto_GYM
             cargandoDatos = true;
 
             idMembresiaSeleccionada = 0;
-            txtCodigo.Clear();
             txtNombre.Clear();
             txtDescripcion.Clear();
             nudDuracionmeses.Value = 1;
             nudPrecio.Value = 1000;
-            cmbActivo.Checked = true;
+            rbActivo.Checked = true; // Fuerza el estado Activo al limpiar
 
             cargandoDatos = false;
             txtNombre.Focus();
         }
 
-        // Navegación incrustada dentro del panel contenedor de Form2
         private void btnAsignarMembresia_Click(object sender, EventArgs e)
         {
             Form2 formPrincipal = Application.OpenForms["Form2"] as Form2;
@@ -281,9 +283,20 @@ namespace Proyecto_GYM
             }
         }
 
-        private void FormTiposMembresias_Load_1(object sender, EventArgs e)
+        // Restricción estricta: Solo permite letras (incluyendo tildes y eñes) y espacios. Bloquea números y símbolos.
+        private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            char c = e.KeyChar;
+            if (!char.IsControl(c) && !char.IsLetter(c) && c != ' ' &&
+                c != 'á' && c != 'é' && c != 'í' && c != 'ó' && c != 'ú' &&
+                c != 'Á' && c != 'É' && c != 'Í' && c != 'Ó' && c != 'Ú' &&
+                c != 'ñ' && c != 'Ñ')
+            {
+                e.Handled = true; // Bloquea cualquier número, asterisco o carácter especial
+            }
         }
+
+        private void FormTiposMembresias_Load_1(object sender, EventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
     }
 }

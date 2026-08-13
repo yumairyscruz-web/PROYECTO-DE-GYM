@@ -18,7 +18,6 @@ namespace Proyecto_GYM
 
         private void InitializeComponent()
         {
-            label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
@@ -32,17 +31,12 @@ namespace Proyecto_GYM
             label8 = new Label();
             btnBuscar = new Button();
             cmbCategoria = new ComboBox();
-            txtCodigo = new TextBox();
             txtNombre = new TextBox();
             txtDescripcion = new TextBox();
             txtBuscar = new TextBox();
             rbActivo = new RadioButton();
             rbInactivo = new RadioButton();
             dgvProductos = new DataGridView();
-            label9 = new Label();
-            txtIdProducto = new TextBox();
-            label10 = new Label();
-            txtCodigoBarras = new TextBox();
             label11 = new Label();
             cmbMarca = new ComboBox();
             label12 = new Label();
@@ -58,21 +52,11 @@ namespace Proyecto_GYM
             ((System.ComponentModel.ISupportInitialize)numStockMinimo).BeginInit();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(31, 63);
-            label1.Name = "label1";
-            label1.Size = new Size(118, 21);
-            label1.TabIndex = 0;
-            label1.Text = "Cod. Producto";
-            // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(34, 153);
+            label2.Location = new Point(12, 35);
             label2.Name = "label2";
             label2.Size = new Size(147, 21);
             label2.TabIndex = 1;
@@ -82,17 +66,18 @@ namespace Proyecto_GYM
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(360, 17);
+            label3.Location = new Point(404, 31);
             label3.Name = "label3";
             label3.Size = new Size(84, 21);
             label3.TabIndex = 2;
             label3.Text = "Categoria";
+            label3.Click += label3_Click;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(34, 190);
+            label4.Location = new Point(12, 101);
             label4.Name = "label4";
             label4.Size = new Size(90, 21);
             label4.TabIndex = 3;
@@ -102,17 +87,17 @@ namespace Proyecto_GYM
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(34, 225);
+            label5.Location = new Point(12, 160);
             label5.Name = "label5";
-            label5.Size = new Size(52, 21);
+            label5.Size = new Size(57, 21);
             label5.TabIndex = 4;
-            label5.Text = "Stock";
+            label5.Text = "Stock:";
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(30, 271);
+            label6.Location = new Point(12, 263);
             label6.Name = "label6";
             label6.Size = new Size(100, 21);
             label6.TabIndex = 5;
@@ -122,7 +107,7 @@ namespace Proyecto_GYM
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(30, 311);
+            label7.Location = new Point(12, 312);
             label7.Name = "label7";
             label7.Size = new Size(61, 21);
             label7.TabIndex = 6;
@@ -130,7 +115,7 @@ namespace Proyecto_GYM
             // 
             // btnGuardar
             // 
-            btnGuardar.BackColor = Color.ForestGreen;
+            btnGuardar.BackColor = Color.Gray;
             btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnGuardar.ForeColor = SystemColors.ButtonFace;
             btnGuardar.Location = new Point(291, 305);
@@ -143,7 +128,7 @@ namespace Proyecto_GYM
             // 
             // btnEditar
             // 
-            btnEditar.BackColor = Color.OrangeRed;
+            btnEditar.BackColor = Color.Gray;
             btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnEditar.ForeColor = SystemColors.ControlLightLight;
             btnEditar.Location = new Point(390, 304);
@@ -156,7 +141,7 @@ namespace Proyecto_GYM
             // 
             // btnLimpiar
             // 
-            btnLimpiar.BackColor = SystemColors.ButtonShadow;
+            btnLimpiar.BackColor = Color.Gray;
             btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnLimpiar.ForeColor = SystemColors.ControlLightLight;
             btnLimpiar.Location = new Point(489, 304);
@@ -169,10 +154,10 @@ namespace Proyecto_GYM
             // 
             // btnEliminar
             // 
-            btnEliminar.BackColor = Color.Red;
+            btnEliminar.BackColor = Color.Gray;
             btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnEliminar.ForeColor = SystemColors.ButtonFace;
-            btnEliminar.Location = new Point(594, 305);
+            btnEliminar.Location = new Point(594, 304);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(98, 37);
             btnEliminar.TabIndex = 10;
@@ -205,21 +190,14 @@ namespace Proyecto_GYM
             // cmbCategoria
             // 
             cmbCategoria.FormattingEnabled = true;
-            cmbCategoria.Location = new Point(450, 21);
+            cmbCategoria.Location = new Point(498, 33);
             cmbCategoria.Name = "cmbCategoria";
-            cmbCategoria.Size = new Size(138, 23);
+            cmbCategoria.Size = new Size(194, 23);
             cmbCategoria.TabIndex = 13;
-            // 
-            // txtCodigo
-            // 
-            txtCodigo.Location = new Point(163, 65);
-            txtCodigo.Name = "txtCodigo";
-            txtCodigo.Size = new Size(150, 23);
-            txtCodigo.TabIndex = 15;
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(204, 145);
+            txtNombre.Location = new Point(165, 27);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(233, 29);
@@ -227,7 +205,7 @@ namespace Proyecto_GYM
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(136, 263);
+            txtDescripcion.Location = new Point(136, 255);
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(323, 29);
@@ -246,7 +224,7 @@ namespace Proyecto_GYM
             // 
             rbActivo.AutoSize = true;
             rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            rbActivo.Location = new Point(113, 311);
+            rbActivo.Location = new Point(79, 313);
             rbActivo.Name = "rbActivo";
             rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 19;
@@ -258,7 +236,7 @@ namespace Proyecto_GYM
             // 
             rbInactivo.AutoSize = true;
             rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            rbInactivo.Location = new Point(195, 311);
+            rbInactivo.Location = new Point(176, 313);
             rbInactivo.Name = "rbInactivo";
             rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 20;
@@ -275,46 +253,11 @@ namespace Proyecto_GYM
             dgvProductos.TabIndex = 21;
             dgvProductos.CellClick += dgvProductos_CellClick;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(34, 21);
-            label9.Name = "label9";
-            label9.Size = new Size(105, 21);
-            label9.TabIndex = 22;
-            label9.Text = "ID Producto:";
-            // 
-            // txtIdProducto
-            // 
-            txtIdProducto.Location = new Point(163, 19);
-            txtIdProducto.Name = "txtIdProducto";
-            txtIdProducto.ReadOnly = true;
-            txtIdProducto.Size = new Size(150, 23);
-            txtIdProducto.TabIndex = 23;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(35, 103);
-            label10.Name = "label10";
-            label10.Size = new Size(99, 21);
-            label10.TabIndex = 24;
-            label10.Text = "Cód. Barras:";
-            // 
-            // txtCodigoBarras
-            // 
-            txtCodigoBarras.Location = new Point(163, 105);
-            txtCodigoBarras.Name = "txtCodigoBarras";
-            txtCodigoBarras.Size = new Size(150, 23);
-            txtCodigoBarras.TabIndex = 25;
-            // 
             // label11
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(376, 103);
+            label11.Location = new Point(12, 208);
             label11.Name = "label11";
             label11.Size = new Size(61, 21);
             label11.TabIndex = 26;
@@ -324,16 +267,16 @@ namespace Proyecto_GYM
             // 
             cmbMarca.FormattingEnabled = true;
             cmbMarca.Items.AddRange(new object[] { "Optimum Nutrition", "MuscleTech", "Cellucor", "Nike", "Gatorade" });
-            cmbMarca.Location = new Point(450, 103);
+            cmbMarca.Location = new Point(113, 210);
             cmbMarca.Name = "cmbMarca";
-            cmbMarca.Size = new Size(138, 23);
+            cmbMarca.Size = new Size(216, 23);
             cmbMarca.TabIndex = 27;
             // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(324, 225);
+            label12.Location = new Point(325, 160);
             label12.Name = "label12";
             label12.Size = new Size(120, 21);
             label12.TabIndex = 28;
@@ -343,7 +286,7 @@ namespace Proyecto_GYM
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.Location = new Point(360, 185);
+            label13.Location = new Point(350, 98);
             label13.Name = "label13";
             label13.Size = new Size(77, 21);
             label13.TabIndex = 29;
@@ -352,31 +295,31 @@ namespace Proyecto_GYM
             // numPrecioVenta
             // 
             numPrecioVenta.DecimalPlaces = 2;
-            numPrecioVenta.Location = new Point(459, 183);
+            numPrecioVenta.Location = new Point(468, 101);
             numPrecioVenta.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             numPrecioVenta.Name = "numPrecioVenta";
-            numPrecioVenta.Size = new Size(120, 23);
+            numPrecioVenta.Size = new Size(143, 23);
             numPrecioVenta.TabIndex = 30;
             // 
             // numPrecioCompra
             // 
             numPrecioCompra.DecimalPlaces = 2;
-            numPrecioCompra.Location = new Point(163, 188);
+            numPrecioCompra.Location = new Point(136, 101);
             numPrecioCompra.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             numPrecioCompra.Name = "numPrecioCompra";
-            numPrecioCompra.Size = new Size(120, 23);
+            numPrecioCompra.Size = new Size(134, 23);
             numPrecioCompra.TabIndex = 31;
             // 
             // numStock
             // 
-            numStock.Location = new Point(163, 228);
+            numStock.Location = new Point(118, 158);
             numStock.Name = "numStock";
             numStock.Size = new Size(120, 23);
             numStock.TabIndex = 32;
             // 
             // numStockMinimo
             // 
-            numStockMinimo.Location = new Point(459, 223);
+            numStockMinimo.Location = new Point(468, 163);
             numStockMinimo.Name = "numStockMinimo";
             numStockMinimo.Size = new Size(120, 23);
             numStockMinimo.TabIndex = 33;
@@ -395,17 +338,12 @@ namespace Proyecto_GYM
             Controls.Add(label12);
             Controls.Add(cmbMarca);
             Controls.Add(label11);
-            Controls.Add(txtCodigoBarras);
-            Controls.Add(label10);
-            Controls.Add(txtIdProducto);
-            Controls.Add(label9);
             Controls.Add(dgvProductos);
             Controls.Add(rbInactivo);
             Controls.Add(rbActivo);
             Controls.Add(txtBuscar);
             Controls.Add(txtDescripcion);
             Controls.Add(txtNombre);
-            Controls.Add(txtCodigo);
             Controls.Add(cmbCategoria);
             Controls.Add(btnBuscar);
             Controls.Add(label8);
@@ -419,7 +357,6 @@ namespace Proyecto_GYM
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
             Name = "FormProductos";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Gestión de Productos";
@@ -434,8 +371,6 @@ namespace Proyecto_GYM
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
@@ -449,17 +384,12 @@ namespace Proyecto_GYM
         private Label label8;
         private Button btnBuscar;
         private ComboBox cmbCategoria;
-        private TextBox txtCodigo;
         private TextBox txtNombre;
         private TextBox txtDescripcion;
         private TextBox txtBuscar;
         private RadioButton rbActivo;
         private RadioButton rbInactivo;
         private DataGridView dgvProductos;
-        private Label label9;
-        private TextBox txtIdProducto;
-        private Label label10;
-        private TextBox txtCodigoBarras;
         private Label label11;
         private ComboBox cmbMarca;
         private Label label12;

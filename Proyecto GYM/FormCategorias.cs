@@ -8,15 +8,30 @@ namespace Proyecto_GYM
 {
     public partial class FormCategorias : Form
     {
+        private int idCategoriaSeleccionada = 0;
+
         public FormCategorias()
         {
             InitializeComponent();
+
+            // Restricción: Solo permite letras y espacios en el nombre y en la descripción
+            txtNombre.KeyPress += txtSoloLetras_KeyPress;
+            txtDescripcion.KeyPress += txtSoloLetras_KeyPress;
         }
 
         private void FormCategorias_Load(object sender, EventArgs e)
         {
             CargarTablaCategorias();
             LimpiarCampos();
+        }
+
+        // Método de restricción para aceptar únicamente letras y espacios (bloquea números y símbolos)
+        private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Cancela la tecla presionada si no es letra o espacio
+            }
         }
 
         // Carga la tabla aplicando filtro por Nombre o Descripción desde la tabla Categorias
@@ -64,18 +79,29 @@ namespace Proyecto_GYM
                 dgvCategorias.AllowUserToAddRows = false;
                 dgvCategorias.ReadOnly = true;
 
-                dgvCategorias.Columns["Código"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dgvCategorias.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                if (dgvCategorias.Columns.Contains("Código"))
+                {
+                    dgvCategorias.Columns["Código"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dgvCategorias.Columns["Código"].FillWeight = 50;
+                    dgvCategorias.Columns["Código"].Visible = false; // Ocultar ID en la grilla si se prefiere
+                }
 
-                dgvCategorias.Columns["Código"].FillWeight = 50;
-                dgvCategorias.Columns["Nombre"].FillWeight = 100;
-                dgvCategorias.Columns["Descripción"].FillWeight = 150;
-                dgvCategorias.Columns["Estado"].FillWeight = 60;
+                if (dgvCategorias.Columns.Contains("Estado"))
+                {
+                    dgvCategorias.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dgvCategorias.Columns["Estado"].FillWeight = 60;
+                }
+
+                if (dgvCategorias.Columns.Contains("Nombre"))
+                    dgvCategorias.Columns["Nombre"].FillWeight = 100;
+
+                if (dgvCategorias.Columns.Contains("Descripción"))
+                    dgvCategorias.Columns["Descripción"].FillWeight = 150;
             }
         }
 
         // Consulta sobre la tabla Categorias para verificar duplicados
-        private bool ExisteNombreCategoria(string nombre, string idActual = "")
+        private bool ExisteNombreCategoria(string nombre, int idActual = 0)
         {
             try
             {
@@ -85,7 +111,7 @@ namespace Proyecto_GYM
 
                     string query = "SELECT COUNT(*) FROM Categorias WHERE LOWER(nombre) = LOWER(@nombre)";
 
-                    if (!string.IsNullOrEmpty(idActual))
+                    if (idActual > 0)
                     {
                         query += " AND id_categoria <> @id";
                     }
@@ -93,9 +119,9 @@ namespace Proyecto_GYM
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@nombre", nombre.Trim());
-                        if (!string.IsNullOrEmpty(idActual))
+                        if (idActual > 0)
                         {
-                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(idActual));
+                            cmd.Parameters.AddWithValue("@id", idActual);
                         }
 
                         int count = Convert.ToInt32(cmd.ExecuteScalar());
@@ -123,7 +149,7 @@ namespace Proyecto_GYM
                 return;
             }
 
-            if (ExisteNombreCategoria(txtNombre.Text, txtIdCategoria.Text))
+            if (ExisteNombreCategoria(txtNombre.Text, idCategoriaSeleccionada))
             {
                 MessageBox.Show("Ya existe una categoría registrada con este nombre.", "Nombre Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
@@ -138,7 +164,7 @@ namespace Proyecto_GYM
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
 
-                    if (string.IsNullOrEmpty(txtIdCategoria.Text))
+                    if (idCategoriaSeleccionada == 0)
                     {
                         string queryInsert = "INSERT INTO Categorias (nombre, descripcion, estado) VALUES (@nombre, @descripcion, @estado)";
                         using (SqlCommand cmd = new SqlCommand(queryInsert, con))
@@ -155,7 +181,7 @@ namespace Proyecto_GYM
                         string queryUpdate = "UPDATE Categorias SET nombre = @nombre, descripcion = @descripcion, estado = @estado WHERE id_categoria = @id";
                         using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
                         {
-                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtIdCategoria.Text));
+                            cmd.Parameters.AddWithValue("@id", idCategoriaSeleccionada);
                             cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                             cmd.Parameters.AddWithValue("@descripcion", txtDescripcion.Text.Trim());
                             cmd.Parameters.AddWithValue("@estado", estadoSeleccionado);
@@ -196,7 +222,15 @@ namespace Proyecto_GYM
 
         private void CargarDatosFilaSeleccionada(DataGridViewRow row)
         {
-            txtIdCategoria.Text = row.Cells["Código"].Value?.ToString() ?? "";
+            if (row.Cells["Código"].Value != null && int.TryParse(row.Cells["Código"].Value.ToString(), out int id))
+            {
+                idCategoriaSeleccionada = id;
+            }
+            else
+            {
+                idCategoriaSeleccionada = 0;
+            }
+
             txtNombre.Text = row.Cells["Nombre"].Value?.ToString() ?? "";
             txtDescripcion.Text = row.Cells["Descripción"].Value?.ToString() ?? "";
 
@@ -215,7 +249,7 @@ namespace Proyecto_GYM
 
         private void LimpiarCampos()
         {
-            txtIdCategoria.Clear();
+            idCategoriaSeleccionada = 0;
             txtNombre.Clear();
             txtDescripcion.Clear();
             rbActivo.Checked = true;
@@ -234,7 +268,7 @@ namespace Proyecto_GYM
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtIdCategoria.Text))
+            if (idCategoriaSeleccionada == 0)
             {
                 MessageBox.Show("Seleccione una categoría de la tabla para eliminar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -250,7 +284,7 @@ namespace Proyecto_GYM
                         string query = "DELETE FROM Categorias WHERE id_categoria = @id";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
-                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtIdCategoria.Text));
+                            cmd.Parameters.AddWithValue("@id", idCategoriaSeleccionada);
                             cmd.ExecuteNonQuery();
                         }
                     }

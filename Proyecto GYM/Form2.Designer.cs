@@ -57,7 +57,6 @@
             label2 = new Label();
             panel2 = new Panel();
             flowLayoutPanel2 = new FlowLayoutPanel();
-            label3 = new Label();
             panelMovimientos = new Panel();
             button11 = new Button();
             button8 = new Button();
@@ -372,7 +371,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(33408, 2);
+            panel5.Size = new Size(34000, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -381,7 +380,7 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(17915, 2);
+            panel8.Size = new Size(18507, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
@@ -390,7 +389,7 @@
             panel9.BackColor = Color.Silver;
             panel9.Location = new Point(0, 398);
             panel9.Name = "panel9";
-            panel9.Size = new Size(17925, 2);
+            panel9.Size = new Size(18517, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -411,7 +410,6 @@
             panel2.BackColor = Color.RoyalBlue;
             panel2.Controls.Add(flowLayoutPanel2);
             panel2.Controls.Add(panel10);
-            panel2.Controls.Add(label3);
             panel2.Controls.Add(panelMovimientos);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(panel9);
@@ -436,17 +434,6 @@
             flowLayoutPanel2.Size = new Size(0, 0);
             flowLayoutPanel2.TabIndex = 0;
             flowLayoutPanel2.Visible = false;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Bell MT", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ActiveBorder;
-            label3.Location = new Point(38, 559);
-            label3.Name = "label3";
-            label3.Size = new Size(113, 21);
-            label3.TabIndex = 18;
-            label3.Text = "CONSULTAS";
             // 
             // panelMovimientos
             // 
@@ -559,7 +546,6 @@
         private Button button11;
         private Button button8;
         private Panel panel10;
-        private Label label3;
         private FlowLayoutPanel flowLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel2;
     }

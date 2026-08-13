@@ -50,13 +50,13 @@
             btnCargarFoto = new Button();
             btnGuardar = new Button();
             btnEditar = new Button();
-            btnInactivar = new Button();
             btnLimpiar = new Button();
             label9 = new Label();
             txtBuscar = new TextBox();
             btnBuscar = new Button();
             cmbEntrenador = new ComboBox();
             label10 = new Label();
+            btnEliminar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbFotoUsuario).BeginInit();
             SuspendLayout();
@@ -74,7 +74,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 50);
+            label1.Location = new Point(10, 32);
             label1.Name = "label1";
             label1.Size = new Size(73, 21);
             label1.TabIndex = 0;
@@ -84,7 +84,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(246, 50);
+            label2.Location = new Point(245, 32);
             label2.Name = "label2";
             label2.Size = new Size(100, 21);
             label2.TabIndex = 1;
@@ -94,7 +94,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(18, 173);
+            label3.Location = new Point(6, 135);
             label3.Name = "label3";
             label3.Size = new Size(67, 21);
             label3.TabIndex = 2;
@@ -104,7 +104,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(12, 114);
+            label4.Location = new Point(6, 85);
             label4.Name = "label4";
             label4.Size = new Size(77, 21);
             label4.TabIndex = 3;
@@ -114,7 +114,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(247, 116);
+            label5.Location = new Point(245, 85);
             label5.Name = "label5";
             label5.Size = new Size(79, 21);
             label5.TabIndex = 4;
@@ -124,7 +124,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(18, 227);
+            label6.Location = new Point(10, 186);
             label6.Name = "label6";
             label6.Size = new Size(65, 21);
             label6.TabIndex = 5;
@@ -134,7 +134,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(478, 294);
+            label7.Location = new Point(12, 232);
             label7.Name = "label7";
             label7.Size = new Size(39, 21);
             label7.TabIndex = 6;
@@ -144,7 +144,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(452, 259);
+            label8.Location = new Point(465, 258);
             label8.Name = "label8";
             label8.Size = new Size(65, 21);
             label8.TabIndex = 7;
@@ -152,7 +152,7 @@
             // 
             // txtUsuario
             // 
-            txtUsuario.Location = new Point(91, 43);
+            txtUsuario.Location = new Point(89, 32);
             txtUsuario.Multiline = true;
             txtUsuario.Name = "txtUsuario";
             txtUsuario.Size = new Size(150, 30);
@@ -160,7 +160,7 @@
             // 
             // txtClave
             // 
-            txtClave.Location = new Point(352, 43);
+            txtClave.Location = new Point(352, 34);
             txtClave.Name = "txtClave";
             txtClave.PasswordChar = '*';
             txtClave.Size = new Size(143, 23);
@@ -169,7 +169,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(95, 107);
+            txtNombre.Location = new Point(91, 85);
             txtNombre.Multiline = true;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(146, 30);
@@ -177,7 +177,7 @@
             // 
             // txtApellido
             // 
-            txtApellido.Location = new Point(341, 114);
+            txtApellido.Location = new Point(330, 85);
             txtApellido.Multiline = true;
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(143, 30);
@@ -185,15 +185,16 @@
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(95, 227);
+            txtCorreo.Location = new Point(89, 178);
             txtCorreo.Multiline = true;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(276, 30);
             txtCorreo.TabIndex = 12;
+            txtCorreo.TextChanged += txtCorreo_TextChanged;
             // 
             // txtCedula
             // 
-            txtCedula.Location = new Point(91, 175);
+            txtCedula.Location = new Point(89, 135);
             txtCedula.Mask = "000-000-0000-0";
             txtCedula.Name = "txtCedula";
             txtCedula.Size = new Size(210, 23);
@@ -204,7 +205,7 @@
             cmbRol.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbRol.FormattingEnabled = true;
             cmbRol.Items.AddRange(new object[] { "Administrador", "Recepcionista", "Entrenador" });
-            cmbRol.Location = new Point(552, 296);
+            cmbRol.Location = new Point(69, 234);
             cmbRol.Name = "cmbRol";
             cmbRol.Size = new Size(152, 23);
             cmbRol.TabIndex = 15;
@@ -259,49 +260,48 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Location = new Point(20, 276);
+            btnGuardar.BackColor = Color.Gray;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = SystemColors.ControlLightLight;
+            btnGuardar.Location = new Point(373, 286);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(90, 32);
+            btnGuardar.Size = new Size(90, 45);
             btnGuardar.TabIndex = 20;
             btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
             // 
             // btnEditar
             // 
-            btnEditar.Location = new Point(129, 276);
+            btnEditar.BackColor = Color.Gray;
+            btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditar.ForeColor = SystemColors.ControlLightLight;
+            btnEditar.Location = new Point(469, 286);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(90, 32);
+            btnEditar.Size = new Size(90, 45);
             btnEditar.TabIndex = 21;
             btnEditar.Text = "Editar";
-            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
-            // 
-            // btnInactivar
-            // 
-            btnInactivar.Location = new Point(225, 276);
-            btnInactivar.Name = "btnInactivar";
-            btnInactivar.Size = new Size(110, 32);
-            btnInactivar.TabIndex = 22;
-            btnInactivar.Text = "Innactiva";
-            btnInactivar.UseVisualStyleBackColor = true;
-            btnInactivar.Click += btnInactivar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(353, 276);
+            btnLimpiar.BackColor = Color.Gray;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = SystemColors.ControlLightLight;
+            btnLimpiar.Location = new Point(565, 286);
             btnLimpiar.Name = "btnLimpiar";
-            btnLimpiar.Size = new Size(90, 32);
+            btnLimpiar.Size = new Size(90, 45);
             btnLimpiar.TabIndex = 23;
             btnLimpiar.Text = "Limpiar";
-            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(45, 325);
+            label9.Location = new Point(12, 334);
             label9.Name = "label9";
             label9.Size = new Size(65, 21);
             label9.TabIndex = 24;
@@ -309,28 +309,31 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(128, 325);
+            txtBuscar.Location = new Point(83, 336);
             txtBuscar.Multiline = true;
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(129, 30);
+            txtBuscar.Size = new Size(168, 30);
             txtBuscar.TabIndex = 25;
             txtBuscar.Click += txtBuscar_TextChanged;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(300, 323);
+            btnBuscar.BackColor = Color.FromArgb(192, 192, 255);
+            btnBuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.ForeColor = SystemColors.ButtonHighlight;
+            btnBuscar.Location = new Point(266, 334);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(90, 32);
             btnBuscar.TabIndex = 26;
             btnBuscar.Text = "buscar";
-            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.UseVisualStyleBackColor = false;
             btnBuscar.Click += btnBuscar_Click;
             // 
             // cmbEntrenador
             // 
             cmbEntrenador.FormattingEnabled = true;
-            cmbEntrenador.Location = new Point(552, 341);
+            cmbEntrenador.Location = new Point(117, 286);
             cmbEntrenador.Name = "cmbEntrenador";
             cmbEntrenador.Size = new Size(152, 23);
             cmbEntrenador.TabIndex = 28;
@@ -340,11 +343,24 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(425, 344);
+            label10.Location = new Point(10, 285);
             label10.Name = "label10";
             label10.Size = new Size(92, 20);
             label10.TabIndex = 29;
             label10.Text = "Entrenador:";
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.Gray;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = SystemColors.ControlLightLight;
+            btnEliminar.Location = new Point(661, 286);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(90, 45);
+            btnEliminar.TabIndex = 30;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // FormUsuario
             // 
@@ -352,6 +368,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(767, 542);
+            Controls.Add(btnEliminar);
             Controls.Add(label10);
             Controls.Add(cmbEntrenador);
             Controls.Add(dgvUsuarios);
@@ -359,7 +376,6 @@
             Controls.Add(txtBuscar);
             Controls.Add(label9);
             Controls.Add(btnLimpiar);
-            Controls.Add(btnInactivar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
             Controls.Add(btnCargarFoto);
@@ -414,7 +430,6 @@
         private Button btnCargarFoto;
         private Button btnGuardar;
         private Button btnEditar;
-        private Button btnInactivar;
         private Button btnLimpiar;
         private Label label9;
         private TextBox txtBuscar;
@@ -422,5 +437,6 @@
         private DataGridView dgvUsuarios;
         private ComboBox cmbEntrenador;
         private Label label10;
+        private Button btnEliminar;
     }
 }

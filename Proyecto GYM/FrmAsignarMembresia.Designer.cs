@@ -87,7 +87,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(359, 39);
+            label3.Location = new Point(355, 39);
             label3.Name = "label3";
             label3.Size = new Size(67, 42);
             label3.TabIndex = 2;
@@ -107,7 +107,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(359, 99);
+            label5.Location = new Point(323, 107);
             label5.Name = "label5";
             label5.Size = new Size(156, 21);
             label5.TabIndex = 4;
@@ -167,7 +167,7 @@
             // 
             btnAsignar.BackColor = SystemColors.ActiveBorder;
             btnAsignar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAsignar.ForeColor = Color.FromArgb(0, 0, 192);
+            btnAsignar.ForeColor = Color.White;
             btnAsignar.Location = new Point(304, 274);
             btnAsignar.Name = "btnAsignar";
             btnAsignar.Size = new Size(84, 40);
@@ -180,7 +180,7 @@
             // 
             btnCancelar.BackColor = SystemColors.ActiveBorder;
             btnCancelar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelar.ForeColor = Color.FromArgb(0, 0, 192);
+            btnCancelar.ForeColor = Color.White;
             btnCancelar.Location = new Point(394, 274);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(85, 40);
@@ -193,7 +193,7 @@
             // 
             btnEditar.BackColor = SystemColors.ActiveBorder;
             btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEditar.ForeColor = Color.FromArgb(0, 0, 192);
+            btnEditar.ForeColor = Color.White;
             btnEditar.Location = new Point(485, 274);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(85, 40);
@@ -206,7 +206,7 @@
             // 
             btnLimpiar.BackColor = SystemColors.AppWorkspace;
             btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLimpiar.ForeColor = Color.Blue;
+            btnLimpiar.ForeColor = Color.White;
             btnLimpiar.Location = new Point(576, 274);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(85, 40);
@@ -242,9 +242,9 @@
             // cmbMembresia
             // 
             cmbMembresia.FormattingEnabled = true;
-            cmbMembresia.Location = new Point(521, 97);
+            cmbMembresia.Location = new Point(485, 105);
             cmbMembresia.Name = "cmbMembresia";
-            cmbMembresia.Size = new Size(204, 23);
+            cmbMembresia.Size = new Size(267, 23);
             cmbMembresia.TabIndex = 17;
             cmbMembresia.SelectedIndexChanged += cmbMembresia_SelectedIndexChanged;
             // 
@@ -292,10 +292,10 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
-            rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            rbInactivo.Location = new Point(182, 280);
+            rbInactivo.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbInactivo.Location = new Point(172, 280);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(75, 21);
+            rbInactivo.Size = new Size(83, 24);
             rbInactivo.TabIndex = 23;
             rbInactivo.TabStop = true;
             rbInactivo.Text = "Inactivo";
@@ -329,9 +329,9 @@
             // 
             // btnbuscar
             // 
-            btnbuscar.BackColor = SystemColors.ActiveBorder;
+            btnbuscar.BackColor = Color.FromArgb(192, 192, 255);
             btnbuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnbuscar.ForeColor = Color.FromArgb(0, 0, 192);
+            btnbuscar.ForeColor = Color.White;
             btnbuscar.Location = new Point(355, 320);
             btnbuscar.Name = "btnbuscar";
             btnbuscar.Size = new Size(84, 40);
@@ -344,7 +344,7 @@
             // 
             btnInactivo.BackColor = SystemColors.AppWorkspace;
             btnInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnInactivo.ForeColor = Color.Blue;
+            btnInactivo.ForeColor = Color.White;
             btnInactivo.Location = new Point(667, 274);
             btnInactivo.Name = "btnInactivo";
             btnInactivo.Size = new Size(85, 40);

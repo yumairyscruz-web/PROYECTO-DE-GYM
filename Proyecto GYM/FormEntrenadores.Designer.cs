@@ -38,7 +38,6 @@
             label8 = new Label();
             btnGuardar = new Button();
             btnditar = new Button();
-            btnInactivar = new Button();
             btnLimpiar = new Button();
             txtNombre = new TextBox();
             txtApellido = new TextBox();
@@ -58,6 +57,7 @@
             label12 = new Label();
             dtpHoraEntrada = new DateTimePicker();
             dtpHoraSalida = new DateTimePicker();
+            btnEliminar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvEntrenadores).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbFotoEntrenador).BeginInit();
             SuspendLayout();
@@ -137,7 +137,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(452, 252);
+            label8.Location = new Point(502, 273);
             label8.Name = "label8";
             label8.Size = new Size(65, 21);
             label8.TabIndex = 7;
@@ -145,8 +145,10 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.BackColor = SystemColors.Highlight;
-            btnGuardar.Location = new Point(363, 286);
+            btnGuardar.BackColor = Color.Gray;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = SystemColors.ButtonHighlight;
+            btnGuardar.Location = new Point(435, 320);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(89, 43);
             btnGuardar.TabIndex = 8;
@@ -156,8 +158,10 @@
             // 
             // btnditar
             // 
-            btnditar.BackColor = Color.ForestGreen;
-            btnditar.Location = new Point(458, 286);
+            btnditar.BackColor = Color.Gray;
+            btnditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnditar.ForeColor = SystemColors.ButtonHighlight;
+            btnditar.Location = new Point(530, 320);
             btnditar.Name = "btnditar";
             btnditar.Size = new Size(89, 43);
             btnditar.TabIndex = 9;
@@ -165,21 +169,12 @@
             btnditar.UseVisualStyleBackColor = false;
             btnditar.Click += btnEditar_Click;
             // 
-            // btnInactivar
-            // 
-            btnInactivar.BackColor = Color.Red;
-            btnInactivar.Location = new Point(550, 286);
-            btnInactivar.Name = "btnInactivar";
-            btnInactivar.Size = new Size(89, 43);
-            btnInactivar.TabIndex = 10;
-            btnInactivar.Text = "Inactivar";
-            btnInactivar.UseVisualStyleBackColor = false;
-            btnInactivar.Click += btnInactivar_Click;
-            // 
             // btnLimpiar
             // 
-            btnLimpiar.BackColor = SystemColors.ActiveBorder;
-            btnLimpiar.Location = new Point(648, 286);
+            btnLimpiar.BackColor = Color.Gray;
+            btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLimpiar.ForeColor = SystemColors.ButtonHighlight;
+            btnLimpiar.Location = new Point(625, 320);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(89, 43);
             btnLimpiar.TabIndex = 11;
@@ -240,9 +235,10 @@
             // 
             rbActivo.AutoSize = true;
             rbActivo.Checked = true;
-            rbActivo.Location = new Point(550, 252);
+            rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbActivo.Location = new Point(583, 273);
             rbActivo.Name = "rbActivo";
-            rbActivo.Size = new Size(59, 19);
+            rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 18;
             rbActivo.TabStop = true;
             rbActivo.Text = "Activo";
@@ -251,12 +247,14 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
-            rbInactivo.Location = new Point(648, 252);
+            rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbInactivo.Location = new Point(681, 274);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(67, 19);
+            rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 19;
             rbInactivo.Text = "Inactivo";
             rbInactivo.UseVisualStyleBackColor = true;
+            rbInactivo.CheckedChanged += rbInactivo_CheckedChanged;
             // 
             // label9
             // 
@@ -300,9 +298,9 @@
             // 
             pbFotoEntrenador.BackColor = SystemColors.ButtonFace;
             pbFotoEntrenador.BorderStyle = BorderStyle.FixedSingle;
-            pbFotoEntrenador.Location = new Point(504, 9);
+            pbFotoEntrenador.Location = new Point(530, 12);
             pbFotoEntrenador.Name = "pbFotoEntrenador";
-            pbFotoEntrenador.Size = new Size(252, 185);
+            pbFotoEntrenador.Size = new Size(252, 202);
             pbFotoEntrenador.SizeMode = PictureBoxSizeMode.Zoom;
             pbFotoEntrenador.TabIndex = 25;
             pbFotoEntrenador.TabStop = false;
@@ -312,7 +310,7 @@
             btnCargaFoto.BackColor = Color.FromArgb(192, 192, 255);
             btnCargaFoto.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCargaFoto.ForeColor = SystemColors.ButtonHighlight;
-            btnCargaFoto.Location = new Point(577, 200);
+            btnCargaFoto.Location = new Point(607, 225);
             btnCargaFoto.Name = "btnCargaFoto";
             btnCargaFoto.Size = new Size(102, 34);
             btnCargaFoto.TabIndex = 26;
@@ -358,12 +356,25 @@
             dtpHoraSalida.Size = new Size(200, 23);
             dtpHoraSalida.TabIndex = 30;
             // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.Gray;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = SystemColors.ButtonHighlight;
+            btnEliminar.Location = new Point(720, 320);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(89, 43);
+            btnEliminar.TabIndex = 31;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            // 
             // FormEntrenadores
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(821, 529);
+            Controls.Add(btnEliminar);
             Controls.Add(dtpHoraSalida);
             Controls.Add(dtpHoraEntrada);
             Controls.Add(label12);
@@ -383,7 +394,6 @@
             Controls.Add(txtApellido);
             Controls.Add(txtNombre);
             Controls.Add(btnLimpiar);
-            Controls.Add(btnInactivar);
             Controls.Add(btnditar);
             Controls.Add(btnGuardar);
             Controls.Add(label8);
@@ -415,7 +425,6 @@
         private Label label8;
         private Button btnGuardar;
         private Button btnditar;
-        private Button btnInactivar;
         private Button btnLimpiar;
         private TextBox txtNombre;
         private TextBox txtApellido;
@@ -435,5 +444,6 @@
         private Label label12;
         private DateTimePicker dtpHoraEntrada;
         private DateTimePicker dtpHoraSalida;
+        private Button btnEliminar;
     }
 }

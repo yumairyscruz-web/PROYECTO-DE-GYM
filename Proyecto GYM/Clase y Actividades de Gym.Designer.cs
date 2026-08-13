@@ -164,12 +164,12 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.BackColor = SystemColors.ActiveBorder;
+            btnGuardar.BackColor = Color.Gray;
             btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardar.ForeColor = Color.Blue;
-            btnGuardar.Location = new Point(279, 226);
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.Location = new Point(360, 226);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(101, 40);
+            btnGuardar.Size = new Size(87, 40);
             btnGuardar.TabIndex = 12;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
@@ -177,12 +177,12 @@
             // 
             // BtnEditar
             // 
-            BtnEditar.BackColor = SystemColors.ActiveBorder;
+            BtnEditar.BackColor = Color.Gray;
             BtnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            BtnEditar.ForeColor = Color.Blue;
-            BtnEditar.Location = new Point(386, 226);
+            BtnEditar.ForeColor = Color.White;
+            BtnEditar.Location = new Point(453, 226);
             BtnEditar.Name = "BtnEditar";
-            BtnEditar.Size = new Size(101, 40);
+            BtnEditar.Size = new Size(92, 40);
             BtnEditar.TabIndex = 13;
             BtnEditar.Text = "Editar";
             BtnEditar.UseVisualStyleBackColor = false;
@@ -190,12 +190,12 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.BackColor = SystemColors.ActiveBorder;
+            btnEliminar.BackColor = Color.Gray;
             btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.ForeColor = Color.Blue;
-            btnEliminar.Location = new Point(593, 226);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(651, 226);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(98, 40);
+            btnEliminar.Size = new Size(90, 40);
             btnEliminar.TabIndex = 14;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = false;
@@ -203,10 +203,10 @@
             // 
             // btnLimpiar
             // 
-            btnLimpiar.BackColor = SystemColors.ActiveBorder;
+            btnLimpiar.BackColor = Color.Gray;
             btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLimpiar.ForeColor = Color.Blue;
-            btnLimpiar.Location = new Point(493, 226);
+            btnLimpiar.ForeColor = Color.Transparent;
+            btnLimpiar.Location = new Point(551, 226);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(94, 40);
             btnLimpiar.TabIndex = 15;
@@ -217,7 +217,7 @@
             // dgvClases
             // 
             dgvClases.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClases.Location = new Point(52, 288);
+            dgvClases.Location = new Point(23, 291);
             dgvClases.Name = "dgvClases";
             dgvClases.Size = new Size(565, 138);
             dgvClases.TabIndex = 16;

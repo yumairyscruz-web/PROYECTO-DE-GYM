@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 
@@ -7,22 +8,55 @@ namespace Proyecto_GYM
 {
     public partial class FormProveedores : Form
     {
-        // Bandera para evitar que eventos del formulario se disparen al poblar controles
         private bool cargandoDatos = false;
 
         public FormProveedores()
         {
             InitializeComponent();
+
+            // Restricción: Solo permite letras y espacios en el nombre de la empresa y nombre de contacto
+            txtNombreEmpresa.KeyPress += txtSoloLetras_KeyPress;
+            txtContacto.KeyPress += txtSoloLetras_KeyPress;
+
+            // Restricción: Solo permite números en RNC/Cédula y Teléfono
+            txtRNC.KeyPress += txtSoloNumeros_KeyPress;
+            txtTelefono.KeyPress += txtSoloNumeros_KeyPress;
         }
 
         private void FormProveedores_Load(object sender, EventArgs e)
         {
             cargandoDatos = true;
 
-            CargarTablaProveedores(""); // Se envían comillas vacías para cargar todos los registros
+            CargarTablaProveedores("");
             LimpiarCampos();
 
             cargandoDatos = false;
+        }
+
+        // Método de restricción para aceptar únicamente letras y espacios (bloquea números, símbolos y asteriscos)
+        private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+        }
+
+        // Método de restricción para aceptar únicamente números
+        private void txtSoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        // Validación de formato de correo electrónico exigiendo la presencia de '@' y un dominio válido (ej. .com)
+        private bool ValidarCorreo(string correo)
+        {
+            if (string.IsNullOrWhiteSpace(correo)) return true;
+            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(correo, patron);
         }
 
         private void CargarTablaProveedores(string criterio = "")
@@ -64,6 +98,13 @@ namespace Proyecto_GYM
                 return;
             }
 
+            if (!string.IsNullOrWhiteSpace(txtEmail.Text) && !ValidarCorreo(txtEmail.Text.Trim()))
+            {
+                MessageBox.Show("Por favor ingrese un correo electrónico válido que contenga '@' y un dominio (ejemplo: correo@dominio.com).", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
+
             try
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
@@ -98,14 +139,23 @@ namespace Proyecto_GYM
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtIdProveedor.Text))
+            if (dgvProveedores.CurrentRow == null || dgvProveedores.CurrentRow.Cells["Código"].Value == null)
             {
                 MessageBox.Show("Por favor seleccione un proveedor de la lista para editar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            if (!string.IsNullOrWhiteSpace(txtEmail.Text) && !ValidarCorreo(txtEmail.Text.Trim()))
+            {
+                MessageBox.Show("Por favor ingrese un correo electrónico válido que contenga '@' y un dominio (ejemplo: correo@dominio.com).", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtEmail.Focus();
+                return;
+            }
+
             try
             {
+                int idProveedorSeleccionado = Convert.ToInt32(dgvProveedores.CurrentRow.Cells["Código"].Value);
+
                 using (SqlConnection con = Conexion.ObtenerConexion())
                 {
                     if (con.State == ConnectionState.Closed) con.Open();
@@ -114,7 +164,7 @@ namespace Proyecto_GYM
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.AddWithValue("@id_proveedor", Convert.ToInt32(txtIdProveedor.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@id_proveedor", idProveedorSeleccionado);
                         cmd.Parameters.AddWithValue("@nombre_empresa", txtNombreEmpresa.Text.Trim());
                         cmd.Parameters.AddWithValue("@rnc_cedula", txtRNC.Text.Trim());
                         cmd.Parameters.AddWithValue("@contacto_nombre", txtContacto.Text.Trim());
@@ -140,7 +190,7 @@ namespace Proyecto_GYM
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtIdProveedor.Text))
+            if (dgvProveedores.CurrentRow == null || dgvProveedores.CurrentRow.Cells["Código"].Value == null)
             {
                 MessageBox.Show("Por favor seleccione un proveedor de la lista para eliminar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -152,6 +202,8 @@ namespace Proyecto_GYM
             {
                 try
                 {
+                    int idProveedorSeleccionado = Convert.ToInt32(dgvProveedores.CurrentRow.Cells["Código"].Value);
+
                     using (SqlConnection con = Conexion.ObtenerConexion())
                     {
                         if (con.State == ConnectionState.Closed) con.Open();
@@ -159,7 +211,7 @@ namespace Proyecto_GYM
                         using (SqlCommand cmd = new SqlCommand("sp_EliminarProveedor", con))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@id_proveedor", Convert.ToInt32(txtIdProveedor.Text.Trim()));
+                            cmd.Parameters.AddWithValue("@id_proveedor", idProveedorSeleccionado);
 
                             cmd.ExecuteNonQuery();
 
@@ -185,7 +237,6 @@ namespace Proyecto_GYM
 
                 DataGridViewRow fila = dgvProveedores.Rows[e.RowIndex];
 
-                txtIdProveedor.Text = fila.Cells["Código"].Value?.ToString() ?? "";
                 txtNombreEmpresa.Text = fila.Cells["Nombre Empresa"].Value?.ToString() ?? "";
                 txtRNC.Text = fila.Cells["RNC / Cédula"].Value?.ToString() ?? "";
                 txtContacto.Text = fila.Cells["Nombre Contacto"].Value != DBNull.Value ? fila.Cells["Nombre Contacto"].Value?.ToString() ?? "" : "";
@@ -215,7 +266,6 @@ namespace Proyecto_GYM
         {
             cargandoDatos = true;
 
-            txtIdProveedor.Clear();
             txtRNC.Clear();
             txtNombreEmpresa.Clear();
             txtContacto.Clear();
@@ -223,7 +273,7 @@ namespace Proyecto_GYM
             txtEmail.Clear();
             txtDireccion.Clear();
             txtBuscar.Clear();
-            rbActivo.Checked = true;
+            rbActivo.Checked = true; // Asegura que el radio button de activo esté seleccionado por defecto
 
             cargandoDatos = false;
         }

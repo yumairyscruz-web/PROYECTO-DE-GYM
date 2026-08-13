@@ -1,8 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Text.RegularExpressions;
+
+using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Proyecto_GYM
@@ -23,6 +28,10 @@ namespace Proyecto_GYM
             {
                 this.txtBuscar.KeyDown += this.txtBuscar_KeyDown;
             }
+
+            // Restricción de solo letras para nombre y apellido
+            this.txtNombre.KeyPress += ValidarSoloLetras_KeyPress;
+            this.txtApellido.KeyPress += ValidarSoloLetras_KeyPress;
         }
 
         private void FormEntrenadores_Load(object sender, EventArgs e)
@@ -41,6 +50,24 @@ namespace Proyecto_GYM
             CargarEntrenadores();
         }
 
+        // Validación para permitir únicamente letras y espacios en nombres/apellidos
+        private void ValidarSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Bloquea números, asteriscos y cualquier otro símbolo
+            }
+        }
+
+        // Validador estricto de formato de correo con @ y dominio
+        private bool ValidarCorreo(string correo)
+        {
+            if (string.IsNullOrWhiteSpace(correo)) return false;
+            // Expresión regular para verificar formato estricto de correo (ej. texto@dominio.com)
+            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(correo, patron);
+        }
+
         // Carga la lista de entrenadores en el DataGridView
         private void CargarEntrenadores()
         {
@@ -53,7 +80,6 @@ namespace Proyecto_GYM
                         con.Open();
                     }
 
-                    // Se incluyen hora_entrada, hora_salida y foto
                     string query = @"SELECT id_entrenador, cedula, nombre, apellido, telefono, correo, 
                                             especialidad, hora_entrada, hora_salida, foto, 
                                             CASE WHEN estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado 
@@ -74,7 +100,6 @@ namespace Proyecto_GYM
                                 dgvEntrenadores.Columns[0].Visible = false; // id_entrenador
                             }
 
-                            // Ocultar la columna de foto de forma segura sin advertencias de nulo
                             if (dgvEntrenadores.Columns.Contains("foto") && dgvEntrenadores.Columns["foto"] != null)
                             {
                                 dgvEntrenadores.Columns["foto"]!.Visible = false;
@@ -89,7 +114,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // Seleccionar y cargar foto en el PictureBox
         private void btnCargarFoto_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -97,7 +121,6 @@ namespace Proyecto_GYM
                 ofd.Filter = "Imágenes (*.jpg; *.jpeg; *.png)|*.jpg;*.jpeg;*.png";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    // Crear copia pura de la imagen en memoria para liberar el archivo original
                     using (var imgTemp = Image.FromFile(ofd.FileName))
                     {
                         pbFotoEntrenador.Image = new Bitmap(imgTemp);
@@ -106,7 +129,6 @@ namespace Proyecto_GYM
             }
         }
 
-        // Convertir la imagen a arreglo de Bytes (Acepta nulos de forma segura)
         private byte[]? ConvertirImagenABytes(Image? imagen)
         {
             if (imagen == null) return null;
@@ -118,7 +140,7 @@ namespace Proyecto_GYM
             }
         }
 
-        // Guardar un nuevo entrenador
+        // Guardar un nuevo entrenador con validaciones de campos y correo
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCedula.Text))
@@ -132,6 +154,14 @@ namespace Proyecto_GYM
             {
                 MessageBox.Show("Debe ingresar el nombre del entrenador.", "Campo Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
+                return;
+            }
+
+            // Validación de correo con @ y dominio obligatorios
+            if (!ValidarCorreo(txtCorreo.Text.Trim()))
+            {
+                MessageBox.Show("El correo electrónico no es válido. Debe incluir '@' y un dominio correcto (ej. correo@dominio.com).", "Correo Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
                 return;
             }
 
@@ -196,12 +226,19 @@ namespace Proyecto_GYM
             }
         }
 
-        // Editar entrenador seleccionado de forma completa protegiendo la cédula
+        // Editar entrenador con validación de correo integrada
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (dgvEntrenadores.CurrentRow == null || string.IsNullOrWhiteSpace(txtCedula.Text))
             {
                 MessageBox.Show("Seleccione un entrenador de la lista para editar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!ValidarCorreo(txtCorreo.Text.Trim()))
+            {
+                MessageBox.Show("El correo electrónico no es válido. Debe incluir '@' y un dominio correcto.", "Correo Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
                 return;
             }
 
@@ -225,7 +262,6 @@ namespace Proyecto_GYM
                         con.Open();
                     }
 
-                    // Se actualizan todos los campos necesarios excepto la cédula para proteger la integridad
                     string query = @"UPDATE entrenadores 
                                     SET nombre = @nombre, 
                                         apellido = @apellido, 
@@ -265,17 +301,17 @@ namespace Proyecto_GYM
             }
         }
 
-        // Cambiar el estado a Inactivo
-        private void btnInactivar_Click(object sender, EventArgs e)
+        // Botón Eliminar en lugar de Inactivar
+        private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvEntrenadores.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione un entrenador para inactivar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un entrenador de la lista para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea inactivar este entrenador?",
-                                                   "Confirmar Inactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea eliminar permanentemente este entrenador?",
+                                                     "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (respuesta == DialogResult.Yes)
             {
@@ -290,7 +326,7 @@ namespace Proyecto_GYM
                             con.Open();
                         }
 
-                        string query = "UPDATE entrenadores SET estado = 0 WHERE id_entrenador = @id";
+                        string query = "DELETE FROM entrenadores WHERE id_entrenador = @id";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@id", idEntrenador);
@@ -298,18 +334,17 @@ namespace Proyecto_GYM
                         }
                     }
 
-                    MessageBox.Show("El entrenador ha sido inactivado.", "Inactivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("El entrenador ha sido eliminado exitosamente.", "Eliminado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     CargarEntrenadores();
                     LimpiarFormulario();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al cambiar estado del entrenador: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error al eliminar el entrenador: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        // Pasar datos de la fila seleccionada y bloquear la cédula
         private void dgvEntrenadores_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -317,22 +352,20 @@ namespace Proyecto_GYM
                 DataGridViewRow fila = dgvEntrenadores.Rows[e.RowIndex];
 
                 txtCedula.Text = fila.Cells["cedula"]?.Value?.ToString() ?? "";
-                txtCedula.ReadOnly = true; // Bloquea la cédula para que no pueda ser alterada al editar
-                txtCedula.BackColor = Color.LightGray; // Indicador visual de campo bloqueado
+                txtCedula.ReadOnly = true;
+                txtCedula.BackColor = Color.LightGray;
 
                 txtNombre.Text = fila.Cells["nombre"]?.Value?.ToString() ?? "";
                 txtApellido.Text = fila.Cells["apellido"]?.Value?.ToString() ?? "";
                 txtTelefono.Text = fila.Cells["telefono"]?.Value?.ToString() ?? "";
                 txtCorreo.Text = fila.Cells["correo"]?.Value?.ToString() ?? "";
 
-                // Cargar Especialidad
                 string? especialidadGuardada = fila.Cells["especialidad"]?.Value?.ToString();
                 if (!string.IsNullOrEmpty(especialidadGuardada))
                 {
                     cmbEspecialidad.Text = especialidadGuardada;
                 }
 
-                // Cargar Horarios de Entrada y Salida
                 if (TimeSpan.TryParse(fila.Cells["hora_entrada"]?.Value?.ToString(), out TimeSpan hEntrada))
                 {
                     dtpHoraEntrada.Value = DateTime.Today.Add(hEntrada);
@@ -342,7 +375,6 @@ namespace Proyecto_GYM
                     dtpHoraSalida.Value = DateTime.Today.Add(hSalida);
                 }
 
-                // Cargar Fotografía desde el arreglo de bytes
                 if (fila.Cells["foto"]?.Value != DBNull.Value && fila.Cells["foto"]?.Value is byte[] bytesFoto && bytesFoto.Length > 0)
                 {
                     using (MemoryStream ms = new MemoryStream(bytesFoto))
@@ -358,7 +390,6 @@ namespace Proyecto_GYM
                     pbFotoEntrenador.Image = null;
                 }
 
-                // Cargar Estado
                 string? estado = fila.Cells["estado"]?.Value?.ToString();
                 if (estado == "Activo" || estado == "True" || estado == "1")
                 {
@@ -371,12 +402,11 @@ namespace Proyecto_GYM
             }
         }
 
-        // Filtrar solo al presionar la tecla ENTER
         private void txtBuscar_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // Desactiva el sonido "beep"
+                e.SuppressKeyPress = true;
 
                 if (dgvEntrenadores.DataSource is DataTable dt)
                 {
@@ -409,8 +439,8 @@ namespace Proyecto_GYM
         private void LimpiarFormulario()
         {
             txtCedula.Clear();
-            txtCedula.ReadOnly = false; // Vuelve a habilitar la cédula para nuevos registros
-            txtCedula.BackColor = SystemColors.Window; // Restaura el color normal
+            txtCedula.ReadOnly = false;
+            txtCedula.BackColor = SystemColors.Window;
 
             txtNombre.Clear();
             txtApellido.Clear();
@@ -437,6 +467,11 @@ namespace Proyecto_GYM
             }
 
             txtCedula.Focus();
+        }
+
+        private void rbInactivo_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

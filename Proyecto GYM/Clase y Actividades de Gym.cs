@@ -35,6 +35,19 @@ namespace Proyecto_GYM
             nudCupoMaximo.Minimum = 1;
             nudCupoMaximo.Maximum = 500;
             nudCupoMaximo.Value = 20;
+
+            // Restricción: Solo permite letras y espacios en el nombre y en la descripción
+            txtNombre.KeyPress += txtSoloLetras_KeyPress;
+            txtDescripcion.KeyPress += txtSoloLetras_KeyPress;
+        }
+
+        // Método de restricción para aceptar únicamente letras y espacios (bloquea números y símbolos)
+        private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Cancela la tecla presionada si no es letra o espacio
+            }
         }
 
         private void CargarEntrenadoresCombo()

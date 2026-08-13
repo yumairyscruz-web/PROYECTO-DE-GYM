@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Proyecto_GYM
@@ -35,6 +36,11 @@ namespace Proyecto_GYM
                 pbFotoUsuario.BorderStyle = BorderStyle.FixedSingle;
                 pbFotoUsuario.SizeMode = PictureBoxSizeMode.Zoom;
             }
+
+            // Asignar restricciones de teclado y validaciones a los controles
+            txtNombre.KeyPress += txtSoloLetras_KeyPress;
+            txtApellido.KeyPress += txtSoloLetras_KeyPress;
+            txtCorreo.Validating += txtCorreo_Validating;
 
             CargarComboEntrenadores();
             CargarUsuarios();
@@ -341,6 +347,14 @@ namespace Proyecto_GYM
                 return;
             }
 
+            // Validación final del correo antes de guardar
+            if (!ValidarCorreo(txtCorreo.Text.Trim()))
+            {
+                MessageBox.Show("El formato del correo electrónico no es válido. Asegúrese de incluir '@' y un dominio correcto.", "Correo Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
             string rolSeleccionado = cmbRol.Text.Trim();
 
             if (rolSeleccionado == "Entrenador" && (cmbEntrenador == null || cmbEntrenador.SelectedValue == null))
@@ -437,6 +451,13 @@ namespace Proyecto_GYM
                 return;
             }
 
+            if (!ValidarCorreo(txtCorreo.Text.Trim()))
+            {
+                MessageBox.Show("El formato del correo electrónico no es válido.", "Correo Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
             string rolSeleccionado = cmbRol.Text.Trim();
 
             try
@@ -505,18 +526,19 @@ namespace Proyecto_GYM
             }
         }
 
-        private void btnInactivar_Click(object sender, EventArgs e)
+        // NUEVO: Botón Eliminar
+        private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                MessageBox.Show("Seleccione un usuario para inactivar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione o busque un usuario primero para poder eliminarlo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea cambiar el estado del usuario a Inactivo?",
-                                                   "Confirmar Inactivación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult resultado = MessageBox.Show($"¿Está seguro de que desea eliminar al usuario '{txtUsuario.Text.Trim()}'?",
+                                                     "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (respuesta == DialogResult.Yes)
+            if (resultado == DialogResult.Yes)
             {
                 try
                 {
@@ -524,13 +546,16 @@ namespace Proyecto_GYM
                     {
                         if (con.State == ConnectionState.Closed) con.Open();
 
-                        using (SqlCommand cmd = new SqlCommand("UPDATE usuarios SET estado = 0 WHERE usuario = @usuario", con))
+                        // Asegúrate de cambiar "sp_EliminarUsuario" por el nombre exacto de tu procedimiento almacenado en SQL Server
+                        using (SqlCommand cmd = new SqlCommand("sp_EliminarUsuario", con))
                         {
+                            cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@usuario", txtUsuario.Text.Trim());
+
                             cmd.ExecuteNonQuery();
                         }
 
-                        MessageBox.Show("El usuario ha sido inactivado correctamente.", "Inactivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Usuario eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         CargarUsuarios();
                         LimpiarFormulario();
@@ -538,7 +563,7 @@ namespace Proyecto_GYM
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al cambiar estado del usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error al eliminar el usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -697,6 +722,7 @@ namespace Proyecto_GYM
 
             cmbRol.SelectedIndex = -1;
 
+            // Asegura que el Radio Button de Activo se marque automáticamente
             rbActivo.Checked = true;
             rbInactivo.Checked = false;
 
@@ -744,6 +770,45 @@ namespace Proyecto_GYM
                 pbFotoUsuario.Image?.Dispose();
                 pbFotoUsuario.Image = null;
             }
+        }
+
+        // MÉTODOS DE RESTRICCIÓN Y VALIDACIÓN
+     
+
+        // Restringe que solo se ingresen letras y espacios en nombre y apellido
+        private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Cancela la tecla si no es letra o espacio
+            }
+        }
+
+        // Valida que el correo electrónico tenga una estructura correcta (@ y dominio)
+        private void txtCorreo_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtCorreo.Text))
+            {
+                if (!ValidarCorreo(txtCorreo.Text.Trim()))
+                {
+                    MessageBox.Show("Por favor, introduzca una dirección de correo electrónico válida (ejemplo: usuario@dominio.com).",
+                                    "Correo Electrónico Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCorreo.SelectAll();
+                    e.Cancel = true; // Mantiene el foco en el campo hasta que sea válido
+                }
+            }
+        }
+
+        // Función auxiliar mediante Expresión Regular para comprobar el correo
+        private bool ValidarCorreo(string correo)
+        {
+            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(correo, patron);
+        }
+
+        private void txtCorreo_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -51,12 +51,12 @@
             rbInactivo = new RadioButton();
             btnGuardar = new Button();
             btnEditar = new Button();
-            btnInactivar = new Button();
             btnLimpia = new Button();
             label11 = new Label();
             txtBuscar = new TextBox();
             btnBuscar = new Button();
             dgvClientes = new DataGridView();
+            btnEliminar = new Button();
             ((System.ComponentModel.ISupportInitialize)pbFoto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             SuspendLayout();
@@ -209,10 +209,10 @@
             // 
             pbFoto.BackColor = SystemColors.ActiveCaption;
             pbFoto.BorderStyle = BorderStyle.Fixed3D;
-            pbFoto.Location = new Point(403, 12);
+            pbFoto.Location = new Point(508, 12);
             pbFoto.Name = "pbFoto";
-            pbFoto.Size = new Size(227, 214);
-            pbFoto.SizeMode = PictureBoxSizeMode.AutoSize;
+            pbFoto.Size = new Size(237, 202);
+            pbFoto.SizeMode = PictureBoxSizeMode.Zoom;
             pbFoto.TabIndex = 17;
             pbFoto.TabStop = false;
             // 
@@ -220,7 +220,7 @@
             // 
             btnCargarFoto.BackColor = Color.FromArgb(128, 128, 255);
             btnCargarFoto.ForeColor = SystemColors.ButtonHighlight;
-            btnCargarFoto.Location = new Point(464, 232);
+            btnCargarFoto.Location = new Point(576, 224);
             btnCargarFoto.Name = "btnCargarFoto";
             btnCargarFoto.Size = new Size(111, 43);
             btnCargarFoto.TabIndex = 18;
@@ -231,7 +231,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(391, 281);
+            label10.Location = new Point(481, 281);
             label10.Margin = new Padding(4, 0, 4, 0);
             label10.Name = "label10";
             label10.Size = new Size(65, 21);
@@ -241,9 +241,10 @@
             // rbActivo
             // 
             rbActivo.AutoSize = true;
-            rbActivo.Location = new Point(476, 281);
+            rbActivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbActivo.Location = new Point(564, 279);
             rbActivo.Name = "rbActivo";
-            rbActivo.Size = new Size(77, 25);
+            rbActivo.Size = new Size(65, 21);
             rbActivo.TabIndex = 20;
             rbActivo.TabStop = true;
             rbActivo.Text = "Activo";
@@ -252,21 +253,22 @@
             // rbInactivo
             // 
             rbInactivo.AutoSize = true;
-            rbInactivo.Location = new Point(559, 281);
+            rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rbInactivo.Location = new Point(650, 279);
             rbInactivo.Name = "rbInactivo";
-            rbInactivo.Size = new Size(100, 25);
+            rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 21;
             rbInactivo.TabStop = true;
-            rbInactivo.Text = "Innactivo";
+            rbInactivo.Text = "Inactivo";
             rbInactivo.UseVisualStyleBackColor = true;
             // 
             // btnGuardar
             // 
-            btnGuardar.BackColor = Color.Green;
+            btnGuardar.BackColor = Color.Gray;
             btnGuardar.ForeColor = SystemColors.ButtonHighlight;
-            btnGuardar.Location = new Point(299, 326);
+            btnGuardar.Location = new Point(402, 308);
             btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(99, 41);
+            btnGuardar.Size = new Size(92, 41);
             btnGuardar.TabIndex = 22;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
@@ -274,35 +276,23 @@
             // 
             // btnEditar
             // 
-            btnEditar.BackColor = Color.OrangeRed;
+            btnEditar.BackColor = Color.Gray;
             btnEditar.ForeColor = SystemColors.ButtonFace;
-            btnEditar.Location = new Point(403, 326);
+            btnEditar.Location = new Point(500, 308);
             btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(106, 41);
+            btnEditar.Size = new Size(87, 41);
             btnEditar.TabIndex = 23;
             btnEditar.Text = "Editar";
             btnEditar.UseVisualStyleBackColor = false;
             btnEditar.Click += btnEditar_Click;
             // 
-            // btnInactivar
-            // 
-            btnInactivar.BackColor = SystemColors.Highlight;
-            btnInactivar.ForeColor = SystemColors.ButtonHighlight;
-            btnInactivar.Location = new Point(515, 326);
-            btnInactivar.Name = "btnInactivar";
-            btnInactivar.Size = new Size(109, 41);
-            btnInactivar.TabIndex = 24;
-            btnInactivar.Text = "Inactivar";
-            btnInactivar.UseVisualStyleBackColor = false;
-            btnInactivar.Click += btnInactivar_Click;
-            // 
             // btnLimpia
             // 
-            btnLimpia.BackColor = SystemColors.ButtonShadow;
+            btnLimpia.BackColor = Color.Gray;
             btnLimpia.ForeColor = SystemColors.ButtonHighlight;
-            btnLimpia.Location = new Point(630, 326);
+            btnLimpia.Location = new Point(593, 308);
             btnLimpia.Name = "btnLimpia";
-            btnLimpia.Size = new Size(104, 41);
+            btnLimpia.Size = new Size(94, 41);
             btnLimpia.TabIndex = 25;
             btnLimpia.Text = "Limpiar";
             btnLimpia.UseVisualStyleBackColor = false;
@@ -344,23 +334,35 @@
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvClientes.Location = new Point(12, 418);
             dgvClientes.Name = "dgvClientes";
-            dgvClientes.Size = new Size(807, 146);
+            dgvClientes.Size = new Size(748, 134);
             dgvClientes.TabIndex = 29;
             dgvClientes.CellClick += dgvClientes_CellClick;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.Gray;
+            btnEliminar.ForeColor = SystemColors.ButtonHighlight;
+            btnEliminar.Location = new Point(693, 308);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(85, 39);
+            btnEliminar.TabIndex = 30;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // FormClientes
             // 
             AutoScaleDimensions = new SizeF(10F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveCaption;
-            ClientSize = new Size(838, 588);
+            ClientSize = new Size(801, 567);
+            Controls.Add(btnEliminar);
             Controls.Add(pbFoto);
             Controls.Add(dgvClientes);
             Controls.Add(btnBuscar);
             Controls.Add(txtBuscar);
             Controls.Add(label11);
             Controls.Add(btnLimpia);
-            Controls.Add(btnInactivar);
             Controls.Add(btnEditar);
             Controls.Add(btnGuardar);
             Controls.Add(rbInactivo);
@@ -421,11 +423,11 @@
         private RadioButton rbInactivo;
         private Button btnGuardar;
         private Button btnEditar;
-        private Button btnInactivar;
         private Button btnLimpia;
         private Label label11;
         private TextBox txtBuscar;
         private Button btnBuscar;
         private DataGridView dgvClientes;
+        private Button btnEliminar;
     }
 }

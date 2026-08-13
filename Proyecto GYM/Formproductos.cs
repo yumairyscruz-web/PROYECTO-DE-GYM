@@ -8,9 +8,15 @@ namespace Proyecto_GYM
 {
     public partial class FormProductos : Form
     {
+        private int idProductoSeleccionado = 0;
+
         public FormProductos()
         {
             InitializeComponent();
+
+            // Restricción: Solo permite letras y espacios en el nombre y en la descripción del producto
+            txtNombre.KeyPress += txtSoloLetras_KeyPress;
+            txtDescripcion.KeyPress += txtSoloLetras_KeyPress;
         }
 
         private void FormProductos_Load(object sender, EventArgs e)
@@ -20,6 +26,15 @@ namespace Proyecto_GYM
             CargarComboMarcas();
             CargarTablaProductos();
             LimpiarCampos();
+        }
+
+        // Método de restricción para aceptar únicamente letras y espacios (bloquea números y símbolos)
+        private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            {
+                e.Handled = true; // Cancela la tecla presionada si no es letra o espacio
+            }
         }
 
         private void ConfigurarLimitesNumericos()
@@ -40,6 +55,7 @@ namespace Proyecto_GYM
             numStockMinimo.Minimum = 0m;
             numStockMinimo.Maximum = 100000m;
         }
+
         private void CargarComboCategorias()
         {
             try
@@ -103,8 +119,6 @@ namespace Proyecto_GYM
                     if (con.State == ConnectionState.Closed) con.Open();
 
                     string query = @"SELECT p.id_producto AS [ID],
-                                            p.codigo AS [Código],
-                                            p.codigo_barras AS [Código Barras],
                                             p.nombre AS [Producto],
                                             c.nombre AS [Categoría],
                                             m.nombre AS [Marca],
@@ -120,8 +134,6 @@ namespace Proyecto_GYM
                                      INNER JOIN categorias c ON p.id_categoria = c.id_categoria
                                      INNER JOIN marcas m ON p.id_marca = m.id_marca
                                      WHERE p.nombre LIKE @filtro 
-                                        OR p.codigo LIKE @filtro 
-                                        OR p.codigo_barras LIKE @filtro
                                      ORDER BY p.id_producto DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -134,6 +146,9 @@ namespace Proyecto_GYM
 
                         dgvProductos.DataSource = null;
                         dgvProductos.DataSource = dt;
+
+                        DataGridViewColumn? colId = dgvProductos.Columns["ID"];
+                        if (colId != null) colId.Visible = false;
 
                         DataGridViewColumn? colCategoria = dgvProductos.Columns["id_categoria"];
                         if (colCategoria != null) colCategoria.Visible = false;
@@ -182,7 +197,7 @@ namespace Proyecto_GYM
         // --- BOTÓN GUARDAR (SOLO PARA NUEVOS REGISTROS) ---
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtIdProducto.Text))
+            if (idProductoSeleccionado != 0)
             {
                 MessageBox.Show("Estás seleccionando un producto existente. Utiliza el botón 'Editar' para guardar los cambios.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -210,14 +225,12 @@ namespace Proyecto_GYM
                     if (con.State == ConnectionState.Closed) con.Open();
 
                     string queryInsert = @"INSERT INTO productos 
-                                          (codigo, codigo_barras, nombre, descripcion, id_categoria, id_marca, precio_compra, precio_venta, stock, stock_minimo, estado) 
+                                          (nombre, descripcion, id_categoria, id_marca, precio_compra, precio_venta, stock, stock_minimo, estado) 
                                           VALUES 
-                                          (@codigo, @codigo_barras, @nombre, @descripcion, @id_categoria, @id_marca, @precio_compra, @precio_venta, @stock, @stock_minimo, @estado)";
+                                          (@nombre, @descripcion, @id_categoria, @id_marca, @precio_compra, @precio_venta, @stock, @stock_minimo, @estado)";
 
                     using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                     {
-                        cmd.Parameters.AddWithValue("@codigo", string.IsNullOrWhiteSpace(txtCodigo.Text) ? DBNull.Value : (object)txtCodigo.Text.Trim());
-                        cmd.Parameters.AddWithValue("@codigo_barras", string.IsNullOrWhiteSpace(txtCodigoBarras.Text) ? DBNull.Value : (object)txtCodigoBarras.Text.Trim());
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
                         cmd.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(cmbCategoria.SelectedValue));
@@ -246,7 +259,7 @@ namespace Proyecto_GYM
         // --- BOTÓN EDITAR DIRECTO ---
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtIdProducto.Text))
+            if (idProductoSeleccionado == 0)
             {
                 MessageBox.Show("Seleccione un producto de la tabla para editar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -274,8 +287,6 @@ namespace Proyecto_GYM
                     if (con.State == ConnectionState.Closed) con.Open();
 
                     string queryUpdate = @"UPDATE productos SET 
-                                             codigo = @codigo,
-                                             codigo_barras = @codigo_barras,
                                              nombre = @nombre,
                                              descripcion = @descripcion,
                                              id_categoria = @id_categoria,
@@ -289,9 +300,7 @@ namespace Proyecto_GYM
 
                     using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
                     {
-                        cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtIdProducto.Text));
-                        cmd.Parameters.AddWithValue("@codigo", string.IsNullOrWhiteSpace(txtCodigo.Text) ? DBNull.Value : (object)txtCodigo.Text.Trim());
-                        cmd.Parameters.AddWithValue("@codigo_barras", string.IsNullOrWhiteSpace(txtCodigoBarras.Text) ? DBNull.Value : (object)txtCodigoBarras.Text.Trim());
+                        cmd.Parameters.AddWithValue("@id", idProductoSeleccionado);
                         cmd.Parameters.AddWithValue("@nombre", txtNombre.Text.Trim());
                         cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(txtDescripcion.Text) ? DBNull.Value : (object)txtDescripcion.Text.Trim());
                         cmd.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(cmbCategoria.SelectedValue));
@@ -322,9 +331,16 @@ namespace Proyecto_GYM
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
-                txtIdProducto.Text = row.Cells["ID"].Value?.ToString() ?? "";
-                txtCodigo.Text = row.Cells["Código"].Value?.ToString() ?? "";
-                txtCodigoBarras.Text = row.Cells["Código Barras"].Value?.ToString() ?? "";
+
+                if (row.Cells["ID"].Value != null && int.TryParse(row.Cells["ID"].Value.ToString(), out int id))
+                {
+                    idProductoSeleccionado = id;
+                }
+                else
+                {
+                    idProductoSeleccionado = 0;
+                }
+
                 txtNombre.Text = row.Cells["Producto"].Value?.ToString() ?? "";
                 txtDescripcion.Text = row.Cells["descripcion"].Value?.ToString() ?? "";
 
@@ -338,7 +354,6 @@ namespace Proyecto_GYM
                 else
                     cmbMarca.SelectedIndex = -1;
 
-                // --- LECTURA LIMPIA Y CORRECCIÓN DE PRECIOS CON CEROS EXTRA ---
                 string rawCompra = row.Cells["P. Compra"].Value?.ToString() ?? "0";
                 string rawVenta = row.Cells["P. Venta"].Value?.ToString() ?? "0";
 
@@ -369,9 +384,7 @@ namespace Proyecto_GYM
 
         private void LimpiarCampos()
         {
-            txtIdProducto.Clear();
-            txtCodigo.Clear();
-            txtCodigoBarras.Clear();
+            idProductoSeleccionado = 0;
             txtNombre.Clear();
             txtDescripcion.Clear();
 
@@ -389,7 +402,7 @@ namespace Proyecto_GYM
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtIdProducto.Text))
+            if (idProductoSeleccionado == 0)
             {
                 MessageBox.Show("Seleccione un producto para inactivar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -405,7 +418,7 @@ namespace Proyecto_GYM
                         string query = "UPDATE productos SET estado = 0 WHERE id_producto = @id";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
-                            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(txtIdProducto.Text));
+                            cmd.Parameters.AddWithValue("@id", idProductoSeleccionado);
                             cmd.ExecuteNonQuery();
                         }
                     }
@@ -420,6 +433,11 @@ namespace Proyecto_GYM
                     MessageBox.Show("Error al actualizar el estado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
