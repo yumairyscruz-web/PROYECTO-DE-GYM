@@ -58,6 +58,7 @@
             panel2 = new Panel();
             flowLayoutPanel2 = new FlowLayoutPanel();
             panelMovimientos = new Panel();
+            button12 = new Button();
             button11 = new Button();
             button8 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -371,7 +372,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(34000, 2);
+            panel5.Size = new Size(35184, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -380,7 +381,7 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(18507, 2);
+            panel8.Size = new Size(19691, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
@@ -389,7 +390,7 @@
             panel9.BackColor = Color.Silver;
             panel9.Location = new Point(0, 398);
             panel9.Name = "panel9";
-            panel9.Size = new Size(18517, 2);
+            panel9.Size = new Size(19701, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -437,6 +438,7 @@
             // 
             // panelMovimientos
             // 
+            panelMovimientos.Controls.Add(button12);
             panelMovimientos.Controls.Add(button11);
             panelMovimientos.Controls.Add(button8);
             panelMovimientos.Location = new Point(3, 437);
@@ -444,6 +446,22 @@
             panelMovimientos.Size = new Size(198, 100);
             panelMovimientos.TabIndex = 0;
             panelMovimientos.Visible = false;
+            // 
+            // button12
+            // 
+            button12.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button12.FlatAppearance.BorderSize = 0;
+            button12.FlatStyle = FlatStyle.Flat;
+            button12.ForeColor = Color.White;
+            button12.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button12.ImageAlign = ContentAlignment.MiddleLeft;
+            button12.Location = new Point(3, 69);
+            button12.Name = "button12";
+            button12.Size = new Size(152, 26);
+            button12.TabIndex = 18;
+            button12.Text = "Cobros";
+            button12.UseVisualStyleBackColor = true;
+            button12.Click += button12_Click;
             // 
             // button11
             // 
@@ -548,5 +566,6 @@
         private Panel panel10;
         private FlowLayoutPanel flowLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel2;
+        private Button button12;
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Proyecto_GYM
 {
-    public partial class FormTiposMembresias : Form
+    public partial class FormTiposMembresias: Form
     {
         private int idMembresiaSeleccionada = 0;
         private bool cargandoDatos = false;
@@ -19,6 +19,19 @@ namespace Proyecto_GYM
             InitializeComponent();
         }
 
+        // ============================================================
+        // IMPORTANTE: Este es el ÚNICO método que debe estar
+        // suscrito al evento Load del formulario.
+        //
+        // Si en el archivo FormTiposMembresias.Designer.cs ves una línea como:
+        //     this.Load += new System.EventHandler(this.FormTiposMembresias_Load_1);
+        // o
+        //     this.Load += new System.EventHandler(this.FormTiposMembresias_Load);
+        //
+        // Asegúrate de que apunte a "FormTiposMembresias_Load" (este método).
+        // Si tenías las dos suscritas o apuntando al método vacío,
+        // por eso no se marcaba "Activo" ni se cargaban los datos.
+        // ============================================================
         private void FormTiposMembresias_Load(object sender, EventArgs e)
         {
             ConfigurarControles();
@@ -28,15 +41,23 @@ namespace Proyecto_GYM
         private void ConfigurarControles()
         {
             // Forzar que el radio button de activo esté seleccionado desde el inicio
-            rbActivo.Checked = true;
             rbInactivo.Checked = false;
+            rbActivo.Checked = true;
 
-            // Asegurar la asociación de los eventos KeyPress para bloquear números y símbolos
+            // --- Filtro de letras: bloquea la escritura de números/símbolos ---
             txtNombre.KeyPress -= txtSoloLetras_KeyPress;
             txtNombre.KeyPress += txtSoloLetras_KeyPress;
 
             txtDescripcion.KeyPress -= txtSoloLetras_KeyPress;
             txtDescripcion.KeyPress += txtSoloLetras_KeyPress;
+
+            // --- Filtro adicional: limpia lo que se pegue con Ctrl+V, ---
+            // --- arrastre de texto, autocompletado, etc. ---
+            txtNombre.TextChanged -= txtSoloLetras_TextChanged;
+            txtNombre.TextChanged += txtSoloLetras_TextChanged;
+
+            txtDescripcion.TextChanged -= txtSoloLetras_TextChanged;
+            txtDescripcion.TextChanged += txtSoloLetras_TextChanged;
 
             nudDuracionmeses.Minimum = 1;
             nudDuracionmeses.Maximum = 120;
@@ -86,6 +107,12 @@ namespace Proyecto_GYM
                 return;
             }
 
+            if (!SoloContieneLetras(txtNombre.Text) || !SoloContieneLetras(txtDescripcion.Text))
+            {
+                MessageBox.Show("El nombre y la descripción solo pueden contener letras.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 using (SqlConnection con = Conexion.ObtenerConexion())
@@ -127,6 +154,12 @@ namespace Proyecto_GYM
             {
                 MessageBox.Show("Ingrese el nombre de la membresía.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
+                return;
+            }
+
+            if (!SoloContieneLetras(txtNombre.Text) || !SoloContieneLetras(txtDescripcion.Text))
+            {
+                MessageBox.Show("El nombre y la descripción solo pueden contener letras.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -258,6 +291,7 @@ namespace Proyecto_GYM
             txtDescripcion.Clear();
             nudDuracionmeses.Value = 1;
             nudPrecio.Value = 1000;
+            rbInactivo.Checked = false;
             rbActivo.Checked = true; // Fuerza el estado Activo al limpiar
 
             cargandoDatos = false;
@@ -283,20 +317,74 @@ namespace Proyecto_GYM
             }
         }
 
-        // Restricción estricta: Solo permite letras (incluyendo tildes y eñes) y espacios. Bloquea números y símbolos.
+        // ============================================================
+        // Restricción de letras — parte 1: bloquea la tecla ANTES
+        // de que aparezca en el cuadro de texto (números, asteriscos, etc.)
+        // ============================================================
         private void txtSoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
             char c = e.KeyChar;
-            if (!char.IsControl(c) && !char.IsLetter(c) && c != ' ' &&
-                c != 'á' && c != 'é' && c != 'í' && c != 'ó' && c != 'ú' &&
-                c != 'Á' && c != 'É' && c != 'Í' && c != 'Ó' && c != 'Ú' &&
-                c != 'ñ' && c != 'Ñ')
+
+            // Permitir teclas de control (Backspace, etc.), letras (incluye tildes/ñ
+            // automáticamente vía char.IsLetter) y espacio.
+            if (!char.IsControl(c) && !char.IsLetter(c) && c != ' ')
             {
-                e.Handled = true; // Bloquea cualquier número, asterisco o carácter especial
+                e.Handled = true; // Bloquea números, asteriscos y cualquier símbolo
             }
         }
 
-        private void FormTiposMembresias_Load_1(object sender, EventArgs e) { }
+        // ============================================================
+        // Restricción de letras — parte 2: limpia cualquier carácter
+        // inválido que haya entrado por otra vía (pegar con Ctrl+V,
+        // arrastrar texto, autocompletar, etc.)
+        // ============================================================
+        private void txtSoloLetras_TextChanged(object sender, EventArgs e)
+        {
+            if (!(sender is TextBox txt)) return;
+
+            string original = txt.Text;
+            string limpio = FiltrarSoloLetras(original);
+
+            if (limpio != original)
+            {
+                int posicionCursor = txt.SelectionStart - (original.Length - limpio.Length);
+                if (posicionCursor < 0) posicionCursor = 0;
+                if (posicionCursor > limpio.Length) posicionCursor = limpio.Length;
+
+                txt.Text = limpio;
+                txt.SelectionStart = posicionCursor;
+            }
+        }
+
+        private string FiltrarSoloLetras(string texto)
+        {
+            if (string.IsNullOrEmpty(texto)) return texto;
+
+            StringBuilder sb = new StringBuilder(texto.Length);
+            foreach (char c in texto)
+            {
+                if (char.IsLetter(c) || c == ' ')
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
+
+        private bool SoloContieneLetras(string texto)
+        {
+            if (string.IsNullOrEmpty(texto)) return true;
+
+            foreach (char c in texto)
+            {
+                if (!char.IsLetter(c) && c != ' ')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void label2_Click(object sender, EventArgs e) { }
     }
 }

@@ -45,7 +45,7 @@ namespace Proyecto_GYM
 
             Label lblBienvenida = new Label();
             lblBienvenida.Text = "¡Bienvenido/@, " + nombreUsuarioSesion + "!";
-            lblBienvenida.Font = new Font("Segoe UI", 20, FontStyle.Bold);
+            lblBienvenida.Font = new Font("Segoe UI", 18, FontStyle.Bold);
             lblBienvenida.ForeColor = Color.White;
             lblBienvenida.BackColor = Color.Transparent;
             lblBienvenida.AutoSize = true;
@@ -210,6 +210,12 @@ namespace Proyecto_GYM
 
         private void panel4_Paint(object sender, PaintEventArgs e)
         {
+
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormCobros(), " Cobros");
 
         }
     }

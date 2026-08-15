@@ -261,7 +261,7 @@
             // 
             rbInactivo.AutoSize = true;
             rbInactivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            rbInactivo.Location = new Point(640, 197);
+            rbInactivo.Location = new Point(640, 196);
             rbInactivo.Name = "rbInactivo";
             rbInactivo.Size = new Size(75, 21);
             rbInactivo.TabIndex = 22;
@@ -298,7 +298,7 @@
             Name = "FormTiposMembresias";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormTiposMembresias";
-            Load += FormTiposMembresias_Load_1;
+            Load += FormTiposMembresias_Load;
             ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudDuracionmeses).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvMembresias).EndInit();
