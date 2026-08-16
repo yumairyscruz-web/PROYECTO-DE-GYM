@@ -58,10 +58,12 @@
             panel2 = new Panel();
             flowLayoutPanel2 = new FlowLayoutPanel();
             panelMovimientos = new Panel();
+            button13 = new Button();
             button12 = new Button();
             button11 = new Button();
             button8 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            button14 = new Button();
             panel1.SuspendLayout();
             panel4.SuspendLayout();
             panel10.SuspendLayout();
@@ -372,7 +374,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(35184, 2);
+            panel5.Size = new Size(36368, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -381,7 +383,7 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(19691, 2);
+            panel8.Size = new Size(20875, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
@@ -390,7 +392,7 @@
             panel9.BackColor = Color.Silver;
             panel9.Location = new Point(0, 398);
             panel9.Name = "panel9";
-            panel9.Size = new Size(19701, 2);
+            panel9.Size = new Size(20885, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -438,14 +440,32 @@
             // 
             // panelMovimientos
             // 
+            panelMovimientos.Controls.Add(button14);
+            panelMovimientos.Controls.Add(button13);
             panelMovimientos.Controls.Add(button12);
             panelMovimientos.Controls.Add(button11);
             panelMovimientos.Controls.Add(button8);
-            panelMovimientos.Location = new Point(3, 437);
+            panelMovimientos.Location = new Point(3, 427);
             panelMovimientos.Name = "panelMovimientos";
-            panelMovimientos.Size = new Size(198, 100);
+            panelMovimientos.Size = new Size(198, 165);
             panelMovimientos.TabIndex = 0;
             panelMovimientos.Visible = false;
+            // 
+            // button13
+            // 
+            button13.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button13.FlatAppearance.BorderSize = 0;
+            button13.FlatStyle = FlatStyle.Flat;
+            button13.ForeColor = Color.White;
+            button13.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button13.ImageAlign = ContentAlignment.MiddleLeft;
+            button13.Location = new Point(4, 93);
+            button13.Name = "button13";
+            button13.Size = new Size(202, 26);
+            button13.TabIndex = 19;
+            button13.Text = "Generación de cargos";
+            button13.UseVisualStyleBackColor = true;
+            button13.Click += button13_Click;
             // 
             // button12
             // 
@@ -503,6 +523,22 @@
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(0, 0);
             flowLayoutPanel1.TabIndex = 0;
+            // 
+            // button14
+            // 
+            button14.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button14.FlatAppearance.BorderSize = 0;
+            button14.FlatStyle = FlatStyle.Flat;
+            button14.ForeColor = Color.White;
+            button14.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button14.ImageAlign = ContentAlignment.MiddleLeft;
+            button14.Location = new Point(-1, 125);
+            button14.Name = "button14";
+            button14.Size = new Size(202, 26);
+            button14.TabIndex = 20;
+            button14.Text = "Ventas";
+            button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
             // 
             // Form2
             // 
@@ -567,5 +603,7 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel2;
         private Button button12;
+        private Button button13;
+        private Button button14;
     }
 }

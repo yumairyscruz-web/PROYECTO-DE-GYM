@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Proyecto_GYM
@@ -25,16 +26,22 @@ namespace Proyecto_GYM
             if (dtDetalleCobro.Columns.Count == 0)
             {
                 dtDetalleCobro.Columns.Add("Tipo", typeof(string));
-                dtDetalleCobro.Columns.Add("Descripcion", typeof(string));
-                dtDetalleCobro.Columns.Add("Cantidad", typeof(int));
-                dtDetalleCobro.Columns.Add("Precio Unitario", typeof(decimal));
+                dtDetalleCobro.Columns.Add("IdItem", typeof(int)); // ID base (id_membresia o id_producto)
+                dtDetalleCobro.Columns.Add("Descripción", typeof(string));
+                dtDetalleCobro.Columns.Add("Cant", typeof(int));
+                dtDetalleCobro.Columns.Add("Precio Unit.", typeof(decimal));
                 dtDetalleCobro.Columns.Add("Subtotal", typeof(decimal));
             }
 
-            // 2. Vincular correctamente al DataGridView limpiando esquemas previos
+            // 2. Vincular correctamente al DataGridView
             dgvDetalle.DataSource = null;
-            dgvDetalle.AutoGenerateColumns = true; // Se encarga de crearlas solas basadas en el DataTable
+            dgvDetalle.AutoGenerateColumns = true;
             dgvDetalle.DataSource = dtDetalleCobro;
+
+            // Ocultar la columna interna de ID para una vista más limpia
+            if (dgvDetalle.Columns["IdItem"] != null)
+                dgvDetalle.Columns["IdItem"].Visible = false;
+
             // 3. Cargar catálogos
             CargarMetodosPago();
             CargarClientes();
@@ -129,10 +136,10 @@ namespace Proyecto_GYM
                         con.Open();
 
                     string query = @"SELECT c.cedula, c.nombre, c.apellido, m.nombre AS nombre_membresia, m.precio, cm.fecha_fin AS fecha_vencimiento 
-                                    FROM Clientes c 
-                                    LEFT JOIN cliente_membresia cm ON c.id_cliente = cm.id_cliente 
-                                    LEFT JOIN membresias m ON cm.id_membresia = m.id_membresia 
-                                    WHERE c.id_cliente = @id_cliente";
+                                     FROM Clientes c 
+                                     LEFT JOIN cliente_membresia cm ON c.id_cliente = cm.id_cliente 
+                                     LEFT JOIN membresias m ON cm.id_membresia = m.id_membresia 
+                                     WHERE c.id_cliente = @id_cliente";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -148,7 +155,7 @@ namespace Proyecto_GYM
 
                                 if (dr["precio"] != DBNull.Value)
                                 {
-                                    txtMontoVencimiento.Text = Convert.ToDecimal(dr["precio"]).ToString("N2");
+                                    txtMontoVencimiento.Text = Convert.ToDecimal(dr["precio"]).ToString("N2", CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
@@ -270,7 +277,7 @@ namespace Proyecto_GYM
 
                 if (ExisteControl("txtPrecio"))
                 {
-                    ObtenerControl("txtPrecio").Text = precio.ToString("N2");
+                    ObtenerControl("txtPrecio").Text = precio.ToString("N2", CultureInfo.InvariantCulture);
                 }
             }
             catch { }
@@ -288,8 +295,8 @@ namespace Proyecto_GYM
             if (textoMetodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
             {
                 txtMontoRecibido.Enabled = true;
-                decimal.TryParse(txtTotal.Text.Replace(".", "").Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal totalPuro);
-                txtMontoRecibido.Text = Math.Round(totalPuro).ToString("0");
+                decimal.TryParse(txtTotal.Text.Replace(",", ""), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal totalPuro);
+                txtMontoRecibido.Text = Math.Round(totalPuro).ToString("0", CultureInfo.InvariantCulture);
                 txtMontoRecibido.SelectAll();
             }
             else
@@ -302,16 +309,16 @@ namespace Proyecto_GYM
 
         private void txtMontoRecibido_TextChanged(object sender, EventArgs e)
         {
-            string totalTexto = txtTotal.Text.Replace(".", "").Replace(",", ".");
-            string recibidoTexto = txtMontoRecibido.Text.Replace(".", "").Replace(",", ".");
+            string totalTexto = txtTotal.Text.Replace(",", "");
+            string recibidoTexto = txtMontoRecibido.Text.Replace(",", "");
 
-            decimal.TryParse(totalTexto, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal totalPagar);
-            decimal.TryParse(recibidoTexto, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal montoRecibido);
+            decimal.TryParse(totalTexto, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal totalPagar);
+            decimal.TryParse(recibidoTexto, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal montoRecibido);
 
             if (montoRecibido >= totalPagar)
             {
                 decimal cambio = montoRecibido - totalPagar;
-                lblCambio.Text = cambio.ToString("N2");
+                lblCambio.Text = cambio.ToString("N2", CultureInfo.InvariantCulture);
             }
             else
             {
@@ -321,31 +328,33 @@ namespace Proyecto_GYM
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            // Validaciones
             string tipo = ObtenerTextoSeleccionado(cmbTipoItem);
             if (string.IsNullOrEmpty(tipo) || cmbCatalogoItems.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione tipo e ítem.");
+                MessageBox.Show("Seleccione tipo e ítem.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Obtener valores
             DataRowView fila = cmbCatalogoItems.SelectedItem as DataRowView;
+            if (fila == null) return;
+
+            int idItem = Convert.ToInt32(cmbCatalogoItems.SelectedValue);
             string descripcion = fila["descripcion"].ToString();
             decimal precio = Convert.ToDecimal(fila["precio"]);
+
             int.TryParse(txtCantidad.Text, out int cantidad);
             if (cantidad <= 0) cantidad = 1;
 
             decimal subtotalItem = cantidad * precio;
 
-            // 4. AGREGAR A LA VARIABLE GLOBAL
-            dtDetalleCobro.Rows.Add(tipo, descripcion, cantidad, precio, subtotalItem);
+            // Agregar la fila al DataTable en memoria
+            dtDetalleCobro.Rows.Add(tipo, idItem, descripcion, cantidad, precio, subtotalItem);
 
-            // 5. REFRESCAR EL GRID
-            // Al ser la misma variable global, el DataSource ya lo tiene enlazado, 
-            // pero si no se actualiza visualmente, hacemos esto:
-            dgvDetalle.DataSource = null;
-            dgvDetalle.DataSource = dtDetalleCobro;
+            // Asegurar que la columna ID permanezca oculta
+            if (dgvDetalle.Columns["IdItem"] != null)
+            {
+                dgvDetalle.Columns["IdItem"].Visible = false;
+            }
 
             CalcularTotales();
         }
@@ -358,8 +367,8 @@ namespace Proyecto_GYM
                 subtotal += Convert.ToDecimal(fila["Subtotal"]);
             }
 
-            txtSubtotal.Text = subtotal.ToString("N2");
-            txtTotal.Text = subtotal.ToString("N2");
+            txtSubtotal.Text = subtotal.ToString("N2", CultureInfo.InvariantCulture);
+            txtTotal.Text = subtotal.ToString("N2", CultureInfo.InvariantCulture);
 
             string textoMetodo = ObtenerTextoSeleccionado(cmbMetodoPago);
             if (textoMetodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
@@ -464,44 +473,200 @@ namespace Proyecto_GYM
                 return;
             }
 
-            string metodoPago = ObtenerTextoSeleccionado(cmbMetodoPago);
-            if (string.IsNullOrEmpty(metodoPago) || ObtenerSelectedIndex(cmbMetodoPago) == -1)
+            string metodoPagoText = ObtenerTextoSeleccionado(cmbMetodoPago);
+            if (string.IsNullOrEmpty(metodoPagoText) || ObtenerSelectedIndex(cmbMetodoPago) == -1)
             {
                 MessageBox.Show("Seleccione un método de pago válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbMetodoPago.Focus();
                 return;
             }
 
-            if (metodoPago.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
+            // Validación de efectivo si aplica
+            if (metodoPagoText.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
             {
-                if (!decimal.TryParse(txtMontoRecibido.Text, out decimal montoRecibido) ||
-                    !decimal.TryParse(txtTotal.Text, out decimal totalPagar) ||
+                if (!decimal.TryParse(txtMontoRecibido.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal montoRecibido) ||
+                    !decimal.TryParse(txtTotal.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal totalPagar) ||
                     montoRecibido < totalPagar)
                 {
-                    MessageBox.Show("El monto recibido es insuficiente para cubrir el total de la venta.", "Error de Pago", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El monto recibido es insuficiente para cubrir el total del cobro.", "Error de Pago", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtMontoRecibido.Focus();
                     return;
                 }
             }
 
+            using (SqlConnection con = Conexion.ObtenerConexion())
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                SqlTransaction transaccion = con.BeginTransaction();
+
+                try
+                {
+                    int idCliente = Convert.ToInt32(idClienteStr);
+                    decimal montoTotal = Convert.ToDecimal(txtTotal.Text, CultureInfo.InvariantCulture);
+                    int idUsuarioSesion = 1; // ID del usuario logueado actualmente
+                    int idMetodoPago = Convert.ToInt32(ObtenerSelectedValue(cmbMetodoPago));
+
+                    // 1. Insertar la cabecera del pago usando las columnas reales de la base de datos (fecha_pago e id_metodo)
+                    string queryPago = @"INSERT INTO pagos (id_cliente, id_usuario, fecha_pago, monto_total, id_metodo) 
+                                       OUTPUT INSERTED.id_pago 
+                                       VALUES (@id_cliente, @id_usuario, GETDATE(), @monto_total, @id_metodo)";
+
+                    int idPago;
+                    using (SqlCommand cmdPago = new SqlCommand(queryPago, con, transaccion))
+                    {
+                        cmdPago.Parameters.AddWithValue("@id_cliente", idCliente);
+                        cmdPago.Parameters.AddWithValue("@id_usuario", idUsuarioSesion);
+                        cmdPago.Parameters.AddWithValue("@monto_total", montoTotal);
+                        cmdPago.Parameters.AddWithValue("@id_metodo", idMetodoPago);
+
+                        idPago = (int)cmdPago.ExecuteScalar();
+                    }
+
+                    // 2. Insertar los detalles y manejar inventario / membresías
+                    foreach (DataRow row in dtDetalleCobro.Rows)
+                    {
+                        string tipoItem = row["Tipo"].ToString();
+                        int idItem = Convert.ToInt32(row["IdItem"]);
+                        int cantidad = Convert.ToInt32(row["Cant"]);
+                        decimal subtotalItem = Convert.ToDecimal(row["Subtotal"]);
+
+                        if (tipoItem.Equals("Membresía", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // A) Registrar o vincular la membresía al cliente en 'cliente_membresia' si es necesario
+                            string queryVerificarMemb = "SELECT TOP 1 id_cliente_membresia FROM cliente_membresia WHERE id_cliente = @id_cliente AND id_membresia = @id_membresia ORDER BY id_cliente_membresia DESC";
+                            int idClienteMembresia = 0;
+
+                            using (SqlCommand cmdVerif = new SqlCommand(queryVerificarMemb, con, transaccion))
+                            {
+                                cmdVerif.Parameters.AddWithValue("@id_cliente", idCliente);
+                                cmdVerif.Parameters.AddWithValue("@id_membresia", idItem);
+                                var res = cmdVerif.ExecuteScalar();
+                                if (res != null)
+                                {
+                                    idClienteMembresia = Convert.ToInt32(res);
+                                }
+                                else
+                                {
+                                    // Si no existe un registro previo activo, lo insertamos automáticamente (por ejemplo, 30 días de vigencia)
+                                    string queryInsMemb = @"INSERT INTO cliente_membresia (id_cliente, id_membresia, fecha_inicio, fecha_fin, estado) 
+                                                           OUTPUT INSERTED.id_cliente_membresia 
+                                                           VALUES (@id_cliente, @id_membresia, GETDATE(), DATEADD(day, 30, GETDATE()), 1)";
+                                    using (SqlCommand cmdInsMemb = new SqlCommand(queryInsMemb, con, transaccion))
+                                    {
+                                        cmdInsMemb.Parameters.AddWithValue("@id_cliente", idCliente);
+                                        cmdInsMemb.Parameters.AddWithValue("@id_membresia", idItem);
+                                        idClienteMembresia = (int)cmdInsMemb.ExecuteScalar();
+                                    }
+                                }
+                            }
+
+                            // Insertar en pagos_detalle vinculando el id_cliente_membresia
+                            string queryDetalleMemb = @"INSERT INTO pagos_detalle (id_pago, id_cliente_membresia, monto) 
+                                                     VALUES (@id_pago, @id_cliente_membresia, @monto)";
+                            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalleMemb, con, transaccion))
+                            {
+                                cmdDetalle.Parameters.AddWithValue("@id_pago", idPago);
+                                cmdDetalle.Parameters.AddWithValue("@id_cliente_membresia", idClienteMembresia);
+                                cmdDetalle.Parameters.AddWithValue("@monto", subtotalItem);
+                                cmdDetalle.ExecuteNonQuery();
+                            }
+                        }
+                        else if (tipoItem.Equals("Producto", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // B) Si es producto, actualizamos el stock directamente
+                            string queryStock = "UPDATE productos SET stock = stock - @cantidad WHERE id_producto = @id_producto";
+                            using (SqlCommand cmdStock = new SqlCommand(queryStock, con, transaccion))
+                            {
+                                cmdStock.Parameters.AddWithValue("@cantidad", cantidad);
+                                cmdStock.Parameters.AddWithValue("@id_producto", idItem);
+                                cmdStock.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    transaccion.Commit();
+
+                    MessageBox.Show("¡Cobro registrado con éxito en la base de datos!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // 3. CONSULTAR EL HISTORIAL DEL CLIENTE PARA VERLO REFLEJADO EN LA TABLA dgvDetalle
+                    CargarHistorialCobrosCliente(idCliente);
+
+                    // Restablecer campos adicionales de pago (dejando el historial visible en la tabla)
+                    txtSubtotal.Text = "0.00";
+                    txtTotal.Text = "0.00";
+                    txtMontoRecibido.Text = "0.00";
+                    lblCambio.Text = "0.00";
+                    EstablecerSelectedIndex(cmbClientes, -1);
+                    EstablecerSelectedIndex(cmbMetodoPago, -1);
+                    LimpiarInformacionCliente();
+                }
+                catch (Exception ex)
+                {
+                    try { transaccion.Rollback(); } catch { }
+                    MessageBox.Show("Error al procesar el cobro en la base de datos:\n" + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void CargarHistorialCobrosCliente(int idCliente)
+        {
             try
             {
-                // Aquí realizas la inserción de la factura y detalles en tu base de datos SQL usando 'Conexion.ObtenerConexion()'
+                using (SqlConnection con = Conexion.ObtenerConexion())
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
 
-                MessageBox.Show("¡Cobro realizado y registrado con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Consulta que une el pago con sus detalles reales (Membresías o Productos)
+                    string queryHistorial = @"SELECT 
+                                        'Membresía' AS Tipo,
+                                        m.id_membresia AS IdItem,
+                                        m.nombre AS Descripción,
+                                        1 AS Cant,
+                                        pd.monto AS [Precio Unit.],
+                                        pd.monto AS Subtotal
+                                      FROM pagos p
+                                      INNER JOIN pagos_detalle pd ON p.id_pago = pd.id_pago
+                                      INNER JOIN cliente_membresia cm ON pd.id_cliente_membresia = cm.id_cliente_membresia
+                                      INNER JOIN membresias m ON cm.id_membresia = m.id_membresia
+                                      WHERE p.id_cliente = @id_cliente
+                                      
+                                      UNION ALL
 
-                // Limpiar formulario tras el éxito
-                dtDetalleCobro.Rows.Clear();
-                txtSubtotal.Text = "0.00";
-                txtTotal.Text = "0.00";
-                txtMontoRecibido.Text = "0.00";
-                lblCambio.Text = "0.00";
-                EstablecerSelectedIndex(cmbClientes, -1);
-                EstablecerSelectedIndex(cmbMetodoPago, -1);
+                                      SELECT 
+                                        'Pago' AS Tipo,
+                                        p.id_pago AS IdItem,
+                                        'Transacción ID: ' + CAST(p.id_pago AS VARCHAR) AS Descripción,
+                                        1 AS Cant,
+                                        p.monto_total AS [Precio Unit.],
+                                        p.monto_total AS Subtotal
+                                      FROM pagos p
+                                      WHERE p.id_cliente = @id_cliente 
+                                        AND NOT EXISTS (SELECT 1 FROM pagos_detalle pd WHERE pd.id_pago = p.id_pago)";
+
+                    using (SqlCommand cmd = new SqlCommand(queryHistorial, con))
+                    {
+                        cmd.Parameters.AddWithValue("@id_cliente", idCliente);
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                        dtDetalleCobro.Rows.Clear();
+                        da.Fill(dtDetalleCobro);
+
+                        dgvDetalle.DataSource = null;
+                        dgvDetalle.DataSource = dtDetalleCobro;
+
+                        if (dgvDetalle.Columns["IdItem"] != null)
+                        {
+                            dgvDetalle.Columns["IdItem"].Visible = false;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al procesar el cobro en la base de datos:\n" + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al actualizar la tabla de detalles:\n" + ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -520,19 +685,19 @@ namespace Proyecto_GYM
             string cambio = lblCambio.Text;
 
             string ticket = "=====================================\n";
-            ticket += "          GIMNASIO - RECIBO          \n";
+            ticket += "         GIMNASIO - RECIBO           \n";
             ticket += "=====================================\n";
             ticket += "Cliente: " + (string.IsNullOrEmpty(cliente) ? "General" : cliente) + "\n";
             ticket += "Fecha: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "\n";
             ticket += "-------------------------------------\n";
-            ticket += "CANT  DESCRIPCIÓN          SUBTOTAL\n";
+            ticket += "CANT  DESCRIPCIÓN         SUBTOTAL\n";
             ticket += "-------------------------------------\n";
 
             foreach (DataRow fila in dtDetalleCobro.Rows)
             {
-                string desc = fila["Descripcion"].ToString();
+                string desc = fila["Descripción"].ToString();
                 if (desc.Length > 16) desc = desc.Substring(0, 16);
-                ticket += $"{fila["Cantidad"],-5} {desc,-18} ${Convert.ToDecimal(fila["Subtotal"]):N2}\n";
+                ticket += $"{fila["Cant"],-5} {desc,-18} ${Convert.ToDecimal(fila["Subtotal"]):N2}\n";
             }
 
             ticket += "-------------------------------------\n";
@@ -541,7 +706,7 @@ namespace Proyecto_GYM
             ticket += $"EFECTIVO REC.:  ${recibido}\n";
             ticket += $"CAMBIO/DEV.:    ${cambio}\n";
             ticket += "=====================================\n";
-            ticket += "   ¡GRACIAS POR SU PREFERENCIA!  \n";
+            ticket += "   ¡GRACIAS POR SU PREFERENCIA!      \n";
             ticket += "=====================================";
 
             MessageBox.Show(ticket, "Comprobante de Venta", MessageBoxButtons.OK, MessageBoxIcon.Information);

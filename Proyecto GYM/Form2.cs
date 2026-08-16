@@ -218,5 +218,17 @@ namespace Proyecto_GYM
             AbrirFormularioHijo(new FormCobros(), " Cobros");
 
         }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormCargos(), " Generación de cargos");
+
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FormVentas(), " Ventas");
+
+        }
     }
 }

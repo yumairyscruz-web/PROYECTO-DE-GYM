@@ -85,7 +85,7 @@
             // 
             // btnGenerarCargo
             // 
-            btnGenerarCargo.Location = new Point(179, 60);
+            btnGenerarCargo.Location = new Point(297, 60);
             btnGenerarCargo.Name = "btnGenerarCargo";
             btnGenerarCargo.Size = new Size(82, 34);
             btnGenerarCargo.TabIndex = 2;
@@ -335,7 +335,7 @@
             txtNumeroCargo.Location = new Point(17, 67);
             txtNumeroCargo.Name = "txtNumeroCargo";
             txtNumeroCargo.ReadOnly = true;
-            txtNumeroCargo.Size = new Size(108, 23);
+            txtNumeroCargo.Size = new Size(254, 23);
             txtNumeroCargo.TabIndex = 30;
             // 
             // label12
