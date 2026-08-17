@@ -76,7 +76,7 @@
             // cmbTipoPago
             // 
             cmbTipoPago.FormattingEnabled = true;
-            cmbTipoPago.Location = new Point(88, 78);
+            cmbTipoPago.Location = new Point(100, 73);
             cmbTipoPago.Name = "cmbTipoPago";
             cmbTipoPago.Size = new Size(168, 23);
             cmbTipoPago.TabIndex = 3;
@@ -92,7 +92,7 @@
             // 
             // dtpFecha
             // 
-            dtpFecha.Location = new Point(66, 139);
+            dtpFecha.Location = new Point(100, 133);
             dtpFecha.Name = "dtpFecha";
             dtpFecha.Size = new Size(250, 23);
             dtpFecha.TabIndex = 5;
@@ -109,15 +109,15 @@
             // cmbProductos
             // 
             cmbProductos.FormattingEnabled = true;
-            cmbProductos.Location = new Point(529, 24);
+            cmbProductos.Location = new Point(560, 24);
             cmbProductos.Name = "cmbProductos";
-            cmbProductos.Size = new Size(140, 23);
+            cmbProductos.Size = new Size(228, 23);
             cmbProductos.TabIndex = 7;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(449, 89);
+            label5.Location = new Point(449, 81);
             label5.Name = "label5";
             label5.Size = new Size(40, 15);
             label5.TabIndex = 8;
@@ -134,21 +134,21 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(528, 78);
+            textBox1.Location = new Point(560, 73);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(152, 23);
             textBox1.TabIndex = 11;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(528, 136);
+            textBox2.Location = new Point(560, 136);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(141, 23);
             textBox2.TabIndex = 12;
             // 
             // btnAgregarDetalle
             // 
-            btnAgregarDetalle.Location = new Point(22, 251);
+            btnAgregarDetalle.Location = new Point(42, 261);
             btnAgregarDetalle.Name = "btnAgregarDetalle";
             btnAgregarDetalle.Size = new Size(97, 31);
             btnAgregarDetalle.TabIndex = 13;
@@ -158,15 +158,15 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(22, 288);
+            dataGridView1.Location = new Point(88, 309);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(416, 150);
+            dataGridView1.Size = new Size(581, 150);
             dataGridView1.TabIndex = 14;
             // 
             // cmbClientes
             // 
             cmbClientes.FormattingEnabled = true;
-            cmbClientes.Location = new Point(88, 24);
+            cmbClientes.Location = new Point(100, 24);
             cmbClientes.Name = "cmbClientes";
             cmbClientes.Size = new Size(205, 23);
             cmbClientes.TabIndex = 15;
@@ -209,18 +209,19 @@
             // 
             // txtDescuento
             // 
-            txtDescuento.Location = new Point(526, 180);
+            txtDescuento.Location = new Point(560, 183);
             txtDescuento.Name = "txtDescuento";
             txtDescuento.Size = new Size(154, 23);
             txtDescuento.TabIndex = 20;
             // 
             // txtSubtotal
             // 
-            txtSubtotal.Location = new Point(100, 180);
+            txtSubtotal.Location = new Point(111, 180);
             txtSubtotal.Name = "txtSubtotal";
             txtSubtotal.ReadOnly = true;
             txtSubtotal.Size = new Size(100, 23);
             txtSubtotal.TabIndex = 21;
+            txtSubtotal.TextChanged += txtSubtotal_TextChanged;
             // 
             // txtImpuesto
             // 
@@ -232,7 +233,7 @@
             // 
             // txtTotal
             // 
-            txtTotal.Location = new Point(533, 221);
+            txtTotal.Location = new Point(560, 226);
             txtTotal.Name = "txtTotal";
             txtTotal.ReadOnly = true;
             txtTotal.Size = new Size(136, 23);
@@ -240,7 +241,7 @@
             // 
             // btnCompletarVenta
             // 
-            btnCompletarVenta.Location = new Point(193, 251);
+            btnCompletarVenta.Location = new Point(182, 261);
             btnCompletarVenta.Name = "btnCompletarVenta";
             btnCompletarVenta.Size = new Size(123, 31);
             btnCompletarVenta.TabIndex = 24;
@@ -252,7 +253,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 471);
             Controls.Add(btnCompletarVenta);
             Controls.Add(txtTotal);
             Controls.Add(txtImpuesto);

@@ -9,6 +9,8 @@ namespace Proyecto_GYM
     public partial class FormCobros : Form
     {
         private DataTable dtDetalleCobro = new DataTable();
+        private DataTable dtHistorialCliente = new DataTable();
+        private bool cargandoClienteDesdeTabla = false;
 
         public FormCobros()
         {
@@ -46,6 +48,13 @@ namespace Proyecto_GYM
             CargarMetodosPago();
             CargarClientes();
             CargarTiposItem();
+
+            // La tabla de Cobros muestra todas las compras de todos los clientes.
+            CargarTodosLosCobros();
+
+            // Al hacer clic en una fila se carga ese cliente en los controles.
+            dgvDetalle.CellClick -= dgvDetalle_CellClick;
+            dgvDetalle.CellClick += dgvDetalle_CellClick;
 
             // Propiedades de lectura
             txtSubtotal.ReadOnly = true;
@@ -114,16 +123,34 @@ namespace Proyecto_GYM
         private void cmbClientes_SelectedIndexChanged(object sender, EventArgs e)
         {
             string valStr = ObtenerSelectedValue(cmbClientes);
-            if (string.IsNullOrEmpty(valStr)) return;
+
+            if (string.IsNullOrWhiteSpace(valStr) ||
+                valStr == "System.Data.DataRowView")
+            {
+                // La tabla siempre muestra el historial general de TODOS los clientes.
+                CargarTodosLosCobros();
+                return;
+            }
 
             try
             {
                 if (int.TryParse(valStr, out int idCliente))
                 {
+                    // Cargar datos del cliente.
                     CargarInformacionCliente(idCliente);
+
+                    // La tabla es general: no se filtra ni se vacía al cambiar de cliente.
+                    // Solo se actualizan los datos del cliente arriba.
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al seleccionar el cliente:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void CargarInformacionCliente(int idCliente)
@@ -135,43 +162,129 @@ namespace Proyecto_GYM
                     if (con.State == ConnectionState.Closed)
                         con.Open();
 
-                    string query = @"SELECT c.cedula, c.nombre, c.apellido, m.nombre AS nombre_membresia, m.precio, cm.fecha_fin AS fecha_vencimiento 
-                                     FROM Clientes c 
-                                     LEFT JOIN cliente_membresia cm ON c.id_cliente = cm.id_cliente 
-                                     LEFT JOIN membresias m ON cm.id_membresia = m.id_membresia 
-                                     WHERE c.id_cliente = @id_cliente";
+                    string query = @"
+                SELECT TOP 1
+                    c.cedula,
+                    c.nombre,
+                    c.apellido,
+                    m.nombre AS nombre_membresia,
+                    m.precio,
+                    cm.fecha_fin AS fecha_vencimiento,
+
+                    ca.id_cargo,
+                    ca.concepto AS numero_cargo,
+                    ca.monto AS monto_cargo,
+                    ca.fecha_vencimiento AS vencimiento_cargo,
+                    ca.estado AS estado_cargo
+
+                FROM Clientes c
+
+                LEFT JOIN cliente_membresia cm
+                    ON c.id_cliente = cm.id_cliente
+                    AND cm.estado = 1
+
+                LEFT JOIN membresias m
+                    ON cm.id_membresia = m.id_membresia
+
+                OUTER APPLY
+                (
+                    SELECT TOP 1
+                        id_cargo,
+                        concepto,
+                        monto,
+                        fecha_vencimiento,
+                        estado
+                    FROM cargos
+                    WHERE id_cliente = c.id_cliente
+                      AND estado = 'Pendiente'
+                    ORDER BY id_cargo DESC
+                ) ca
+
+                WHERE c.id_cliente = @id_cliente
+            ";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@id_cliente", idCliente);
+
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
                             if (dr.Read())
                             {
+                                // Cédula
                                 if (maskedTextBox1 != null)
-                                    maskedTextBox1.Text = dr["cedula"] == DBNull.Value ? "" : dr["cedula"].ToString();
+                                {
+                                    maskedTextBox1.Text =
+                                        dr["cedula"] == DBNull.Value
+                                        ? ""
+                                        : dr["cedula"].ToString();
+                                }
 
-                                txtPlanAsignado.Text = dr["nombre_membresia"] != DBNull.Value ? dr["nombre_membresia"].ToString() : "Sin membresía";
+                                // Membresía
+                                txtPlanAsignado.Text =
+                                    dr["nombre_membresia"] != DBNull.Value
+                                    ? dr["nombre_membresia"].ToString()
+                                    : "Sin membresía";
 
+                                // Monto de la membresía
                                 if (dr["precio"] != DBNull.Value)
                                 {
-                                    txtMontoVencimiento.Text = Convert.ToDecimal(dr["precio"]).ToString("N2", CultureInfo.InvariantCulture);
+                                    txtMontoVencimiento.Text =
+                                        Convert.ToDecimal(dr["precio"])
+                                        .ToString("N2", CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
                                     txtMontoVencimiento.Text = "0.00";
                                 }
 
+                                // Fecha de vencimiento de membresía
                                 if (dtpVencimiento != null)
                                 {
-                                    if (dr["fecha_vencimiento"] != DBNull.Value && DateTime.TryParse(dr["fecha_vencimiento"].ToString(), out DateTime fechaParsed))
+                                    if (dr["fecha_vencimiento"] != DBNull.Value &&
+                                        DateTime.TryParse(
+                                            dr["fecha_vencimiento"].ToString(),
+                                            out DateTime fechaParsed))
                                     {
                                         dtpVencimiento.Value = fechaParsed;
                                     }
-                                    else
+                                }
+
+                                // =====================================
+                                // CARGO DEL CLIENTE
+                                // =====================================
+
+                                if (dr["id_cargo"] != DBNull.Value)
+                                {
+                                    int idCargo = Convert.ToInt32(dr["id_cargo"]);
+
+                                    // En FormCargos el número visible se guarda en Cargos.concepto.
+                                    txtNumeroCargo.Text =
+                                        dr["numero_cargo"] == DBNull.Value
+                                        ? idCargo.ToString()
+                                        : dr["numero_cargo"].ToString();
+
+                                    // Mostrar monto del cargo
+                                    if (dr["monto_cargo"] != DBNull.Value)
                                     {
-                                        dtpVencimiento.Value = DateTime.Now;
+                                        txtMontoVencimiento.Text =
+                                            Convert.ToDecimal(dr["monto_cargo"])
+                                            .ToString("N2", CultureInfo.InvariantCulture);
                                     }
+
+                                    // Mostrar fecha de vencimiento del cargo
+                                    if (dr["vencimiento_cargo"] != DBNull.Value &&
+                                        DateTime.TryParse(
+                                            dr["vencimiento_cargo"].ToString(),
+                                            out DateTime fechaCargo))
+                                    {
+                                        if (dtpVencimiento != null)
+                                            dtpVencimiento.Value = fechaCargo;
+                                    }
+                                }
+                                else
+                                {
+                                    txtNumeroCargo.Text = "";
                                 }
                             }
                             else
@@ -184,8 +297,44 @@ namespace Proyecto_GYM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar la información del cliente:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error al cargar la información del cliente:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
+        }
+
+        private string ObtenerNumeroCargo(int idCargo)
+        {
+            try
+            {
+                using (SqlConnection con = Conexion.ObtenerConexion())
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    const string query = @"
+                        SELECT TOP 1 concepto
+                        FROM cargos
+                        WHERE id_cargo = @id_cargo";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@id_cargo", idCargo);
+                        object resultado = cmd.ExecuteScalar();
+
+                        if (resultado != null && resultado != DBNull.Value)
+                            return resultado.ToString();
+                    }
+                }
+            }
+            catch
+            {
+                // Si numero_cargo no existe en la BD, no rompemos el formulario.
+            }
+
+            return idCargo.ToString();
         }
 
         private void LimpiarInformacionCliente()
@@ -193,12 +342,13 @@ namespace Proyecto_GYM
             if (ExisteControl("txtCedula"))
                 ObtenerControl("txtCedula").Text = "";
 
+            txtNumeroCargo.Text = "";
             txtPlanAsignado.Text = "";
             txtMontoVencimiento.Text = "0.00";
+
             if (dtpVencimiento != null)
                 dtpVencimiento.Value = DateTime.Now;
         }
-
         private void CargarTiposItem()
         {
             LimpiarItemsComboBox(cmbTipoItem);
@@ -262,7 +412,11 @@ namespace Proyecto_GYM
                 {
                     if (fila["precio"] != DBNull.Value)
                     {
-                        precio = Convert.ToDecimal(fila["precio"]);
+                        // SQL Server ya devuelve DECIMAL; conservar el valor
+                        // numérico evita problemas de cultura decimal.
+                        precio = Convert.ToDecimal(
+                            fila["precio"],
+                            CultureInfo.InvariantCulture);
                     }
 
                     string tipo = ObtenerTextoSeleccionado(cmbTipoItem);
@@ -283,11 +437,6 @@ namespace Proyecto_GYM
             catch { }
         }
 
-        private void btnGenerarCargo_Click(object sender, EventArgs e)
-        {
-            txtNumeroCargo.Text = "CARG-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            MessageBox.Show("Cargo generado exitosamente.", "Cargo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
 
         private void cmbMetodoPago_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -329,34 +478,135 @@ namespace Proyecto_GYM
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             string tipo = ObtenerTextoSeleccionado(cmbTipoItem);
-            if (string.IsNullOrEmpty(tipo) || cmbCatalogoItems.SelectedIndex == -1)
+
+            if (string.IsNullOrWhiteSpace(tipo) || cmbCatalogoItems.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione tipo e ítem.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Seleccione tipo e ítem.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
             DataRowView fila = cmbCatalogoItems.SelectedItem as DataRowView;
-            if (fila == null) return;
+            if (fila == null)
+                return;
 
-            int idItem = Convert.ToInt32(cmbCatalogoItems.SelectedValue);
-            string descripcion = fila["descripcion"].ToString();
-            decimal precio = Convert.ToDecimal(fila["precio"]);
-
-            int.TryParse(txtCantidad.Text, out int cantidad);
-            if (cantidad <= 0) cantidad = 1;
-
-            decimal subtotalItem = cantidad * precio;
-
-            // Agregar la fila al DataTable en memoria
-            dtDetalleCobro.Rows.Add(tipo, idItem, descripcion, cantidad, precio, subtotalItem);
-
-            // Asegurar que la columna ID permanezca oculta
-            if (dgvDetalle.Columns["IdItem"] != null)
+            if (!int.TryParse(cmbCatalogoItems.SelectedValue?.ToString(), out int idItem))
             {
-                dgvDetalle.Columns["IdItem"].Visible = false;
+                MessageBox.Show(
+                    "No se pudo obtener el ID del producto o membresía.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
             }
 
+            string descripcion = fila["descripcion"].ToString();
+
+            // IMPORTANTE:
+            // fila["precio"] viene de SQL Server como decimal.
+            // No lo convertimos a texto para luego interpretarlo con
+            // otra cultura, porque "4800,00" puede terminar convertido
+            // incorrectamente en 480000.
+            decimal precio;
+
+            try
+            {
+                if (fila["precio"] == null || fila["precio"] == DBNull.Value)
+                {
+                    MessageBox.Show(
+                        "El precio del artículo no es válido.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                precio = Convert.ToDecimal(
+                    fila["precio"],
+                    CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                MessageBox.Show(
+                    "El precio del artículo no es válido.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (precio < 0)
+            {
+                MessageBox.Show(
+                    "El precio del artículo no puede ser negativo.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            int cantidad = 1;
+
+            if (!string.IsNullOrWhiteSpace(txtCantidad.Text))
+                int.TryParse(txtCantidad.Text, out cantidad);
+
+            if (cantidad <= 0)
+                cantidad = 1;
+
+            // Si el mismo producto/membresía ya está en la lista,
+            // aumentamos la cantidad en lugar de crear otra fila.
+            DataRow filaExistente = null;
+
+            foreach (DataRow row in dtDetalleCobro.Rows)
+            {
+                if (row.RowState != DataRowState.Deleted &&
+                    row["Tipo"].ToString().Equals(tipo, StringComparison.OrdinalIgnoreCase) &&
+                    Convert.ToInt32(row["IdItem"]) == idItem)
+                {
+                    filaExistente = row;
+                    break;
+                }
+            }
+
+            if (filaExistente != null)
+            {
+                int nuevaCantidad = Convert.ToInt32(filaExistente["Cant"]) + cantidad;
+                filaExistente["Cant"] = nuevaCantidad;
+                filaExistente["Precio Unit."] = precio;
+                filaExistente["Subtotal"] = nuevaCantidad * precio;
+            }
+            else
+            {
+                decimal subtotalItem = cantidad * precio;
+
+                dtDetalleCobro.Rows.Add(
+                    tipo,
+                    idItem,
+                    descripcion,
+                    cantidad,
+                    precio,
+                    subtotalItem);
+            }
+
+            MostrarDetalleActual();
+
+            if (dgvDetalle.Columns["IdItem"] != null)
+                dgvDetalle.Columns["IdItem"].Visible = false;
+
             CalcularTotales();
+        }
+
+        private void MostrarDetalleActual()
+        {
+            dgvDetalle.DataSource = null;
+            dgvDetalle.AutoGenerateColumns = true;
+            dgvDetalle.DataSource = dtDetalleCobro;
+
+            if (dgvDetalle.Columns["IdItem"] != null)
+                dgvDetalle.Columns["IdItem"].Visible = false;
         }
 
         private void CalcularTotales()
@@ -457,6 +707,30 @@ namespace Proyecto_GYM
             return null;
         }
 
+        private void btnGenerarCargo_Click(object sender, EventArgs e)
+        {
+            // Este botón puede utilizarse para preparar/generar el cargo del cliente.
+            // Por ahora validamos que haya un cliente seleccionado para evitar errores.
+            string idClienteStr = ObtenerSelectedValue(cmbClientes);
+
+            if (string.IsNullOrEmpty(idClienteStr))
+            {
+                MessageBox.Show(
+                    "Seleccione un cliente antes de generar el cargo.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                cmbClientes.Focus();
+                return;
+            }
+
+            MessageBox.Show(
+                "El cliente está seleccionado y listo para generar el cargo.",
+                "Cargo",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
         private void btnCobrar_Click(object sender, EventArgs e)
         {
             string idClienteStr = ObtenerSelectedValue(cmbClientes);
@@ -524,65 +798,108 @@ namespace Proyecto_GYM
                         idPago = (int)cmdPago.ExecuteScalar();
                     }
 
-                    // 2. Insertar los detalles y manejar inventario / membresías
+                    // 2. Insertar TODOS los detalles y manejar inventario / membresías
                     foreach (DataRow row in dtDetalleCobro.Rows)
                     {
                         string tipoItem = row["Tipo"].ToString();
                         int idItem = Convert.ToInt32(row["IdItem"]);
                         int cantidad = Convert.ToInt32(row["Cant"]);
+                        decimal precioUnitario = Convert.ToDecimal(row["Precio Unit."]);
                         decimal subtotalItem = Convert.ToDecimal(row["Subtotal"]);
+                        string descripcion = row["Descripción"].ToString();
 
+                        // A) Si es membresía, registrar o vincular la membresía del cliente.
                         if (tipoItem.Equals("Membresía", StringComparison.OrdinalIgnoreCase))
                         {
-                            // A) Registrar o vincular la membresía al cliente en 'cliente_membresia' si es necesario
-                            string queryVerificarMemb = "SELECT TOP 1 id_cliente_membresia FROM cliente_membresia WHERE id_cliente = @id_cliente AND id_membresia = @id_membresia ORDER BY id_cliente_membresia DESC";
-                            int idClienteMembresia = 0;
+                            string queryVerificarMemb = @"
+                                SELECT TOP 1 id_cliente_membresia
+                                FROM cliente_membresia
+                                WHERE id_cliente = @id_cliente
+                                  AND id_membresia = @id_membresia
+                                ORDER BY id_cliente_membresia DESC";
 
                             using (SqlCommand cmdVerif = new SqlCommand(queryVerificarMemb, con, transaccion))
                             {
                                 cmdVerif.Parameters.AddWithValue("@id_cliente", idCliente);
                                 cmdVerif.Parameters.AddWithValue("@id_membresia", idItem);
-                                var res = cmdVerif.ExecuteScalar();
-                                if (res != null)
+
+                                object res = cmdVerif.ExecuteScalar();
+
+                                if (res == null)
                                 {
-                                    idClienteMembresia = Convert.ToInt32(res);
-                                }
-                                else
-                                {
-                                    // Si no existe un registro previo activo, lo insertamos automáticamente (por ejemplo, 30 días de vigencia)
-                                    string queryInsMemb = @"INSERT INTO cliente_membresia (id_cliente, id_membresia, fecha_inicio, fecha_fin, estado) 
-                                                           OUTPUT INSERTED.id_cliente_membresia 
-                                                           VALUES (@id_cliente, @id_membresia, GETDATE(), DATEADD(day, 30, GETDATE()), 1)";
+                                    string queryInsMemb = @"
+                                        INSERT INTO cliente_membresia
+                                        (id_cliente, id_membresia, fecha_inicio, fecha_fin, estado)
+                                        VALUES
+                                        (@id_cliente, @id_membresia, GETDATE(), DATEADD(day, 30, GETDATE()), 1)";
+
                                     using (SqlCommand cmdInsMemb = new SqlCommand(queryInsMemb, con, transaccion))
                                     {
                                         cmdInsMemb.Parameters.AddWithValue("@id_cliente", idCliente);
                                         cmdInsMemb.Parameters.AddWithValue("@id_membresia", idItem);
-                                        idClienteMembresia = (int)cmdInsMemb.ExecuteScalar();
+                                        cmdInsMemb.ExecuteNonQuery();
                                     }
                                 }
                             }
-
-                            // Insertar en pagos_detalle vinculando el id_cliente_membresia
-                            string queryDetalleMemb = @"INSERT INTO pagos_detalle (id_pago, id_cliente_membresia, monto) 
-                                                     VALUES (@id_pago, @id_cliente_membresia, @monto)";
-                            using (SqlCommand cmdDetalle = new SqlCommand(queryDetalleMemb, con, transaccion))
-                            {
-                                cmdDetalle.Parameters.AddWithValue("@id_pago", idPago);
-                                cmdDetalle.Parameters.AddWithValue("@id_cliente_membresia", idClienteMembresia);
-                                cmdDetalle.Parameters.AddWithValue("@monto", subtotalItem);
-                                cmdDetalle.ExecuteNonQuery();
-                            }
                         }
+                        // B) Si es producto, descontar el inventario.
                         else if (tipoItem.Equals("Producto", StringComparison.OrdinalIgnoreCase))
                         {
-                            // B) Si es producto, actualizamos el stock directamente
-                            string queryStock = "UPDATE productos SET stock = stock - @cantidad WHERE id_producto = @id_producto";
+                            string queryStock = @"
+                                UPDATE productos
+                                SET stock = stock - @cantidad
+                                WHERE id_producto = @id_producto
+                                  AND stock >= @cantidad";
+
                             using (SqlCommand cmdStock = new SqlCommand(queryStock, con, transaccion))
                             {
                                 cmdStock.Parameters.AddWithValue("@cantidad", cantidad);
                                 cmdStock.Parameters.AddWithValue("@id_producto", idItem);
-                                cmdStock.ExecuteNonQuery();
+
+                                int filasActualizadas = cmdStock.ExecuteNonQuery();
+
+                                if (filasActualizadas == 0)
+                                {
+                                    throw new InvalidOperationException(
+                                        "No hay suficiente stock para el producto: " + descripcion);
+                                }
                             }
+                        }
+
+                        // C) MUY IMPORTANTE: guardar el detalle tanto para Producto como para Membresía.
+                        string queryDetalle = @"
+                            INSERT INTO detalle_cobro
+                            (
+                                id_pago,
+                                tipo_item,
+                                id_referencia,
+                                descripcion,
+                                cantidad,
+                                precio_unitario,
+                                subtotal
+                            )
+                            VALUES
+                            (
+                                @id_pago,
+                                @tipo_item,
+                                @id_referencia,
+                                @descripcion,
+                                @cantidad,
+                                @precio_unitario,
+                                @subtotal
+                            )";
+
+                        using (SqlCommand cmdDetalle = new SqlCommand(queryDetalle, con, transaccion))
+                        {
+                            cmdDetalle.Parameters.AddWithValue("@id_pago", idPago);
+                            cmdDetalle.Parameters.AddWithValue("@tipo_item", tipoItem);
+                            cmdDetalle.Parameters.AddWithValue("@id_referencia", idItem);
+                            cmdDetalle.Parameters.AddWithValue("@descripcion", descripcion);
+                            cmdDetalle.Parameters.AddWithValue("@cantidad", cantidad);
+                            cmdDetalle.Parameters.AddWithValue("@precio_unitario", precioUnitario);
+                            cmdDetalle.Parameters.AddWithValue("@subtotal", subtotalItem);
+
+                            cmdDetalle.ExecuteNonQuery();
                         }
                     }
 
@@ -590,17 +907,36 @@ namespace Proyecto_GYM
 
                     MessageBox.Show("¡Cobro registrado con éxito en la base de datos!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // 3. CONSULTAR EL HISTORIAL DEL CLIENTE PARA VERLO REFLEJADO EN LA TABLA dgvDetalle
-                    CargarHistorialCobrosCliente(idCliente);
+                    // 3. Limpiar la lista temporal para que el mismo detalle
+                    // NO vuelva a insertarse en el próximo cobro.
+                    dtDetalleCobro.Clear();
 
-                    // Restablecer campos adicionales de pago (dejando el historial visible en la tabla)
+                    // 4. Volver a consultar la BD. La tabla muestra TODO el historial
+                    // de compras de TODOS los clientes.
+                    CargarTodosLosCobros();
+
+                    // Restablecer los campos del cobro.
                     txtSubtotal.Text = "0.00";
                     txtTotal.Text = "0.00";
                     txtMontoRecibido.Text = "0.00";
                     lblCambio.Text = "0.00";
+
+                    // Limpiar completamente los controles superiores.
                     EstablecerSelectedIndex(cmbClientes, -1);
                     EstablecerSelectedIndex(cmbMetodoPago, -1);
-                    LimpiarInformacionCliente();
+
+                    if (maskedTextBox1 != null)
+                        maskedTextBox1.Text = "";
+
+                    txtNumeroCargo.Text = "";
+                    txtPlanAsignado.Text = "";
+                    txtMontoVencimiento.Text = "0.00";
+
+                    if (dtpVencimiento != null)
+                        dtpVencimiento.Value = DateTime.Now;
+
+                    // La tabla general permanece visible y se vuelve a consultar.
+                    CargarTodosLosCobros();
                 }
                 catch (Exception ex)
                 {
@@ -610,7 +946,7 @@ namespace Proyecto_GYM
             }
         }
 
-        private void CargarHistorialCobrosCliente(int idCliente)
+        private void CargarTodosLosCobros()
         {
             try
             {
@@ -619,62 +955,133 @@ namespace Proyecto_GYM
                     if (con.State == ConnectionState.Closed)
                         con.Open();
 
-                    // Consulta que une el pago con sus detalles reales (Membresías o Productos)
-                    string queryHistorial = @"SELECT 
-                                        'Membresía' AS Tipo,
-                                        m.id_membresia AS IdItem,
-                                        m.nombre AS Descripción,
-                                        1 AS Cant,
-                                        pd.monto AS [Precio Unit.],
-                                        pd.monto AS Subtotal
-                                      FROM pagos p
-                                      INNER JOIN pagos_detalle pd ON p.id_pago = pd.id_pago
-                                      INNER JOIN cliente_membresia cm ON pd.id_cliente_membresia = cm.id_cliente_membresia
-                                      INNER JOIN membresias m ON cm.id_membresia = m.id_membresia
-                                      WHERE p.id_cliente = @id_cliente
-                                      
-                                      UNION ALL
+                    // No filtramos por cliente. Cada detalle se relaciona con su pago
+                    // y cada pago con su cliente. El cargo se toma como el último cargo
+                    // registrado para ese cliente, porque la tabla pagos no contiene
+                    // una columna id_cargo en el código actual.
+                    string query = @"
+                        SELECT
+                            p.id_pago AS IdPago,
+                            p.id_cliente AS IdCliente,
+                            (cli.nombre + ' ' + cli.apellido) AS Cliente,
+                            cli.cedula AS Cédula,
+                            ISNULL(ca.concepto, '') AS [Número de Cargo],
+                            dc.tipo_item AS Tipo,
+                            dc.id_referencia AS IdItem,
+                            dc.descripcion AS Descripción,
+                            dc.cantidad AS Cant,
+                            dc.precio_unitario AS [Precio Unit.],
+                            dc.subtotal AS Subtotal,
+                            p.fecha_pago AS [Fecha Pago]
+                        FROM pagos p
+                        INNER JOIN Clientes cli
+                            ON p.id_cliente = cli.id_cliente
+                        INNER JOIN detalle_cobro dc
+                            ON p.id_pago = dc.id_pago
+                        OUTER APPLY
+                        (
+                            SELECT TOP 1 concepto
+                            FROM cargos
+                            WHERE id_cliente = p.id_cliente
+                            ORDER BY id_cargo DESC
+                        ) ca
+                        ORDER BY p.id_pago DESC, dc.id_detalle_cobro DESC";
 
-                                      SELECT 
-                                        'Pago' AS Tipo,
-                                        p.id_pago AS IdItem,
-                                        'Transacción ID: ' + CAST(p.id_pago AS VARCHAR) AS Descripción,
-                                        1 AS Cant,
-                                        p.monto_total AS [Precio Unit.],
-                                        p.monto_total AS Subtotal
-                                      FROM pagos p
-                                      WHERE p.id_cliente = @id_cliente 
-                                        AND NOT EXISTS (SELECT 1 FROM pagos_detalle pd WHERE pd.id_pago = p.id_pago)";
-
-                    using (SqlCommand cmd = new SqlCommand(queryHistorial, con))
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.Parameters.AddWithValue("@id_cliente", idCliente);
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
 
-                        dtDetalleCobro.Rows.Clear();
-                        da.Fill(dtDetalleCobro);
+                        dtHistorialCliente = dt;
 
                         dgvDetalle.DataSource = null;
-                        dgvDetalle.DataSource = dtDetalleCobro;
+                        dgvDetalle.AutoGenerateColumns = true;
+                        dgvDetalle.DataSource = dtHistorialCliente;
 
                         if (dgvDetalle.Columns["IdItem"] != null)
-                        {
                             dgvDetalle.Columns["IdItem"].Visible = false;
-                        }
+                        if (dgvDetalle.Columns["IdPago"] != null)
+                            dgvDetalle.Columns["IdPago"].Visible = false;
+                        if (dgvDetalle.Columns["IdCliente"] != null)
+                            dgvDetalle.Columns["IdCliente"].Visible = false;
+
+                        // Ajustar nombres/anchos para que la información sea legible.
+                        if (dgvDetalle.Columns["Cliente"] != null)
+                            dgvDetalle.Columns["Cliente"].HeaderText = "Cliente";
+                        if (dgvDetalle.Columns["Número de Cargo"] != null)
+                            dgvDetalle.Columns["Número de Cargo"].HeaderText = "Número de Cargo";
+                        if (dgvDetalle.Columns["Descripción"] != null)
+                            dgvDetalle.Columns["Descripción"].HeaderText = "Descripción";
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al actualizar la tabla de detalles:\n" + ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Error al cargar todas las compras desde la base de datos:\n" + ex.Message,
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        private void dgvDetalle_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDetalle.Rows.Count)
+                return;
+
+            DataGridViewRow fila = dgvDetalle.Rows[e.RowIndex];
+            if (fila.IsNewRow)
+                return;
+
+            try
+            {
+                object valorIdCliente = fila.Cells["IdCliente"]?.Value;
+                if (valorIdCliente == null || valorIdCliente == DBNull.Value)
+                    return;
+
+                if (!int.TryParse(valorIdCliente.ToString(), out int idCliente))
+                    return;
+
+                cargandoClienteDesdeTabla = true;
+                cmbClientes.SelectedValue = idCliente;
+                cargandoClienteDesdeTabla = false;
+
+                // Aseguramos que el cargo mostrado corresponda a la fila seleccionada.
+                if (dgvDetalle.Columns["Número de Cargo"] != null)
+                {
+                    object cargo = fila.Cells["Número de Cargo"].Value;
+                    txtNumeroCargo.Text = cargo == null || cargo == DBNull.Value
+                        ? ""
+                        : cargo.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                cargandoClienteDesdeTabla = false;
+                MessageBox.Show(
+                    "No se pudo cargar la información de la compra seleccionada:\n" + ex.Message,
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
 
         private void btnImprimirRecibo_Click(object sender, EventArgs e)
         {
-            if (dtDetalleCobro == null || dtDetalleCobro.Rows.Count == 0)
+            DataTable datosRecibo =
+                (dtDetalleCobro != null && dtDetalleCobro.Rows.Count > 0)
+                ? dtDetalleCobro
+                : dtHistorialCliente;
+
+            if (datosRecibo == null || datosRecibo.Rows.Count == 0)
             {
-                MessageBox.Show("No hay datos en la lista para generar el recibo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "No hay datos en la lista para generar el recibo.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
@@ -693,7 +1100,7 @@ namespace Proyecto_GYM
             ticket += "CANT  DESCRIPCIÓN         SUBTOTAL\n";
             ticket += "-------------------------------------\n";
 
-            foreach (DataRow fila in dtDetalleCobro.Rows)
+            foreach (DataRow fila in datosRecibo.Rows)
             {
                 string desc = fila["Descripción"].ToString();
                 if (desc.Length > 16) desc = desc.Substring(0, 16);

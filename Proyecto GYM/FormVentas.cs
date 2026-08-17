@@ -129,5 +129,10 @@ namespace Proyecto_GYM
                 MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void txtSubtotal_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
