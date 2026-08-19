@@ -113,6 +113,7 @@
             cmbProductos.Name = "cmbProductos";
             cmbProductos.Size = new Size(228, 23);
             cmbProductos.TabIndex = 7;
+            cmbProductos.SelectedIndexChanged += cmbProductos_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -138,6 +139,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(152, 23);
             textBox1.TabIndex = 11;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // textBox2
             // 
@@ -145,6 +147,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(141, 23);
             textBox2.TabIndex = 12;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // btnAgregarDetalle
             // 
@@ -154,6 +157,7 @@
             btnAgregarDetalle.TabIndex = 13;
             btnAgregarDetalle.Text = "Agregar Detalle";
             btnAgregarDetalle.UseVisualStyleBackColor = true;
+            btnAgregarDetalle.Click += btnAgregarDetalle_Click;
             // 
             // dataGridView1
             // 
@@ -162,6 +166,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(581, 150);
             dataGridView1.TabIndex = 14;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // cmbClientes
             // 
@@ -213,6 +218,8 @@
             txtDescuento.Name = "txtDescuento";
             txtDescuento.Size = new Size(154, 23);
             txtDescuento.TabIndex = 20;
+            txtDescuento.Click += txtDescuento_TextChanged;
+            txtDescuento.TextChanged += txtDescuento_TextChanged;
             // 
             // txtSubtotal
             // 
@@ -221,7 +228,6 @@
             txtSubtotal.ReadOnly = true;
             txtSubtotal.Size = new Size(100, 23);
             txtSubtotal.TabIndex = 21;
-            txtSubtotal.TextChanged += txtSubtotal_TextChanged;
             // 
             // txtImpuesto
             // 
@@ -247,6 +253,7 @@
             btnCompletarVenta.TabIndex = 24;
             btnCompletarVenta.Text = "Completar Venta";
             btnCompletarVenta.UseVisualStyleBackColor = true;
+            btnCompletarVenta.Click += btnCompletarVenta_Click;
             // 
             // FormVentas
             // 
