@@ -246,11 +246,10 @@ namespace Proyecto_GYM
             }
         }
 
-        // ==========================================================
-        // BOTÓN COMPLETAR (Ya no borra la tabla automáticamente)
-        // ==========================================================
+
         private void btnCompletarVenta_Click(object sender, EventArgs e)
         {
+            // 1. Validaciones previas
             if (cmbClientes.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar un cliente para procesar la venta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -269,17 +268,113 @@ namespace Proyecto_GYM
                 return;
             }
 
-            try
+            // 2. Proceso de guardado en la Base de Datos con Transacción
+            using (var con = Conexion.ObtenerConexion())
             {
-                // Aquí va tu código para guardar en la base de datos (INSERT a la tabla ventas y detalle_ventas)
+                // Abrimos la conexión manualmente para manejar la transacción
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
 
-                MessageBox.Show("¡Venta completada y registrada exitosamente!", "Comprobante de Venta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                using (var transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                        // A. Insertar la Cabecera de la Venta adaptada a la tabla 'ventas'
+                        string queryVenta = @"INSERT INTO ventas (id_cliente, id_usuario, tipo_pago, fecha, subtotal, descuento, impuesto, total, estado) 
+                                      OUTPUT INSERTED.id_venta 
+                                      VALUES (@id_cliente, @id_usuario, @tipo_pago, @fecha, @subtotal, @descuento, @impuesto, @total, 1)";
 
-                // ⚠️ IMPORTANTE: NO pongas dataGridView1.Rows.Clear(); aquí si quieres que los datos se queden en la tabla.
+                        int idVentaGenerada = 0;
+
+                        using (var cmdVenta = new SqlCommand(queryVenta, con, transaction))
+                        {
+                            cmdVenta.Parameters.AddWithValue("@id_cliente", cmbClientes.SelectedValue);
+                            cmdVenta.Parameters.AddWithValue("@id_usuario", 1); // Ajusta aquí el ID del usuario actual si lo manejas por sesión
+                            cmdVenta.Parameters.AddWithValue("@tipo_pago", cmbTipoPago.Text); // Guarda el texto del método (Ej. 'Efectivo')[cite: 1]
+                            cmdVenta.Parameters.AddWithValue("@fecha", DateTime.Now);
+                            cmdVenta.Parameters.AddWithValue("@subtotal", Convert.ToDecimal(txtSubtotal.Text));
+                            cmdVenta.Parameters.AddWithValue("@descuento", string.IsNullOrEmpty(txtDescuento.Text) ? 0 : Convert.ToDecimal(txtDescuento.Text));
+                            cmdVenta.Parameters.AddWithValue("@impuesto", Convert.ToDecimal(txtImpuesto.Text));
+                            cmdVenta.Parameters.AddWithValue("@total", Convert.ToDecimal(txtTotal.Text));
+
+                            // Obtenemos el ID de la venta que se acaba de crear
+                            idVentaGenerada = (int)cmdVenta.ExecuteScalar();
+                        }
+
+                        // B. Recorrer el DataGridView para insertar cada producto en 'venta_detalle'
+                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        {
+                            // Evitamos procesar la fila vacía de nueva creación del grid
+                            if (row.IsNewRow) continue;
+
+                            // Validar que la celda del producto no sea nula
+                            if (row.Cells["Producto"].Value == null) continue;
+
+                            string nombreProducto = row.Cells["Producto"].Value.ToString();
+
+                            // Buscamos el ID del producto basado en su nombre
+                            int idProducto = ObtenerIdProductoPorNombre(nombreProducto, con, transaction);
+
+                            if (idProducto == 0)
+                            {
+                                throw new Exception("No se pudo encontrar el ID en la base de datos para el producto: " + nombreProducto);
+                            }
+
+                            decimal precioUnitario = Convert.ToDecimal(row.Cells["Precio"].Value);
+                            int cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value);
+
+                            // Omitimos 'subtotal' porque la base de datos lo calcula de forma automática[cite: 1]
+                            string queryDetalle = @"INSERT INTO venta_detalle (id_venta, id_producto, cantidad, precio, descuento) 
+                                          VALUES (@id_venta, @id_producto, @cantidad, @precio, @descuento)";
+
+                            using (var cmdDetalle = new SqlCommand(queryDetalle, con, transaction))
+                            {
+                                cmdDetalle.Parameters.AddWithValue("@id_venta", idVentaGenerada);
+                                cmdDetalle.Parameters.AddWithValue("@id_producto", idProducto);
+                                cmdDetalle.Parameters.AddWithValue("@cantidad", cantidad);
+                                cmdDetalle.Parameters.AddWithValue("@precio", precioUnitario);
+                                cmdDetalle.Parameters.AddWithValue("@descuento", 0); // Ajusta si manejas descuento por línea
+
+                                cmdDetalle.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Si todo salió bien, confirmamos los cambios permanentes en la base de datos
+                        transaction.Commit();
+
+                        MessageBox.Show("¡Venta completada y registrada exitosamente en la base de datos!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Limpiamos la pantalla para una nueva venta
+                        dataGridView1.Rows.Clear();
+                        txtSubtotal.Clear();
+                        txtDescuento.Clear();
+                        txtImpuesto.Clear();
+                        txtTotal.Clear();
+                        textBox1.Clear();
+                        textBox2.Clear();
+                        cmbClientes.SelectedIndex = -1;
+                        cmbTipoPago.SelectedIndex = -1;
+                        cmbProductos.SelectedIndex = -1;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Si algo falla, revertimos cualquier cambio hecho
+                        transaction.Rollback();
+                        MessageBox.Show("Error al guardar la venta en la base de datos: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-            catch (Exception ex)
+        }
+
+        // Método auxiliar rápido para obtener el ID numérico del producto a partir de su nombre mostrado en la tabla
+        private int ObtenerIdProductoPorNombre(string nombreProducto, SqlConnection con, SqlTransaction transaction)
+        {
+            string query = "SELECT id_producto FROM productos WHERE nombre = @nombre";
+            using (var cmd = new SqlCommand(query, con, transaction))
             {
-                MessageBox.Show("Error al guardar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmd.Parameters.AddWithValue("@nombre", nombreProducto);
+                object resultado = cmd.ExecuteScalar();
+                return resultado != null ? Convert.ToInt32(resultado) : 0;
             }
         }
     }

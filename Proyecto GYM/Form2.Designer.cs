@@ -30,9 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             panel1 = new Panel();
-            btnSalir = new Button();
             btnCerrarSesion = new Button();
-            button1 = new Button();
             panel6 = new Panel();
             panel4 = new Panel();
             lblTituloHeader = new Label();
@@ -58,12 +56,15 @@
             panel2 = new Panel();
             flowLayoutPanel2 = new FlowLayoutPanel();
             panelMovimientos = new Panel();
+            button1 = new Button();
+            button15 = new Button();
+            button14 = new Button();
             button13 = new Button();
             button12 = new Button();
             button11 = new Button();
             button8 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            button14 = new Button();
+            button16 = new Button();
             panel1.SuspendLayout();
             panel4.SuspendLayout();
             panel10.SuspendLayout();
@@ -76,50 +77,23 @@
             // panel1
             // 
             panel1.BackColor = Color.RoyalBlue;
-            panel1.Controls.Add(btnSalir);
             panel1.Controls.Add(btnCerrarSesion);
-            panel1.Controls.Add(button1);
             panel1.Location = new Point(2, 1);
             panel1.Name = "panel1";
             panel1.Size = new Size(1021, 95);
             panel1.TabIndex = 0;
             // 
-            // btnSalir
-            // 
-            btnSalir.FlatAppearance.BorderColor = Color.White;
-            btnSalir.FlatAppearance.MouseDownBackColor = Color.White;
-            btnSalir.FlatAppearance.MouseOverBackColor = Color.White;
-            btnSalir.FlatStyle = FlatStyle.Flat;
-            btnSalir.Location = new Point(804, 16);
-            btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(100, 44);
-            btnSalir.TabIndex = 3;
-            btnSalir.Text = "Salir";
-            btnSalir.UseVisualStyleBackColor = true;
-            btnSalir.Click += btnSalir_Click;
-            // 
             // btnCerrarSesion
             // 
             btnCerrarSesion.FlatAppearance.BorderColor = Color.White;
             btnCerrarSesion.FlatStyle = FlatStyle.Flat;
-            btnCerrarSesion.Location = new Point(686, 16);
+            btnCerrarSesion.Location = new Point(835, 28);
             btnCerrarSesion.Name = "btnCerrarSesion";
-            btnCerrarSesion.Size = new Size(112, 44);
+            btnCerrarSesion.Size = new Size(95, 30);
             btnCerrarSesion.TabIndex = 3;
             btnCerrarSesion.Text = "Cerra Sesion";
             btnCerrarSesion.UseVisualStyleBackColor = true;
             btnCerrarSesion.Click += btnCerrarSesion_Click;
-            // 
-            // button1
-            // 
-            button1.FlatAppearance.BorderColor = Color.White;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(583, 16);
-            button1.Name = "button1";
-            button1.Size = new Size(97, 44);
-            button1.TabIndex = 1;
-            button1.Text = "Inicio";
-            button1.UseVisualStyleBackColor = true;
             // 
             // panel6
             // 
@@ -374,7 +348,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(36368, 2);
+            panel5.Size = new Size(39328, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -383,7 +357,7 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(20875, 2);
+            panel8.Size = new Size(23835, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
@@ -392,7 +366,7 @@
             panel9.BackColor = Color.Silver;
             panel9.Location = new Point(0, 398);
             panel9.Name = "panel9";
-            panel9.Size = new Size(20885, 2);
+            panel9.Size = new Size(23845, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -440,6 +414,9 @@
             // 
             // panelMovimientos
             // 
+            panelMovimientos.Controls.Add(button16);
+            panelMovimientos.Controls.Add(button1);
+            panelMovimientos.Controls.Add(button15);
             panelMovimientos.Controls.Add(button14);
             panelMovimientos.Controls.Add(button13);
             panelMovimientos.Controls.Add(button12);
@@ -447,9 +424,57 @@
             panelMovimientos.Controls.Add(button8);
             panelMovimientos.Location = new Point(3, 427);
             panelMovimientos.Name = "panelMovimientos";
-            panelMovimientos.Size = new Size(198, 165);
+            panelMovimientos.Size = new Size(198, 262);
             panelMovimientos.TabIndex = 0;
             panelMovimientos.Visible = false;
+            // 
+            // button1
+            // 
+            button1.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.White;
+            button1.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(3, 184);
+            button1.Name = "button1";
+            button1.Size = new Size(192, 26);
+            button1.TabIndex = 22;
+            button1.Text = "Reservas de clase";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button15
+            // 
+            button15.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button15.FlatAppearance.BorderSize = 0;
+            button15.FlatStyle = FlatStyle.Flat;
+            button15.ForeColor = Color.White;
+            button15.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button15.ImageAlign = ContentAlignment.MiddleLeft;
+            button15.Location = new Point(0, 157);
+            button15.Name = "button15";
+            button15.Size = new Size(172, 26);
+            button15.TabIndex = 21;
+            button15.Text = "Compras";
+            button15.UseVisualStyleBackColor = true;
+            button15.Click += button15_Click;
+            // 
+            // button14
+            // 
+            button14.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button14.FlatAppearance.BorderSize = 0;
+            button14.FlatStyle = FlatStyle.Flat;
+            button14.ForeColor = Color.White;
+            button14.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button14.ImageAlign = ContentAlignment.MiddleLeft;
+            button14.Location = new Point(-1, 125);
+            button14.Name = "button14";
+            button14.Size = new Size(202, 26);
+            button14.TabIndex = 20;
+            button14.Text = "Ventas";
+            button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
             // 
             // button13
             // 
@@ -524,21 +549,21 @@
             flowLayoutPanel1.Size = new Size(0, 0);
             flowLayoutPanel1.TabIndex = 0;
             // 
-            // button14
+            // button16
             // 
-            button14.FlatAppearance.BorderColor = Color.RoyalBlue;
-            button14.FlatAppearance.BorderSize = 0;
-            button14.FlatStyle = FlatStyle.Flat;
-            button14.ForeColor = Color.White;
-            button14.Image = Properties.Resources.tarjeta_de_biblioteca;
-            button14.ImageAlign = ContentAlignment.MiddleLeft;
-            button14.Location = new Point(-1, 125);
-            button14.Name = "button14";
-            button14.Size = new Size(202, 26);
-            button14.TabIndex = 20;
-            button14.Text = "Ventas";
-            button14.UseVisualStyleBackColor = true;
-            button14.Click += button14_Click;
+            button16.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button16.FlatAppearance.BorderSize = 0;
+            button16.FlatStyle = FlatStyle.Flat;
+            button16.ForeColor = Color.White;
+            button16.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button16.ImageAlign = ContentAlignment.MiddleLeft;
+            button16.Location = new Point(3, 216);
+            button16.Name = "button16";
+            button16.Size = new Size(192, 26);
+            button16.TabIndex = 23;
+            button16.Text = "Cuenta por Cobrar";
+            button16.UseVisualStyleBackColor = true;
+            button16.Click += button16_Click;
             // 
             // Form2
             // 
@@ -572,9 +597,7 @@
 
         private Panel panel1;
         private Panel panel4;
-        private Button btnSalir;
         private Button btnCerrarSesion;
-        private Button button1;
         private Panel panel6;
         private Panel panel7;
         private Label lblTituloHeader;
@@ -605,5 +628,8 @@
         private Button button12;
         private Button button13;
         private Button button14;
+        private Button button15;
+        private Button button1;
+        private Button button16;
     }
 }

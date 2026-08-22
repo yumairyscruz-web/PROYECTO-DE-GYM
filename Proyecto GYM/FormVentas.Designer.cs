@@ -151,7 +151,7 @@
             // 
             // btnAgregarDetalle
             // 
-            btnAgregarDetalle.Location = new Point(42, 261);
+            btnAgregarDetalle.Location = new Point(479, 237);
             btnAgregarDetalle.Name = "btnAgregarDetalle";
             btnAgregarDetalle.Size = new Size(97, 31);
             btnAgregarDetalle.TabIndex = 13;
@@ -206,7 +206,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(449, 226);
+            label10.Location = new Point(22, 269);
             label10.Name = "label10";
             label10.Size = new Size(78, 15);
             label10.TabIndex = 19;
@@ -239,7 +239,7 @@
             // 
             // txtTotal
             // 
-            txtTotal.Location = new Point(560, 226);
+            txtTotal.Location = new Point(132, 266);
             txtTotal.Name = "txtTotal";
             txtTotal.ReadOnly = true;
             txtTotal.Size = new Size(136, 23);
@@ -247,9 +247,9 @@
             // 
             // btnCompletarVenta
             // 
-            btnCompletarVenta.Location = new Point(182, 261);
+            btnCompletarVenta.Location = new Point(602, 237);
             btnCompletarVenta.Name = "btnCompletarVenta";
-            btnCompletarVenta.Size = new Size(123, 31);
+            btnCompletarVenta.Size = new Size(112, 31);
             btnCompletarVenta.TabIndex = 24;
             btnCompletarVenta.Text = "Completar Venta";
             btnCompletarVenta.UseVisualStyleBackColor = true;
