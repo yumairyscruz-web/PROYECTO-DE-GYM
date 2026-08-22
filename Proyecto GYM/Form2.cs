@@ -254,5 +254,11 @@ namespace Proyecto_GYM
             AbrirFormularioHijo(new Formabonos(), "Gestión de abonos");
 
         }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new FomInventario(), "Gestión de Entrada-salida de inventario");
+
+        }
     }
 }
