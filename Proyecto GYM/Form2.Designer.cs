@@ -54,8 +54,10 @@
             panel9 = new Panel();
             label2 = new Label();
             panel2 = new Panel();
+            label3 = new Label();
             flowLayoutPanel2 = new FlowLayoutPanel();
             panelMovimientos = new Panel();
+            button18 = new Button();
             button17 = new Button();
             button16 = new Button();
             button1 = new Button();
@@ -66,7 +68,6 @@
             button11 = new Button();
             button8 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            button18 = new Button();
             panel1.SuspendLayout();
             panel4.SuspendLayout();
             panel10.SuspendLayout();
@@ -109,9 +110,9 @@
             // 
             panel4.BackColor = Color.MidnightBlue;
             panel4.Controls.Add(lblTituloHeader);
-            panel4.Location = new Point(207, 81);
+            panel4.Location = new Point(228, 81);
             panel4.Name = "panel4";
-            panel4.Size = new Size(816, 51);
+            panel4.Size = new Size(795, 51);
             panel4.TabIndex = 2;
             panel4.Paint += panel4_Paint;
             // 
@@ -132,13 +133,14 @@
             panel7.BackgroundImage = (Image)resources.GetObject("panel7.BackgroundImage");
             panel7.BackgroundImageLayout = ImageLayout.Zoom;
             panel7.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            panel7.Location = new Point(207, 130);
+            panel7.Location = new Point(228, 130);
             panel7.Name = "panel7";
-            panel7.Size = new Size(816, 599);
+            panel7.Size = new Size(795, 599);
             panel7.TabIndex = 3;
             // 
             // panel10
             // 
+            panel10.AutoScroll = true;
             panel10.Controls.Add(btnUsuario);
             panel10.Controls.Add(btnClientes);
             panel10.Controls.Add(button2);
@@ -151,7 +153,7 @@
             panel10.Controls.Add(button4);
             panel10.Location = new Point(12, 121);
             panel10.Name = "panel10";
-            panel10.Size = new Size(179, 277);
+            panel10.Size = new Size(210, 205);
             panel10.TabIndex = 1;
             panel10.Visible = false;
             // 
@@ -350,7 +352,7 @@
             panel5.Controls.Add(panel8);
             panel5.Location = new Point(3, 93);
             panel5.Name = "panel5";
-            panel5.Size = new Size(40512, 2);
+            panel5.Size = new Size(42288, 2);
             panel5.TabIndex = 11;
             // 
             // panel8
@@ -359,16 +361,16 @@
             panel8.BackColor = Color.Silver;
             panel8.Location = new Point(0, 0);
             panel8.Name = "panel8";
-            panel8.Size = new Size(25019, 2);
+            panel8.Size = new Size(26795, 2);
             panel8.TabIndex = 12;
             // 
             // panel9
             // 
             panel9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel9.BackColor = Color.Silver;
-            panel9.Location = new Point(0, 398);
+            panel9.Location = new Point(3, 337);
             panel9.Name = "panel9";
-            panel9.Size = new Size(25029, 2);
+            panel9.Size = new Size(26805, 2);
             panel9.TabIndex = 13;
             // 
             // label2
@@ -376,7 +378,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Bell MT", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ActiveBorder;
-            label2.Location = new Point(38, 403);
+            label2.Location = new Point(35, 345);
             label2.Name = "label2";
             label2.Size = new Size(137, 21);
             label2.TabIndex = 17;
@@ -387,6 +389,7 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.RoyalBlue;
+            panel2.Controls.Add(label3);
             panel2.Controls.Add(flowLayoutPanel2);
             panel2.Controls.Add(panel10);
             panel2.Controls.Add(panelMovimientos);
@@ -399,9 +402,20 @@
             panel2.Controls.Add(flowLayoutPanel1);
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(222, 749);
+            panel2.Size = new Size(232, 749);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Bell MT", 12.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.ActiveBorder;
+            label3.Location = new Point(35, 523);
+            label3.Name = "label3";
+            label3.Size = new Size(113, 21);
+            label3.TabIndex = 18;
+            label3.Text = "CONSULTAS";
             // 
             // flowLayoutPanel2
             // 
@@ -416,6 +430,7 @@
             // 
             // panelMovimientos
             // 
+            panelMovimientos.AutoScroll = true;
             panelMovimientos.Controls.Add(button18);
             panelMovimientos.Controls.Add(button17);
             panelMovimientos.Controls.Add(button16);
@@ -426,11 +441,27 @@
             panelMovimientos.Controls.Add(button12);
             panelMovimientos.Controls.Add(button11);
             panelMovimientos.Controls.Add(button8);
-            panelMovimientos.Location = new Point(3, 427);
+            panelMovimientos.Location = new Point(3, 369);
             panelMovimientos.Name = "panelMovimientos";
-            panelMovimientos.Size = new Size(198, 302);
+            panelMovimientos.Size = new Size(221, 136);
             panelMovimientos.TabIndex = 0;
             panelMovimientos.Visible = false;
+            // 
+            // button18
+            // 
+            button18.FlatAppearance.BorderColor = Color.RoyalBlue;
+            button18.FlatAppearance.BorderSize = 0;
+            button18.FlatStyle = FlatStyle.Flat;
+            button18.ForeColor = Color.White;
+            button18.Image = Properties.Resources.tarjeta_de_biblioteca;
+            button18.ImageAlign = ContentAlignment.MiddleLeft;
+            button18.Location = new Point(0, 276);
+            button18.Name = "button18";
+            button18.Size = new Size(192, 26);
+            button18.TabIndex = 25;
+            button18.Text = "inventario ";
+            button18.UseVisualStyleBackColor = true;
+            button18.Click += button18_Click;
             // 
             // button17
             // 
@@ -585,22 +616,6 @@
             flowLayoutPanel1.Size = new Size(0, 0);
             flowLayoutPanel1.TabIndex = 0;
             // 
-            // button18
-            // 
-            button18.FlatAppearance.BorderColor = Color.RoyalBlue;
-            button18.FlatAppearance.BorderSize = 0;
-            button18.FlatStyle = FlatStyle.Flat;
-            button18.ForeColor = Color.White;
-            button18.Image = Properties.Resources.tarjeta_de_biblioteca;
-            button18.ImageAlign = ContentAlignment.MiddleLeft;
-            button18.Location = new Point(0, 276);
-            button18.Name = "button18";
-            button18.Size = new Size(192, 26);
-            button18.TabIndex = 25;
-            button18.Text = "inventario ";
-            button18.UseVisualStyleBackColor = true;
-            button18.Click += button18_Click;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
@@ -669,5 +684,6 @@
         private Button button16;
         private Button button17;
         private Button button18;
+        private Label label3;
     }
 }
