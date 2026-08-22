@@ -248,5 +248,11 @@ namespace Proyecto_GYM
             AbrirFormularioHijo(new Formcuenta_por_cobrar(), "Gestión de Cuenta por Pagar");
 
         }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            AbrirFormularioHijo(new Formabonos(), "Gestión de abonos");
+
+        }
     }
 }
